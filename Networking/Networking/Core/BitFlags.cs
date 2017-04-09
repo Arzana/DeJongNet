@@ -36,7 +36,7 @@
         /// </summary>
         public static readonly BitFlags Empty = new BitFlags(0);
 
-        private readonly byte[] data;
+        internal readonly byte[] data;
         private readonly int capacity;
         private int bitsSet;
 

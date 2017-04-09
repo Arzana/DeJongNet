@@ -43,12 +43,39 @@
         { }
 
         /// <summary>
+        /// Throws a <see cref="NetException"/>.
+        /// </summary>
+        public static void Raise()
+        {
+            throw new NetException();
+        }
+
+        /// <summary>
+        /// Throws a <see cref="NetException"/> with a specified message.
+        /// </summary>
+        /// <param name="message"> The message to display. </param>
+        new public static void Raise(string message)
+        {
+            throw new NetException(message);
+        }
+
+        /// <summary>
+        /// Throws a <see cref="NetException"/> with a specified message and an inner exception.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="inner"></param>
+        public static void Raise(string message, NetException inner)
+        {
+            throw new NetException(message, inner);
+        }
+
+        /// <summary>
         /// Raises a empty <see cref="NetException"/> if the condition is <see langword="true"/>.
         /// </summary>
         /// <param name="condition"> The condition to evaluate. </param>
         public static void RaiseIf(bool condition)
         {
-            if (condition) throw new NetException();
+            if (condition) Raise();
         }
 
         /// <summary>
@@ -58,7 +85,7 @@
         /// <param name="message"> The message to display. </param>
         new public static void RaiseIf(bool condition, string message)
         {
-            if (condition) throw new NetException(message);
+            if (condition) Raise(message);
         }
 
         /// <summary>
@@ -69,7 +96,7 @@
         /// <param name="inner"> The exception that caused this exception. </param>
         public static void RaiseIf(bool condition, string message, NetException inner)
         {
-            if (condition) throw new NetException(message, inner);
+            if (condition) Raise(message, inner);
         }
     }
 }

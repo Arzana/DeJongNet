@@ -7,7 +7,7 @@
     <ProjectGuid>{E9DF4B61-48BB-49E8-9030-6A14174733EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Networking</RootNamespace>
+    <RootNamespace>Mentula.Networking</RootNamespace>
     <AssemblyName>Networking</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,7 +43,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\BitExporter.cs" />
     <Compile Include="Core\BitFlags.cs" />
+    <Compile Include="Core\BitUtils.cs" />
+    <Compile Include="Core\MsgBuffer\MsgBuffer.cs" />
+    <Compile Include="Core\MsgBuffer\MsgBuffer_Read.cs" />
+    <Compile Include="Core\MsgBuffer\MsgBuffer_Write.cs" />
     <Compile Include="Core\NetException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
