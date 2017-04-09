@@ -6,79 +6,70 @@
 
     public partial class MsgBuffer
     {
-        public bool ReadBool()
+        public bool PeekBool()
         {
             RaiseOverflowExceptionIf(1);
             byte result = BitExporter.ReadByte(data, 1, position);
-            position += 1;
             return result != 0;
         }
 
-        public byte ReadByte()
+        public byte PeekByte()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
             byte result = BitExporter.ReadByte(data, BITS_PER_BYTE, position);
-            position += BITS_PER_BYTE;
             return result;
         }
 
-        public sbyte ReadSByte()
+        public sbyte PeekSByte()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
             byte result = BitExporter.ReadByte(data, BITS_PER_BYTE, position);
-            position += BITS_PER_BYTE;
             return (sbyte)result;
         }
 
-        public short ReadShort()
+        public short PeekShort()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT16);
             ushort result = BitExporter.ReadUInt16(data, BITS_PER_INT16, position);
-            position += BITS_PER_INT16;
             return (short)result;
         }
 
-        public ushort ReadUShort()
+        public ushort PeekUShort()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT16);
             ushort result = BitExporter.ReadUInt16(data, BITS_PER_INT16, position);
-            position += BITS_PER_INT16;
             return result;
         }
 
-        public int ReadInt()
+        public int PeekInt()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
             uint result = BitExporter.ReadUInt32(data, BITS_PER_INT32, position);
-            position += BITS_PER_INT32;
             return (int)result;
         }
 
-        public uint ReadUInt()
+        public uint PeekUInt()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
             uint result = BitExporter.ReadUInt32(data, BITS_PER_INT32, position);
-            position += BITS_PER_INT32;
             return result;
         }
 
-        public long ReadLong()
+        public long PeekLong()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
             ulong result = BitExporter.ReadUInt64(data, BITS_PER_INT64, position);
-            position += BITS_PER_INT64;
             return (long)result;
         }
 
-        public ulong ReadULong()
+        public ulong PeekULong()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
             ulong result = BitExporter.ReadUInt64(data, BITS_PER_INT64, position);
-            position += BITS_PER_INT64;
             return result;
         }
 
-        public float ReadFloat()
+        public float PeekFloat()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
             float result;
@@ -91,11 +82,10 @@
                 result = BitConverter.ToSingle(bytes, 0);
             }
 
-            position += BITS_PER_INT32;
             return result;
         }
 
-        public double ReadDouble()
+        public double PeekDouble()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
             double result;
@@ -108,11 +98,10 @@
                 result = BitConverter.ToDouble(bytes, 0);
             }
 
-            position += BITS_PER_INT64;
             return result;
         }
 
-        public string ReadString()
+        public string PeekString()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
             int length = ReadShort();
@@ -129,39 +118,26 @@
                 result = Encoding.UTF8.GetString(bytes, 0, length);
             }
 
-            position += length << 3;
+            position -= BITS_PER_INT16;
             return result;
         }
 
-        public BitFlags ReadFlags(int amount)
+        public BitFlags PeekFlags(int amount)
         {
             BitFlags result = new BitFlags(amount);
             RaiseOverflowExceptionIf(result.data.Length);
 
+            int startPos = position;
             for (int i = 0; amount > 0; i++)
             {
                 int bitsNum = amount > BITS_PER_BYTE ? BITS_PER_BYTE : amount;
                 result.data[i] = BitExporter.ReadByte(data, bitsNum, position);
-                amount -= bitsNum;
+                amount -= BITS_PER_BYTE;
                 position += bitsNum;
             }
 
+            position = startPos;
             return result;
-        }
-
-        public void ReadPadBits()
-        {
-            position = ((position + 7) >> 3) << 3;
-        }
-
-        public void ReadPadBits(int amount)
-        {
-            position += amount;
-        }
-
-        private void RaiseOverflowExceptionIf(int bitsNeeded)
-        {
-            NetException.RaiseIf((data.Length << 3) - position < bitsNeeded, "Cannot read past the buffer size!");
         }
     }
 }

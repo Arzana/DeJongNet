@@ -47,11 +47,17 @@
     <Compile Include="Core\BitFlags.cs" />
     <Compile Include="Core\BitUtils.cs" />
     <Compile Include="Core\MsgBuffer\MsgBuffer.cs" />
+    <Compile Include="Core\MsgBuffer\MsgBuffer_Peek.cs" />
     <Compile Include="Core\MsgBuffer\MsgBuffer_Read.cs" />
     <Compile Include="Core\MsgBuffer\MsgBuffer_Write.cs" />
     <Compile Include="Core\NetException.cs" />
+    <Compile Include="Core\NetIncomingMessageType.cs" />
+    <Compile Include="Core\NetPeerConfig.cs" />
+    <Compile Include="Core\NetPeerStatus.cs" />
+    <Compile Include="Core\NetUnreliableSizeBehaviour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
