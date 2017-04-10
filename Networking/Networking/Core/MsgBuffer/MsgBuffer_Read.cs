@@ -136,14 +136,10 @@
         public BitFlags ReadFlags(int amount)
         {
             BitFlags result = new BitFlags(amount);
-            RaiseOverflowExceptionIf(result.data.Length);
 
-            for (int i = 0; amount > 0; i++)
+            for (int i = 0; i < amount; i++)
             {
-                int bitsNum = amount > BITS_PER_BYTE ? BITS_PER_BYTE : amount;
-                result.data[i] = BitExporter.ReadByte(data, bitsNum, position);
-                amount -= bitsNum;
-                position += bitsNum;
+                result[i] = ReadBool();
             }
 
             return result;

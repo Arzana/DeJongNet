@@ -6,6 +6,10 @@
 
     public partial class MsgBuffer
     {
+        /// <summary>
+        /// Gets a <see cref="bool"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The byte at the current position as a <see cref="bool"/>. </returns>
         public bool PeekBool()
         {
             RaiseOverflowExceptionIf(1);
@@ -13,6 +17,10 @@
             return result != 0;
         }
 
+        /// <summary>
+        /// Gets a <see cref="byte"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The byte at the current position. </returns>
         public byte PeekByte()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
@@ -20,6 +28,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="sbyte"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The byte at the current position as a <see cref="sbyte"/>. </returns>
         public sbyte PeekSByte()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
@@ -27,6 +39,10 @@
             return (sbyte)result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="short"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The current 2 bytes as a <see cref="short"/>. </returns>
         public short PeekShort()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT16);
@@ -34,6 +50,10 @@
             return (short)result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="ushort"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The current 2 bytes as a <see cref="ushort"/>. </returns>
         public ushort PeekUShort()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT16);
@@ -41,6 +61,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="int"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The current 4 bytes as a <see cref="int"/>. </returns>
         public int PeekInt()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
@@ -48,6 +72,10 @@
             return (int)result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="uint"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The current 4 bytes as a <see cref="uint"/>. </returns>
         public uint PeekUInt()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
@@ -55,6 +83,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="long"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The current 8 bytes as a <see cref="long"/>. </returns>
         public long PeekLong()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
@@ -62,6 +94,10 @@
             return (long)result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="ulong"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The current 8 bytes as a <see cref="ulong"/>. </returns>
         public ulong PeekULong()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
@@ -69,6 +105,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="float"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The current 4 bytes as a <see cref="float"/>. </returns>
         public float PeekFloat()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
@@ -85,6 +125,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="double"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> The current 8 bytes as a <see cref="double"/>. </returns>
         public double PeekDouble()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
@@ -101,6 +145,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="string"/> at the current position without increasing the position.
+        /// </summary>
+        /// <returns> A the current bytes as a UTF8 <see cref="string"/>. </returns>
         public string PeekString()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
@@ -122,21 +170,20 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets multiple <see cref="bool"/> at the current position without increasing the position.
+        /// </summary>
+        /// <param name="amount"> The amount of <see cref="bool"/> to read. </param>
+        /// <returns> The current bytes as multiple <see cref="bool"/> in a <see cref="BitFlags"/> class. </returns>
         public BitFlags PeekFlags(int amount)
         {
             BitFlags result = new BitFlags(amount);
-            RaiseOverflowExceptionIf(result.data.Length);
 
-            int startPos = position;
-            for (int i = 0; amount > 0; i++)
+            for (int i = 0; i < amount; i++)
             {
-                int bitsNum = amount > BITS_PER_BYTE ? BITS_PER_BYTE : amount;
-                result.data[i] = BitExporter.ReadByte(data, bitsNum, position);
-                amount -= BITS_PER_BYTE;
-                position += bitsNum;
+                result[i] = PeekBool();
             }
 
-            position = startPos;
             return result;
         }
     }

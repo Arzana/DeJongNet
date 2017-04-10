@@ -6,6 +6,9 @@
     /// <summary>
     /// Defines functions for reading and writing unalligned bytes and basic datatypes.
     /// </summary>
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public static class BitExporter
     {
         /// <summary>

@@ -3,6 +3,9 @@
     using System;
     using System.Diagnostics;
 
+#if !DEBUG
+    [DebuggerStepThrough]
+#endif
     [DebuggerDisplay("Buffer length={PositionBytes}")]
     public partial class MsgBuffer
     {

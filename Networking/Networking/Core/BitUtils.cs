@@ -1,6 +1,6 @@
 ﻿namespace Mentula.Networking.Core
 {
-    public static class BitUtils
+    internal static class BitUtils
     {
         public const int BITS_PER_BYTE = sizeof(byte) << 3;
         public const int BITS_PER_INT16 = sizeof(short) << 3;

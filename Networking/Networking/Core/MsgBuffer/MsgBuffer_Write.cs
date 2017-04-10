@@ -96,9 +96,10 @@
 
         public void Write(BitFlags value)
         {
-            EnsureBufferSize(position + value.data.Length);
-            BitExporter.WriteBytes(value.data, 0, value.data.Length, data, position);
-            position += value.data.Length;
+            for (int i = 0; i < value.Capacity; i++)
+            {
+                Write(value[i]);
+            }
         }
 
         public void WritePadBits()

@@ -1,13 +1,18 @@
-﻿using System.Net;
-
-namespace Mentula.Networking.Core
+﻿namespace Mentula.Networking.Core
 {
+    using System.Diagnostics;
+    using System.Net;
+
     /// <summary>
     /// Defines configurable properties for a net peer.
     /// </summary>
     /// <remarks>
     /// Partly immutable after net peer has been initialized.
     /// </remarks>
+#if !DEBUG
+    [DebuggerStepThrough]
+#endif
+    [DebuggerDisplay("Config for: {AppID}")]
     public sealed class NetPeerConfig
     {
         /// <summary>
@@ -119,12 +124,60 @@ namespace Mentula.Networking.Core
         /// Default value = <see langword="true"/>.
         /// </remarks>
         public bool AutoFlushSendQueue { get; set; }
+        /// <summary>
+        /// Gets or set the behaviour of unreliable sends above MTU.
+        /// </summary>
+        /// <remarks>
+        /// Default value = <see cref="NetUnreliableSizeBehaviour.IgnoreMTU"/>.
+        /// </remarks>
         public NetUnreliableSizeBehaviour UnreliableSizeBehaviour { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether acks of unreliable unordered sends should be suppressed.
+        /// </summary>
+        /// <remarks>
+        /// If set to <see langword="true"/> this will not send acks for unreliable unordered messages.
+        /// This will save bandwidth, but disable flow control and duplicate detection for this message type.
+        /// Immutable after net peer initialization.
+        /// Default value = <see langword="false"/>.
+        /// </remarks>
         public bool SuppressUnreliableUnorderedAcks { get { return suppressUnreliableUnordederAcks; } set { CheckLock(); suppressUnreliableUnordederAcks = value; } }
+        /// <summary>
+        /// Gets or sets a value indicating the port to bind to.
+        /// </summary>
+        /// <remarks>
+        /// Immutable after net peer initialization.
+        /// Default value = 0.
+        /// </remarks>
         public int Port { get { return port; } set { CheckLock(); port = value; } }
+        /// <summary>
+        /// Gets or sets the size in bytes of the message receive buffer.
+        /// </summary>
+        /// <remarks>
+        /// Immutable after net peer initialization.
+        /// Default value = 131071
+        /// </remarks>
         public int ReceiveBufferSize { get { return receiveBufferSize; } set { CheckLock(); receiveBufferSize = value; } }
+        /// <summary>
+        /// Gets or sets the size in bytes of the message sending buffer.
+        /// </summary>
+        /// <remarks>
+        /// Immutable after net peer initialization.
+        /// Default value = 131071
+        /// </remarks>
         public int SendBufferSize { get { return sendBufferSize; } set { CheckLock(); sendBufferSize = value; } }
+        /// <summary>
+        /// Gets or sets the amount of seconds between handshake attempts.
+        /// </summary>
+        /// <remarks>
+        /// Default value = 3.
+        /// </remarks>
         public float ResendHandshakeInterval { get; set; }
+        /// <summary>
+        /// Gets or sets the maximum amount of handshake attempts before failing to connect.
+        /// </summary>
+        /// <remarks>
+        /// Default value = 5.
+        /// </remarks>
         public int MaxHandshakeAttempts
         {
             get { return handshakeAttemptsMax; }
@@ -135,10 +188,36 @@ namespace Mentula.Networking.Core
             }
         }
 
+        /// <summary>
+        /// Gets or sets the simulated amount (0 to 1) of package loss.
+        /// </summary>
+        /// <remarks>
+        /// Default value = 0.
+        /// </remarks>
         public float SimulateLoss { get; set; }
+        /// <summary>
+        /// Gets or sets the simulated amount (0 to 1) of duplicate packages.
+        /// </summary>
         public float SimulateDuplicatesChance { get; set; }
+        /// <summary>
+        /// Gets or sets the minimum simulated amount of one way latency for sent packets in seconds.
+        /// </summary>
         public float SimulateMinimumLatency { get; set; }
+        /// <summary>
+        /// Gets or sets the simulated added random amount of one way latency for sent packets in seconds.
+        /// </summary>
         public float SimulateRandomLatency { get; set; }
+        /// <summary>
+        /// Gets the average simulated one way latency in seconds.
+        /// </summary>
+        public float SimulatedAverageLatency { get { return SimulateMinimumLatency + SimulateRandomLatency * 0.5f; } }
+        /// <summary>
+        /// Gets or sets the maximum amount of bytes to send in a single packet, excluding ip, udp and mentula headers.
+        /// </summary>
+        /// <remarks>
+        /// Immutable after net peer initialization.
+        /// Default value = <see cref="DEFUALT_MTU"/>.
+        /// </remarks>
         public int MaximumTransMissionUnit
         {
             get { return maxTransmissionUnit; }
@@ -149,8 +228,27 @@ namespace Mentula.Networking.Core
                 maxTransmissionUnit = value;
             }
         }
+        /// <summary>
+        /// Gets or sets if the net peer should send large messages to try to expand the maximum transmission unit size.
+        /// </summary>
+        /// <remarks>
+        /// Immutable after net peer initialization.
+        /// Default value = <see langword="false"/>.
+        /// </remarks>
         public bool AutoExpandMTU { get { return autoExpandMTU; } set { CheckLock(); autoExpandMTU = value; } }
+        /// <summary>
+        /// Gets or sets how often to send large messages to expand MTU if <see cref="AutoExpandMTU"/> is enabled.
+        /// </summary>
+        /// <remarks>
+        /// Default value = 2.
+        /// </remarks>
         public float ExpandMTUFrequency { get; set; }
+        /// <summary>
+        /// Gets or sets the number of failed expand mtu attempts to perform before setting final MTU.
+        /// </summary>
+        /// <remarks>
+        /// Default value = 5.
+        /// </remarks>
         public int ExpandMTUFailAttempts { get; set; }
 
         private bool isLocked;
@@ -201,27 +299,49 @@ namespace Mentula.Networking.Core
             ExpandMTUFailAttempts = 5;
         }
 
+        /// <summary>
+        /// Enables receiving a specified type of message.
+        /// </summary>
+        /// <param name="type"> The type to enable. </param>
         public void EnableMessageType(NetIncomingMessageType type)
         {
             disabledTypes &= (~type);
         }
 
+        /// <summary>
+        /// Disables receiving a specified type of message.
+        /// </summary>
+        /// <param name="type"> The type to disable. </param>
         public void DisableMessageType(NetIncomingMessageType type)
         {
             disabledTypes |= type;
         }
 
+        /// <summary>
+        /// Enables or disables a specified message type.
+        /// </summary>
+        /// <param name="type"> The type to change. </param>
+        /// <param name="enabled"> Whether the type should be enabled. </param>
         public void SetMessageType(NetIncomingMessageType type, bool enabled)
         {
             if (enabled) EnableMessageType(type);
             else DisableMessageType(type);
         }
 
+        /// <summary>
+        /// Checks if a specified message type is enabled.
+        /// </summary>
+        /// <param name="type"> The type to check. </param>
+        /// <returns> <see langword="true"/> if the message type was enabled; otherwise, <see langword="false"/>. </returns>
         public bool IsMessageTypeEnabled(NetIncomingMessageType type)
         {
             return (disabledTypes & type) != type;
         }
 
+        /// <summary>
+        /// Creates an unlocked copy of this <see cref="NetPeerConfig"/>.
+        /// </summary>
+        /// <returns> A unlocked clone of this <see cref="NetPeerConfig"/>. </returns>
         public NetPeerConfig Clone()
         {
             NetPeerConfig result = MemberwiseClone() as NetPeerConfig;
