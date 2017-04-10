@@ -6,6 +6,10 @@
 
     public partial class MsgBuffer
     {
+        /// <summary>
+        /// Gets a <see cref="bool"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The byte at the current position as a <see cref="bool"/>. </returns>
         public bool ReadBool()
         {
             RaiseOverflowExceptionIf(1);
@@ -14,6 +18,10 @@
             return result != 0;
         }
 
+        /// <summary>
+        /// Gets a <see cref="byte"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The byte at the current position. </returns>
         public byte ReadByte()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
@@ -22,6 +30,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="sbyte"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The byte at the current position as a <see cref="sbyte"/>. </returns>
         public sbyte ReadSByte()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
@@ -30,6 +42,10 @@
             return (sbyte)result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="short"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The current 2 bytes as a <see cref="short"/>. </returns>
         public short ReadShort()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT16);
@@ -38,6 +54,10 @@
             return (short)result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="ushort"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The current 2 bytes as a <see cref="ushort"/>. </returns>
         public ushort ReadUShort()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT16);
@@ -46,6 +66,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="int"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The current 4 bytes as a <see cref="int"/>. </returns>
         public int ReadInt()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
@@ -54,6 +78,10 @@
             return (int)result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="uint"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The current 4 bytes as a <see cref="uint"/>. </returns>
         public uint ReadUInt()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
@@ -62,6 +90,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="long"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The current 8 bytes as a <see cref="long"/>. </returns>
         public long ReadLong()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
@@ -70,6 +102,10 @@
             return (long)result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="ulong"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The current 8 bytes as a <see cref="ulong"/>. </returns>
         public ulong ReadULong()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
@@ -78,6 +114,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="float"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The current 4 bytes as a <see cref="float"/>. </returns>
         public float ReadFloat()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
@@ -95,6 +135,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="double"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> The current 8 bytes as a <see cref="double"/>. </returns>
         public double ReadDouble()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
@@ -112,6 +156,10 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets a <see cref="string"/> at the current position and increases the position.
+        /// </summary>
+        /// <returns> A the current bytes as a UTF8 <see cref="string"/>. </returns>
         public string ReadString()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
@@ -133,6 +181,11 @@
             return result;
         }
 
+        /// <summary>
+        /// Gets multiple <see cref="bool"/> at the current position and increases the position.
+        /// </summary>
+        /// <param name="amount"> The amount of <see cref="bool"/> to read. </param>
+        /// <returns> The current bytes as multiple <see cref="bool"/> in a <see cref="BitFlags"/> class. </returns>
         public BitFlags ReadFlags(int amount)
         {
             BitFlags result = new BitFlags(amount);
@@ -145,11 +198,18 @@
             return result;
         }
 
+        /// <summary>
+        /// Skips all bits until the position is byte alligned.
+        /// </summary>
         public void ReadPadBits()
         {
             position = ((position + 7) >> 3) << 3;
         }
 
+        /// <summary>
+        /// Skips a speicified amount of bits.
+        /// </summary>
+        /// <param name="amount"> The amount of bits to skip. </param>
         public void ReadPadBits(int amount)
         {
             position += amount;
