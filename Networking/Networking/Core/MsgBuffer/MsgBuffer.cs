@@ -1,4 +1,4 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core.MsgBuffer
 {
     using System;
     using System.Diagnostics;
@@ -24,10 +24,23 @@
         /// </summary>
         public int PositionBytes { get { return position / 8; } }
 
+        /// <summary>
+        /// Gets or sets the length of the used portion of the buffer in bits.
+        /// </summary>
+        public int LengthBits { get { return length; } set { EnsureBufferSize(length = value); } }
+
+        /// <summary>
+        /// Gets or sets the lenght of the used portion of the buffer in bytes.
+        /// </summary>
+        public int LengthBytes { get { return (length + 7) >> 3; } set { EnsureBufferSize(length = value << 3); } }
+
         private bool BitsAlligned { get { return (position & 7) == 0; } }
 
         private byte[] data;
         private int position;
+        private int length;
+
+        internal MsgBuffer() { }
 
         internal void EnsureBufferSize(int numBits)
         {

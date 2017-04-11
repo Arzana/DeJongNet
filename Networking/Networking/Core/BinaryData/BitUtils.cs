@@ -1,4 +1,4 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core.BinaryData
 {
     internal static class BitUtils
     {

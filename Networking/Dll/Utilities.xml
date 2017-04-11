@@ -4,69 +4,69 @@
         <name>Utilities</name>
     </assembly>
     <members>
-        <member name="T:Mentula.Utilities.Core.Collections.ArrayEnumerable`1">
+        <member name="T:DeJong.Utilities.Core.Collections.ArrayEnumerable`1">
             <summary>
             Defines a base class for IEnumerable types that use arrays.
             </summary>
             <typeparam name="T"> The type of elements. </typeparam>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerable`1.GetEnumerator">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerable`1.GetEnumerator">
             <summary>
             Returns an enumerator that iterates through a collection.
             </summary>
-            <returns> An <see cref="T:Mentula.Utilities.Core.Collections.ArrayEnumerator`1"/> object that can be used to iterate through the collection. </returns>
+            <returns> An <see cref="T:DeJong.Utilities.Core.Collections.ArrayEnumerator`1"/> object that can be used to iterate through the collection. </returns>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerable`1.System#Collections#IEnumerable#GetEnumerator">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerable`1.System#Collections#IEnumerable#GetEnumerator">
             <summary>
             Returns an enumerator that iterates through a collection.
             </summary>
             <returns> An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection. </returns>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerable`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerable`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator">
             <summary>
             Returns an enumerator that iterates through a collection.
             </summary>
             <returns> An <see cref="T:System.Collections.Generic.IEnumerator`1"/> object that can be used to iterate through the collection. </returns>
         </member>
-        <member name="T:Mentula.Utilities.Core.Collections.ArrayEnumerator`1">
+        <member name="T:DeJong.Utilities.Core.Collections.ArrayEnumerator`1">
             <summary>
             Defines an enumarator that can be used to iterate through a collection.
             </summary>
             <typeparam name="T"> The type of elements. </typeparam>
         </member>
-        <member name="P:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.Current">
+        <member name="P:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.Current">
             <summary>
             Gets the element in the collection at the current position of the enumerator.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.System#Collections#IEnumerator#Current">
+        <member name="P:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.System#Collections#IEnumerator#Current">
             <summary>
             Gets the current element in the collection.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.Disposed">
+        <member name="P:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.Disposed">
             <summary>
-            Gets a value indicating if the <see cref="T:Mentula.Utilities.Core.Collections.ArrayEnumerator`1"/> has beed disposed.
+            Gets a value indicating if the <see cref="T:DeJong.Utilities.Core.Collections.ArrayEnumerator`1"/> has beed disposed.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.Disposing">
+        <member name="P:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.Disposing">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.#ctor(`0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.#ctor(`0[])">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Core.Collections.ArrayEnumerator`1"/> class with a specified array to use.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Core.Collections.ArrayEnumerator`1"/> class with a specified array to use.
             </summary>
             <param name="source"></param>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.Dispose">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.Dispose">
             <summary>
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.Dispose(System.Boolean)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.Dispose(System.Boolean)">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.MovePrevious">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.MovePrevious">
             <summary>
             Decrease the enumerator to the previous element of the collection.
             </summary>
@@ -74,9 +74,9 @@
             <see langword="true"/> if the enumerator was successfully decreased to the previous element;
             <see langword="false"/> if the enumerator has passed the beginning of the collection.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The enumerator was disposed before calling this method. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The enumerator was disposed before calling this method. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.MoveNext">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.MoveNext">
             <summary>
             Advances the enumerator to the next element of the collection.
             </summary>
@@ -84,384 +84,384 @@
             <see langword="true"/> if the enumerator was successfully advanced to the next element;
             <see langword="false"/> if the enumerator has passed the end of the collection.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The enumerator was disposed before calling this method. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The enumerator was disposed before calling this method. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerator`1.Reset">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerator`1.Reset">
             <summary>
             Sets the enumerator to its initial position, wich is before the first element in the collection.
             </summary>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The enumerator was disposed before calling this method. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The enumerator was disposed before calling this method. </exception>
         </member>
-        <member name="T:Mentula.Utilities.Core.Collections.ArrayEnumerator">
+        <member name="T:DeJong.Utilities.Core.Collections.ArrayEnumerator">
             <summary>
-            Contains functions for building <see cref="T:Mentula.Utilities.Core.Collections.ArrayEnumerator`1"/>.
+            Contains functions for building <see cref="T:DeJong.Utilities.Core.Collections.ArrayEnumerator`1"/>.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayEnumerator.FromString(System.String)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayEnumerator.FromString(System.String)">
             <summary>
-            Creates a new <see cref="T:Mentula.Utilities.Core.Collections.ArrayEnumerator`1"/> from a <see cref="T:System.String"/> source.
+            Creates a new <see cref="T:DeJong.Utilities.Core.Collections.ArrayEnumerator`1"/> from a <see cref="T:System.String"/> source.
             </summary>
             <param name="source"> The specific source. </param>
-            <returns> An <see cref="T:Mentula.Utilities.Core.Collections.ArrayEnumerator`1"/>. </returns>
+            <returns> An <see cref="T:DeJong.Utilities.Core.Collections.ArrayEnumerator`1"/>. </returns>
         </member>
-        <member name="T:Mentula.Utilities.Core.Collections.ArrayExtensions">
+        <member name="T:DeJong.Utilities.Core.Collections.ArrayExtensions">
             <summary>
             Defines frequently used functions on arrays.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.SByte[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.SByte[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.Byte[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.Byte[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.Int16[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.Int16[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.Int32[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.Int32[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.Int64[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.Int64[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.UInt16[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.UInt16[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.UInt32[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.UInt32[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.UInt64[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.UInt64[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.Decimal[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.Decimal[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.Single[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.Single[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Average(System.Double[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Average(System.Double[])">
             <summary>
             Returns the average of the specified numeric collection.
             </summary>
             <param name="source"> The collection to take the average from. </param>
             <returns> The average of the collection as a <see cref="T:System.Single"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.SByte[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.SByte[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.Byte[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.Byte[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.Int16[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.Int16[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.Int32[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.Int32[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.Int64[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.Int64[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.UInt16[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.UInt16[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.UInt32[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.UInt32[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.UInt64[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.UInt64[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.Decimal[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.Decimal[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.Single[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.Single[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Max(System.Double[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Max(System.Double[])">
             <summary>
             Returns the biggest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The biggest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.SByte[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.SByte[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.Byte[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.Byte[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.Int16[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.Int16[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.Int32[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.Int32[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.Int64[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.Int64[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.UInt16[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.UInt16[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.UInt32[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.UInt32[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.UInt64[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.UInt64[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.Decimal[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.Decimal[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.Single[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.Single[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Min(System.Double[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Min(System.Double[])">
             <summary>
             Returns the smallest element of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The smallest element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.SByte[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.SByte[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.Byte[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.Byte[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.Int16[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.Int16[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.Int32[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.Int32[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.Int64[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.Int64[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.UInt16[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.UInt16[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.UInt32[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.UInt32[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.UInt64[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.UInt64[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.Decimal[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.Decimal[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.Single[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.Single[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sum(System.Double[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sum(System.Double[])">
             <summary>
             Returns the sum of elements of the specified numeric collection.
             </summary>
             <param name="source"> The collection to use. </param>
             <returns> The sum of all elements in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.All``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.All``1(``0[],System.Predicate{``0})">
             <summary>
             Returns whether all elements of a specified collection meet the specified criteria.
             </summary>
@@ -469,18 +469,18 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> <see langword="true"/> if all elements meet the criteria; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Any``1(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Any``1(``0[])">
             <summary>
             Returns whether the collection contains at least 1 element.
             </summary>
             <typeparam name="TSource"> The type of elements. </typeparam>
             <param name="source"> The source array. </param>
             <returns> <see langword="true"/> of the collection contains at least 1 element; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Any``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Any``1(``0[],System.Predicate{``0})">
             <summary>
             Returns whether at least 1 element of the collection meet the specified set of criteria.
             </summary>
@@ -488,9 +488,9 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> <see langword="true"/> if at least 1 element meets to criteria; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Cast``2(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Cast``2(``0[])">
             <summary>
             Attempts to cast all elements of the source to a specified type.
             </summary>
@@ -498,10 +498,10 @@
             <typeparam name="TResult"> The result type. </typeparam>
             <param name="source"> The source array. </param>
             <returns> An array containing all of the element of the source casted to the result type. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> One of the elements could not be casted to the result type. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> One of the elements could not be casted to the result type. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.CastOrDefault``2(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.CastOrDefault``2(``0[])">
             <summary>
             Attempts to cast all elements of the source to a specified type,
             if this fails returns the default value of the result type.
@@ -513,9 +513,9 @@
             An array containing all of the elements of the source casted to the result type.
             If the element cast failed returns the default value of the result type.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.CastOrSkip``2(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.CastOrSkip``2(``0[])">
             <summary>
             Attempts to cast all elements of the source to a specified type,
             if this fails skips the element.
@@ -524,9 +524,9 @@
             <typeparam name="TResult"> The result type. </typeparam>
             <param name="source"> The source array. </param>
             <returns> An array containing all of the element that were able to be casted the the result type. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Concat``1(``0[],``0)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Concat``1(``0[],``0)">
             <summary>
             Concatinates an element to the source collection.
             </summary>
@@ -534,9 +534,9 @@
             <param name="source"> The source array. </param>
             <param name="item"> The element to be added. </param>
             <returns> The collection after the element has been added. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Concat``1(``0[],``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Concat``1(``0[],``0[])">
             <summary>
             Concatinates two array's together.
             </summary>
@@ -544,9 +544,9 @@
             <param name="source"> The array to be added first. </param>
             <param name="collection"> The array to be added second. </param>
             <returns> An array that contains all of the elements of the source and the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or collection was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or collection was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Concat``1(``0[],``0[][])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Concat``1(``0[],``0[][])">
             <summary>
             Concatinates a source array with a specified amount of collections.
             </summary>
@@ -554,9 +554,9 @@
             <param name="source"> The array to be added first. </param>
             <param name="collections"> The array's to be added in their specfied order. </param>
             <returns> An array that contains all of the elements of the source and the collections. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source, collections or an element in the collections was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source, collections or an element in the collections was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Contains``1(``0[],``0)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Contains``1(``0[],``0)">
             <summary>
             Returns whether the collection contains a specified element.
             </summary>
@@ -564,10 +564,10 @@
             <param name="source"> The source array. </param>
             <param name="value"> The value to try an find. </param>
             <returns> <see langword="true"/> if the collections contains an element that meets the set of criteria; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source array was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source array was <see langword="null"/>. </exception>
             <exception cref="T:System.NullReferenceException"> An item in the source array was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Contains``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Contains``1(``0[],System.Predicate{``0})">
             <summary>
             Return whether the collections contains a elements the meets the specified set of criteria.
             </summary>
@@ -575,9 +575,9 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> <see langword="true"/> when the collection contains an element that meets the criteria; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Count``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Count``1(``0[],System.Predicate{``0})">
             <summary>
             Returns the amount of elements in the collection that meet the specfied set of criteria.
             </summary>
@@ -585,27 +585,27 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> The amount of elements in the collection that have met the specified set of criteria. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Copy``1(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Copy``1(``0[])">
             <summary>
             Return a copy of the source collection.
             </summary>
             <typeparam name="TSource"> The type of elements. </typeparam>
             <param name="source"> The source array. </param>
             <returns> A copy of the source collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.First``1(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.First``1(``0[])">
             <summary>
             Returns the first element in the collection.
             </summary>
             <typeparam name="TSource"> The type fo elements. </typeparam>
             <param name="source"> The source array. </param>
             <returns> The first element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.First``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.First``1(``0[],System.Predicate{``0})">
             <summary>
             Returns the first element in the collection that meets the specified set of criteria.
             </summary>
@@ -613,10 +613,10 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> The first element of the collection to meet the criteria. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/> or empty. </exception>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> No element matches the specified set of criteria. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> No element matches the specified set of criteria. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.FirstOrDefault``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.FirstOrDefault``1(``0[],System.Predicate{``0})">
             <summary>
             Returns the first element in the collection that meets the specified set of criteria,
             Iif no such element if found; return the default value of the source type.
@@ -628,9 +628,9 @@
             The first element of the collection to meet the criteria,
             if no such element is found; return the default value of the source type.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.IndexOf``1(``0[],``0)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.IndexOf``1(``0[],``0)">
             <summary>
             Returns the index of the specified element in the collection.
             </summary>
@@ -638,9 +638,9 @@
             <param name="source"> The source array. </param>
             <param name="value"> The value to get the index from. </param>
             <returns> The index of the specified value, if no such element is found; returns -1. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.IndexOf``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.IndexOf``1(``0[],System.Predicate{``0})">
             <summary>
             Return the index of the first element that meets the specified set of criteria.
             </summary>
@@ -648,18 +648,18 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> The index of the first element to meet the specified criteria; otherwise -1. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Last``1(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Last``1(``0[])">
             <summary>
             Returns the last element in the collection.
             </summary>
             <typeparam name="TSource"> The type of elements. </typeparam>
             <param name="source"> The source array. </param>
             <returns> The last element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Last``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Last``1(``0[],System.Predicate{``0})">
             <summary>
             Returns the last element in the collection that meets the specified criteria.
             </summary>
@@ -667,9 +667,9 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of cirteria to be met. </param>
             <returns> The last element in the collection that meets the criteria. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.LastOrDefault``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.LastOrDefault``1(``0[],System.Predicate{``0})">
             <summary>
             Returns the last element in the collection that meets the specified criteria,
             if no such element if found; returns the default value of the source type.
@@ -681,9 +681,9 @@
             The last element in the collection to meet the specified criteria,
             if no such element if found; returns the default value of the source type.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Populate``1(``0,System.Int32)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Populate``1(``0,System.Int32)">
             <summary>
             Populates a new collection with a specified length contains only the specified element. 
             </summary>
@@ -691,18 +691,18 @@
             <param name="element"> The elements to be added. </param>
             <param name="count"> The length of the new collection. </param>
             <returns> A new collection populated only with the specified value. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> Count was smaller that zero. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> Count was smaller that zero. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Random``1(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Random``1(``0[])">
             <summary>
             Returns a random element in the collection.
             </summary>
             <typeparam name="TSource"> The type of elements. </typeparam>
             <param name="source"> The source array. </param>
             <returns> A random element in the collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Remove``1(``0[],``0)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Remove``1(``0[],``0)">
             <summary>
             Removes all elements equal to the specified value.
             </summary>
@@ -710,9 +710,9 @@
             <param name="source"> The source array. </param>
             <param name="value"> The value to be removed. </param>
             <returns> The source whithout elements equal to the specified value. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.RemoveAt``1(``0[],System.Int32)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.RemoveAt``1(``0[],System.Int32)">
             <summary>
             Removes the element at the specified index.
             </summary>
@@ -720,27 +720,27 @@
             <param name="source"> The source array. </param>
             <param name="index"> The index at which to removed the element. </param>
             <returns> The source collection whithout the removed element. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.RemoveNull``1(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.RemoveNull``1(``0[])">
             <summary>
             Removes all elements equal to the default value of the source type.
             </summary>
             <typeparam name="TSource"> The type of elements. </typeparam>
             <param name="source"> The source array. </param>
             <returns> The source collection without the null (or default) values. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Reverse``1(``0[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Reverse``1(``0[])">
             <summary>
             Reverses the collection.
             </summary>
             <typeparam name="TSource"> The type of elements. </typeparam>
             <param name="source"> The source array. </param>
             <returns> The source with all elements reversed. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Select``2(``0[],System.Func{``0,``1})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Select``2(``0[],System.Func{``0,``1})">
             <summary>
             Gets a specific part of the elements in the collection.
             </summary>
@@ -749,9 +749,9 @@
             <param name="source"> The source array. </param>
             <param name="selector"> A function that specifies what part of the elements to return. </param>
             <returns> The specified part of the source collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Select``2(``0[],System.Func{``0,System.Int32,``1})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Select``2(``0[],System.Func{``0,System.Int32,``1})">
             <summary>
             Gets a specific part of the elements in the collection (also suplies the index of the current element).
             </summary>
@@ -760,9 +760,9 @@
             <param name="source"> The source array. </param>
             <param name="selector"> A function that specifies what part of the elements to return. </param>
             <returns> The specified part of the source collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Select``2(``0[],System.Func{``0,``1[]})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Select``2(``0[],System.Func{``0,``1[]})">
             <summary>
             Gets a specific part of the elements in the collection.
             </summary>
@@ -771,9 +771,9 @@
             <param name="source"> The source array. </param>
             <param name="selector"> A function that specifies what part of the elements to return. </param>
             <returns> The specified part of the source collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Select``2(``0[],System.Func{``0,System.Int32,``1[]})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Select``2(``0[],System.Func{``0,System.Int32,``1[]})">
             <summary>
             Gets a specific part of the elements in the collection (also suplies the index of the current element).
             </summary>
@@ -782,9 +782,9 @@
             <param name="source"> The source array. </param>
             <param name="selector"> A function that specifies what part of the elements to return. </param>
             <returns> The specified part of the source collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Sort``1(``0[],System.Func{``0,``0,System.Boolean})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Sort``1(``0[],System.Func{``0,``0,System.Boolean})">
             <summary>
             Performce a basic bubblesort on the collection (performace warning).
             </summary>
@@ -792,9 +792,9 @@
             <param name="source"> The source array. </param>
             <param name="comparitor"> A function that returns whether the second given element should be before the first given element. </param>
             <returns> A sorted version of the source collection. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the comparitor was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the comparitor was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Where``1(``0[],System.Predicate{``0})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Where``1(``0[],System.Predicate{``0})">
             <summary>
             Gets all elements in the collection that meet the specified criteria.
             </summary>
@@ -802,9 +802,9 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> A collection containing only the elements that met the specified criteria. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Where``1(``0[],System.Func{``0,System.Int32,System.Boolean})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Where``1(``0[],System.Func{``0,System.Int32,System.Boolean})">
             <summary>
             Gets all elements in the collection that meet the specified criteria (also suplies the index of the current element).
             </summary>
@@ -812,36 +812,36 @@
             <param name="source"> The source array. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> A collection containing only the elements that met the specified criteria. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.All(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.All(System.String,System.Predicate{System.Char})">
             <summary>
             Returns whether all elements of a specified <see cref="T:System.String"/> meet the specified criteria.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> <see langword="true"/> if all elements meet the criteria; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Any(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Any(System.String,System.Predicate{System.Char})">
             <summary>
             Returns whether at least 1 element of the <see cref="T:System.String"/> meet the specified set of criteria.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> <see langword="true"/> if at least 1 element meets to criteria; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.AppendIfNecessary(System.String,System.Char)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.AppendIfNecessary(System.String,System.Char)">
             <summary>
             Appends a specified <see cref="T:System.Char"/> to a <see cref="T:System.String"/> but only if is doesn't end with it already.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="value"> The specfic <see cref="T:System.Char"/> to be added. </param>
             <returns> The result <see cref="T:System.String"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.AppendIfNecessary(System.String,System.Char[],System.Char)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.AppendIfNecessary(System.String,System.Char[],System.Char)">
             <summary>
             Appends a specified <see cref="T:System.Char"/> to a <see cref="T:System.String"/>
             but only if it doesn't end with one of the valid suffixes already.
@@ -850,54 +850,54 @@
             <param name="validEnds"> The valid suffixes. </param>
             <param name="value"> The specific <see cref="T:System.Char"/> to be added. </param>
             <returns> The result <see cref="T:System.String"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Contains(System.String,System.Char)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Contains(System.String,System.Char)">
             <summary>
             Returns whether the <see cref="T:System.String"/> contains a specified element.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="value"> The value to try an find. </param>
             <returns> <see langword="true"/> if the <see cref="T:System.String"/> contains an element that meets the set of criteria; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source array was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source array was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Contains(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Contains(System.String,System.Predicate{System.Char})">
             <summary>
             Return whether the <see cref="T:System.String"/> contains a elements the meets the specified set of criteria.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> <see langword="true"/> when the <see cref="T:System.String"/> contains an element that meets the criteria; otherwise <see langword="false"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Count(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Count(System.String,System.Predicate{System.Char})">
             <summary>
             Returns the amount of elements in the <see cref="T:System.String"/> that meet the specfied set of criteria.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> The amount of elements in the <see cref="T:System.String"/> that have met the specified set of criteria. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.First(System.String)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.First(System.String)">
             <summary>
             Returns the first element in the <see cref="T:System.String"/>.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <returns> The first element in the <see cref="T:System.String"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.First(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.First(System.String,System.Predicate{System.Char})">
             <summary>
             Returns the first element in the <see cref="T:System.String"/> that meets the specified set of criteria.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> The first element of the <see cref="T:System.String"/> to meet the criteria. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> No element matches the specified set of criteria. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> No element matches the specified set of criteria. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.FirstOrDefault(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.FirstOrDefault(System.String,System.Predicate{System.Char})">
             <summary>
             Returns the first element in the <see cref="T:System.String"/> that meets the specified set of criteria,
             Iif no such element if found; return '\0'.
@@ -908,44 +908,44 @@
             The first element of the <see cref="T:System.String"/> to meet the criteria,
             if no such element is found; return '\0'.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.IndexOf(System.String,System.Char)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.IndexOf(System.String,System.Char)">
             <summary>
             Returns the index of the specified element in the <see cref="T:System.String"/>.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="value"> The value to get the index from. </param>
             <returns> The index of the specified value, if no such element is found; returns -1. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.IndexOf(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.IndexOf(System.String,System.Predicate{System.Char})">
             <summary>
             Return the index of the first element that meets the specified set of criteria.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="selector"> The set of criteria to be met. </param>
             <returns> The index of the first element to meet the specified criteria; otherwise -1. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Last(System.String)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Last(System.String)">
             <summary>
             Returns the last element in the <see cref="T:System.String"/>.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <returns> The last element in the <see cref="T:System.String"/>. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/> or empty. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Last(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Last(System.String,System.Predicate{System.Char})">
             <summary>
             Returns the last element in the <see cref="T:System.String"/> that meets the specified criteria.
             </summary>
             <param name="source"> The source <see cref="T:System.String"/>. </param>
             <param name="selector"> The set of cirteria to be met. </param>
             <returns> The last element in the <see cref="T:System.String"/> that meets the criteria. </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.LastOrDefault(System.String,System.Predicate{System.Char})">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.LastOrDefault(System.String,System.Predicate{System.Char})">
             <summary>
             Returns the last element in the <see cref="T:System.String"/> that meets the specified criteria,
             if no such element if found; returns '\0'.
@@ -956,9 +956,9 @@
             The last element in the <see cref="T:System.String"/> to meet the specified criteria,
             if no such element if found; returns '\0'.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source or the selector was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.SplitAndKeep(System.String,System.Char[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.SplitAndKeep(System.String,System.Char[])">
             <summary>
             Splits a <see cref="T:System.String"/> into substrings that are based on the characters in an array (keeps the separators).
             </summary>
@@ -971,9 +971,9 @@
             An array whose elements contain the substrings from this instance that are delimited
             by one or more characters in separator.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.SplitAndKeep(System.String,System.Char[],System.Boolean,System.StringSplitOptions)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.SplitAndKeep(System.String,System.Char[],System.Boolean,System.StringSplitOptions)">
             <summary>
             Splits a <see cref="T:System.String"/> into substrings based on the characters in an array (keeps the separators).
             You can specify whether the substrings include empty array elements.
@@ -993,9 +993,9 @@
             by one or more characters in separator.
             </returns>
             <exception cref="T:System.ArgumentException"> option is not one of the <see cref="T:System.StringSplitOptions"/> values. </exception>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.SplitAndKeep(System.String,System.Char[],System.Boolean)">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.SplitAndKeep(System.String,System.Char[],System.Boolean)">
             <summary>
             Splits a <see cref="T:System.String"/> into substrings based on the characters in an array (keeps the separators).
             </summary>
@@ -1009,9 +1009,9 @@
             An array whose elements contain the substrings in this <see cref="T:System.String"/> that are delimited
             by one or more characters in separator.
             </returns>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The source was <see langword="null"/>. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Remove(System.String,System.Char[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Remove(System.String,System.Char[])">
             <summary>
             Removes all elements equal to the specified <see cref="T:System.Char"/>s from the <see cref="T:System.String"/>.
             </summary>
@@ -1019,7 +1019,7 @@
             <param name="values"> The <see cref="T:System.Char"/>s to be removed. </param>
             <returns> An <see cref="T:System.String"/> without the specified <see cref="T:System.Char"/>s. </returns>
         </member>
-        <member name="M:Mentula.Utilities.Core.Collections.ArrayExtensions.Remove(System.String,System.String[])">
+        <member name="M:DeJong.Utilities.Core.Collections.ArrayExtensions.Remove(System.String,System.String[])">
             <summary>
             Removes all substrings equal to the specified substrings from the <see cref="T:System.String"/>.
             </summary>
@@ -1027,22 +1027,22 @@
             <param name="values"> The substrings to be removed. </param>
             <returns> An <see cref="T:System.String"/> without the specified substrings. </returns>
         </member>
-        <member name="T:Mentula.Utilities.Core.EventInvoker">
+        <member name="T:DeJong.Utilities.Core.EventInvoker">
             <summary>
             Defines function for safe event invokation.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Core.EventInvoker.Invoke(System.EventHandler,System.Object,System.EventArgs)">
+        <member name="M:DeJong.Utilities.Core.EventInvoker.Invoke(System.EventHandler,System.Object,System.EventArgs)">
             <summary>
             Dynamicly invokes the specified handler if it has been set.
             </summary>
             <param name="handler"> The event handler or <see langword="null"/>. </param>
             <param name="sender"> The object that is attempting to invoke the handler. </param>
             <param name="args"> The arguments for this call. </param>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The sender was <see langword="null"/>. </exception>
-            <exception cref="T:Mentula.Utilities.Core.InvokeException"> An unhandled exception was thrown in the event handler. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The sender was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.InvokeException"> An unhandled exception was thrown in the event handler. </exception>
         </member>
-        <member name="M:Mentula.Utilities.Core.EventInvoker.Invoke``2(Mentula.Utilities.Core.StrongEventHandler{``0,``1},``0,``1)">
+        <member name="M:DeJong.Utilities.Core.EventInvoker.Invoke``2(DeJong.Utilities.Core.StrongEventHandler{``0,``1},``0,``1)">
             <summary>
             Dynamicly invokes the specified handler if it has been set.
             </summary>
@@ -1051,122 +1051,122 @@
             <param name="handler"> The event handler or <see langword="null"/>. </param>
             <param name="sender"> The object that is attempting to invoke the handler. </param>
             <param name="args"> The arguments for this call. </param>
-            <exception cref="T:Mentula.Utilities.Core.LoggedException"> The sender was <see langword="null"/>. </exception>
-            <exception cref="T:Mentula.Utilities.Core.InvokeException"> An unhandled exception was thrown in the event handler. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The sender was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.InvokeException"> An unhandled exception was thrown in the event handler. </exception>
         </member>
-        <member name="T:Mentula.Utilities.Core.IFullyDisposable">
+        <member name="T:DeJong.Utilities.Core.IFullyDisposable">
             <summary>
             Improves upon the mechanism for releasing unmanaged resources in the .NET Framework
             with implementing more information and options whilst releasing.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.IFullyDisposable.Disposed">
+        <member name="P:DeJong.Utilities.Core.IFullyDisposable.Disposed">
             <summary>
             Whether the object has been disposed.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.IFullyDisposable.Disposing">
+        <member name="P:DeJong.Utilities.Core.IFullyDisposable.Disposing">
             <summary>
             Whether the object is currently disposing.
             </summary>
         </member>
-        <member name="T:Mentula.Utilities.Core.InvokeException">
+        <member name="T:DeJong.Utilities.Core.InvokeException">
             <summary>
             Represents errors that occur during event invokation.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.InvokeException.StackTrace">
+        <member name="P:DeJong.Utilities.Core.InvokeException.StackTrace">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Core.InvokeException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name="M:DeJong.Utilities.Core.InvokeException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <inheritdoc/>
         </member>
-        <member name="T:Mentula.Utilities.Core.LoggedException">
+        <member name="T:DeJong.Utilities.Core.LoggedException">
             <summary>
-            Represents errors that are logged to the <see cref="T:Mentula.Utilities.Logging.Log"/>.
+            Represents errors that are logged to the <see cref="T:DeJong.Utilities.Logging.Log"/>.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.LoggedException.StackTrace">
+        <member name="P:DeJong.Utilities.Core.LoggedException.StackTrace">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.#ctor(System.String)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Core.LoggedException"/> class.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Core.LoggedException"/> class.
             </summary>
             <param name="tag"> The object that caused the exception. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.#ctor(System.String,System.String)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.#ctor(System.String,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Core.LoggedException"/> class with a specified message.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Core.LoggedException"/> class with a specified message.
             </summary>
             <param name="tag"> The object that caused the exception. </param>
             <param name="message"> The specific message. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.#ctor(System.String,System.String,System.Exception)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.#ctor(System.String,System.String,System.Exception)">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Core.LoggedException"/> class with a specfied message and an inner exception.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Core.LoggedException"/> class with a specfied message and an inner exception.
             </summary>
             <param name="message"> The specific message. </param>
             <param name="tag"> The object that caused the exception. </param>
             <param name="inner"> The exception that caused this exception. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.Raise(System.String)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.Raise(System.String)">
             <summary>
-            Throws and logges a <see cref="T:Mentula.Utilities.Core.LoggedException"/>.
+            Throws and logges a <see cref="T:DeJong.Utilities.Core.LoggedException"/>.
             </summary>
             <param name="tag"> The object that caused the exception. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.Raise(System.String,System.String)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.Raise(System.String,System.String)">
             <summary>
-            Throws and logges a <see cref="T:Mentula.Utilities.Core.LoggedException"/> with a specified message.
+            Throws and logges a <see cref="T:DeJong.Utilities.Core.LoggedException"/> with a specified message.
             </summary>
             <param name="tag"> The object that caused the exception. </param>
             <param name="message"> The specified message. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.Raise(System.String,System.String,System.Exception)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.Raise(System.String,System.String,System.Exception)">
             <summary>
-            Throws and logges a <see cref="T:Mentula.Utilities.Core.LoggedException"/> with a specified message and an inner exception.
+            Throws and logges a <see cref="T:DeJong.Utilities.Core.LoggedException"/> with a specified message and an inner exception.
             </summary>
             <param name="tag"> The object that caused the exception. </param>
             <param name="message"> The specified message. </param>
             <param name="inner"> The exception that caused the exception. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.RaiseIf(System.Boolean,System.String)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.RaiseIf(System.Boolean,System.String)">
             <summary>
-            Throws and logges a <see cref="T:Mentula.Utilities.Core.LoggedException"/> if the condition is <see langword="true"/>.
+            Throws and logges a <see cref="T:DeJong.Utilities.Core.LoggedException"/> if the condition is <see langword="true"/>.
             </summary>
             <param name="condition"> The condition to check. </param>
             <param name="tag"> The object that caused the exception. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.RaiseIf(System.Boolean,System.String,System.String)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.RaiseIf(System.Boolean,System.String,System.String)">
             <summary>
-            Throws and logges a <see cref="T:Mentula.Utilities.Core.LoggedException"/> with a specified message if the condition is <see langword="true"/>s.
+            Throws and logges a <see cref="T:DeJong.Utilities.Core.LoggedException"/> with a specified message if the condition is <see langword="true"/>s.
             </summary>
             <param name="condition"> The condition to check. </param>
             <param name="tag"> The object that caused the exception. </param>
             <param name="message"> The specified message. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.LoggedException.RaiseIf(System.Boolean,System.String,System.String,System.Exception)">
+        <member name="M:DeJong.Utilities.Core.LoggedException.RaiseIf(System.Boolean,System.String,System.String,System.Exception)">
             <summary>
-            Throws and logges a <see cref="T:Mentula.Utilities.Core.LoggedException"/> with a specified message and an inner exception if the condition is <see langword="true"/>s.
+            Throws and logges a <see cref="T:DeJong.Utilities.Core.LoggedException"/> with a specified message and an inner exception if the condition is <see langword="true"/>s.
             </summary>
             <param name="condition"> The condition to check. </param>
             <param name="tag"> The object that caused the exception. </param>
             <param name="message"> The specified message. </param>
             <param name="inner"> The exception that caused the exception. </param>
         </member>
-        <member name="T:Mentula.Utilities.Core.ExtraMath">
+        <member name="T:DeJong.Utilities.Core.ExtraMath">
             <summary>
             Contains aditional math functions.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Core.ExtraMath.Clamp(System.Int32,System.Int32,System.Int32)">
+        <member name="M:DeJong.Utilities.Core.ExtraMath.Clamp(System.Int32,System.Int32,System.Int32)">
             <summary>
             Clamps a integral value between a minimum and a maximum. 
             </summary>
@@ -1179,7 +1179,7 @@
             otherwise, <see langword="false"/>.
             </returns>
         </member>
-        <member name="M:Mentula.Utilities.Core.ExtraMath.InvLerp(System.Single,System.Single,System.Single)">
+        <member name="M:DeJong.Utilities.Core.ExtraMath.InvLerp(System.Single,System.Single,System.Single)">
             <summary>
             Performs inverse linear interpolation on the specified values.
             </summary>
@@ -1188,61 +1188,100 @@
             <param name="max"> The specfied maximum. </param>
             <returns> The original value before the interpolation. </returns>
         </member>
-        <member name="T:Mentula.Utilities.Core.NoStackTraceException">
+        <member name="T:DeJong.Utilities.Core.NoStackTraceException">
             <summary>
             Represents errors that have no stack trace.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.NoStackTraceException.StackTrace">
+        <member name="P:DeJong.Utilities.Core.NoStackTraceException.StackTrace">
             <inheritdoc/>
         </member>
-        <member name="P:Mentula.Utilities.Core.NoStackTraceException.InnerException">
+        <member name="P:DeJong.Utilities.Core.NoStackTraceException.InnerException">
             <inheritdoc/>
         </member>
-        <member name="P:Mentula.Utilities.Core.NoStackTraceException.BaseStackTrace">
+        <member name="P:DeJong.Utilities.Core.NoStackTraceException.BaseStackTrace">
             <summary>
             Gets the original stacktrace.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Core.NoStackTraceException.BaseType">
+        <member name="P:DeJong.Utilities.Core.NoStackTraceException.BaseType">
             <summary>
             Gets the original type of exception.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Core.NoStackTraceException.#ctor(System.String)">
+        <member name="M:DeJong.Utilities.Core.NoStackTraceException.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Core.NoStackTraceException"/> class.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Core.NoStackTraceException"/> class.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Core.NoStackTraceException.#ctor(System.String,System.String)">
+        <member name="M:DeJong.Utilities.Core.NoStackTraceException.#ctor(System.String,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Core.NoStackTraceException"/> class with a specified messsage.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Core.NoStackTraceException"/> class with a specified messsage.
             </summary>
             <param name="tag"> The object that caused the exception. </param>
             <param name="message"> The specified message. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.NoStackTraceException.#ctor(System.String,System.String,System.Exception)">
+        <member name="M:DeJong.Utilities.Core.NoStackTraceException.#ctor(System.String,System.String,System.Exception)">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Core.NoStackTraceException"/> class with a specified message and inner exception.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Core.NoStackTraceException"/> class with a specified message and inner exception.
             </summary>
             <param name="tag"> The object that caused the exception. </param>
             <param name="message"> The specified message. </param>
             <param name="inner"> The exception that caused this exception. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.NoStackTraceException.#ctor(System.String,System.Exception)">
+        <member name="M:DeJong.Utilities.Core.NoStackTraceException.#ctor(System.String,System.Exception)">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Core.NoStackTraceException"/> class with a parent exception.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Core.NoStackTraceException"/> class with a parent exception.
             </summary>
             <param name="tag"> The object that caused the exception. </param>
             <param name="source"> The exception to use as a base. </param>
         </member>
-        <member name="M:Mentula.Utilities.Core.NoStackTraceException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name="M:DeJong.Utilities.Core.NoStackTraceException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Core.NoStackTraceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name="M:DeJong.Utilities.Core.NoStackTraceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <inheritdoc/>
         </member>
-        <member name="T:Mentula.Utilities.Core.StrongEventHandler`2">
+        <member name="T:DeJong.Utilities.Core.OutAction`1">
+            <summary>
+            Encapsulates a method that has a single out parameter and does not return a value.
+            </summary>
+            <typeparam name="T">
+            The type of the parameter of the method that this delegate encapsulates.
+            This type parameter is contravariant.
+            That is, you can use either the type you specified or any type that is less derived.
+            </typeparam>
+            <param name="arg"> The out parameter of the method that this delegate encapsulates. </param>
+        </member>
+        <member name="T:DeJong.Utilities.Core.OutAction`2">
+            <summary>
+            Encapsulates a method that has one normal parameter, one out parameter and does not return a value.
+            </summary>
+            <typeparam name="T1">
+            The type of the first parameter of the method that this delegate encapsulates.
+            This type parameter is contravariant.
+            That is, you can use either the type you specified or any type that is less derived.
+            </typeparam>
+            <typeparam name="T2"> The type of the out parameter of the method that this delegate encapsulates. </typeparam>
+            <param name="arg1"> The first parameter of the method that this delegate encapsulates. </param>
+            <param name="arg2"> The out parameter of the method that this delegate encapsulates. </param>
+        </member>
+        <member name="T:DeJong.Utilities.Core.OutAction`3">
+            <summary>
+            Encapsulates a method that has two normal parameter, one out parameter and does not return a value.
+            </summary>
+            <typeparam name="T1">
+            The type of the first parameter of the method that this delegate encapsulates.
+            This type parameter is contravariant.
+            That is, you can use either the type you specified or any type that is less derived.
+            </typeparam>
+            <typeparam name="T2"> The second parameter of the method that this delegate encapsulates. </typeparam>
+            <typeparam name="T3"> The type of the out parameter of the method that this delegate encapsulates. </typeparam>
+            <param name="arg1"> The first parameter of the method that this delegate encapsulates. </param>
+            <param name="arg2"> The second parameter of the method that this delegate encapsulates. </param>
+            <param name="arg3"> The out parameter of the method that this delegate encapsulates. </param>
+        </member>
+        <member name="T:DeJong.Utilities.Core.StrongEventHandler`2">
             <summary>
             Defines a method that will handle strongly typed events.
             </summary>
@@ -1251,313 +1290,313 @@
             <param name="sender"> The object that is attempting to invoke the handler. </param>
             <param name="args"> The argument for this call. </param>
         </member>
-        <member name="T:Mentula.Utilities.Logging.ConsoleLogger">
+        <member name="T:DeJong.Utilities.Logging.ConsoleLogger">
             <summary>
             Defines a handler that displays logged messages to the console.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.VerboseColor">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.VerboseColor">
             <summary>
             The color used for logging verbose messages; default value=White
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.DebugColor">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.DebugColor">
             <summary>
             The color used for logging debug messages; default value=Blue
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.InfoColor">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.InfoColor">
             <summary>
             The color used for logging info messages; default value=Green
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.WarningColor">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.WarningColor">
             <summary>
             The color used for logging warning messages; default value=Yellow
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.ErrorColor">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.ErrorColor">
             <summary>
             The color used for logging error messages; default value=Red
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.FatalColor">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.FatalColor">
             <summary>
             The color used for logging fatal messages; default value=DarkRed
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.AutoUpdate">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.AutoUpdate">
             <summary>
-            Gets or sets whether the <see cref="T:Mentula.Utilities.Logging.ConsoleLogger"/> should automaticly update itself.
+            Gets or sets whether the <see cref="T:DeJong.Utilities.Logging.ConsoleLogger"/> should automaticly update itself.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.DynamicPadding">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.DynamicPadding">
             <summary>
-            Gets or set a value indicating whether the <see cref="T:Mentula.Utilities.Logging.ConsoleLogger"/>
+            Gets or set a value indicating whether the <see cref="T:DeJong.Utilities.Logging.ConsoleLogger"/>
             should dynamicaly pad the message header.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.Disposed">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.Disposed">
             <inheritdoc/>
         </member>
-        <member name="P:Mentula.Utilities.Logging.ConsoleLogger.Disposing">
+        <member name="P:DeJong.Utilities.Logging.ConsoleLogger.Disposing">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Logging.ConsoleLogger.#ctor(Mentula.Utilities.Logging.LogOutputType,System.Boolean)">
+        <member name="M:DeJong.Utilities.Logging.ConsoleLogger.#ctor(DeJong.Utilities.Logging.LogOutputType,System.Boolean)">
             <summary>
-            Creates a new instance of the <see cref="T:Mentula.Utilities.Logging.ConsoleLogger"/> class with a specified output type.
+            Creates a new instance of the <see cref="T:DeJong.Utilities.Logging.ConsoleLogger"/> class with a specified output type.
             </summary>
             <param name="type"> The output type of the logger. </param>
             <param name="suppressConsoleResize"> Whether to suppress the console buffer from getting resized. </param>
         </member>
-        <member name="M:Mentula.Utilities.Logging.ConsoleLogger.Finalize">
+        <member name="M:DeJong.Utilities.Logging.ConsoleLogger.Finalize">
             <summary>
-            Disposes and finalizes the <see cref="T:Mentula.Utilities.Logging.ConsoleLogger"/>
+            Disposes and finalizes the <see cref="T:DeJong.Utilities.Logging.ConsoleLogger"/>
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Logging.ConsoleLogger.Update">
+        <member name="M:DeJong.Utilities.Logging.ConsoleLogger.Update">
             <summary>
             Writes the buffer contents to the console.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Logging.ConsoleLogger.Dispose">
+        <member name="M:DeJong.Utilities.Logging.ConsoleLogger.Dispose">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Logging.ConsoleLogger.Dispose(System.Boolean)">
+        <member name="M:DeJong.Utilities.Logging.ConsoleLogger.Dispose(System.Boolean)">
             <summary>
-            Disposes the managed and unmanaged data of the <see cref="T:Mentula.Utilities.Logging.ConsoleLogger"/>.
+            Disposes the managed and unmanaged data of the <see cref="T:DeJong.Utilities.Logging.ConsoleLogger"/>.
             </summary>
             <param name="disposing"></param>
         </member>
-        <member name="T:Mentula.Utilities.Logging.LogOutputType">
+        <member name="T:DeJong.Utilities.Logging.LogOutputType">
             <summary>
-            Defines how a <see cref="T:Mentula.Utilities.Logging.LogMessage"/> should be printed.
+            Defines how a <see cref="T:DeJong.Utilities.Logging.LogMessage"/> should be printed.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogOutputType.Brief">
+        <member name="F:DeJong.Utilities.Logging.LogOutputType.Brief">
             <summary>
-            Displays only the <see cref="P:Mentula.Utilities.Logging.LogMessage.PId"/>, <see cref="P:Mentula.Utilities.Logging.LogMessage.Type"/> and <see cref="P:Mentula.Utilities.Logging.LogMessage.Tag"/> in addition to the message.
+            Displays only the <see cref="P:DeJong.Utilities.Logging.LogMessage.PId"/>, <see cref="P:DeJong.Utilities.Logging.LogMessage.Type"/> and <see cref="P:DeJong.Utilities.Logging.LogMessage.Tag"/> in addition to the message.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogOutputType.Process">
+        <member name="F:DeJong.Utilities.Logging.LogOutputType.Process">
             <summary>
-            Displays only the <see cref="P:Mentula.Utilities.Logging.LogMessage.PId"/> in addition to the message.
+            Displays only the <see cref="P:DeJong.Utilities.Logging.LogMessage.PId"/> in addition to the message.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogOutputType.Tag">
+        <member name="F:DeJong.Utilities.Logging.LogOutputType.Tag">
             <summary>
-            Displays only the <see cref="P:Mentula.Utilities.Logging.LogMessage.Type"/> and <see cref="P:Mentula.Utilities.Logging.LogMessage.Tag"/> in addition to the message.
+            Displays only the <see cref="P:DeJong.Utilities.Logging.LogMessage.Type"/> and <see cref="P:DeJong.Utilities.Logging.LogMessage.Tag"/> in addition to the message.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogOutputType.Raw">
+        <member name="F:DeJong.Utilities.Logging.LogOutputType.Raw">
             <summary>
             Displays only the message.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogOutputType.Time">
+        <member name="F:DeJong.Utilities.Logging.LogOutputType.Time">
             <summary>
-            Displays only the <see cref="P:Mentula.Utilities.Logging.LogMessage.OccuredAt"/>, <see cref="P:Mentula.Utilities.Logging.LogMessage.PId"/>, <see cref="P:Mentula.Utilities.Logging.LogMessage.Type"/>, <see cref="P:Mentula.Utilities.Logging.LogMessage.Tag"/> in addition to the message.
+            Displays only the <see cref="P:DeJong.Utilities.Logging.LogMessage.OccuredAt"/>, <see cref="P:DeJong.Utilities.Logging.LogMessage.PId"/>, <see cref="P:DeJong.Utilities.Logging.LogMessage.Type"/>, <see cref="P:DeJong.Utilities.Logging.LogMessage.Tag"/> in addition to the message.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogOutputType.ThreadTime">
+        <member name="F:DeJong.Utilities.Logging.LogOutputType.ThreadTime">
             <summary>
             Displays all properties of the message.
             </summary>
         </member>
-        <member name="T:Mentula.Utilities.Logging.Log">
+        <member name="T:DeJong.Utilities.Logging.Log">
             <summary>
             Represents a general logging pipeline.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Logging.Log.Debug(System.String,System.String)">
+        <member name="M:DeJong.Utilities.Logging.Log.Debug(System.String,System.String)">
             <summary>
             Logs a message with debug priority.
             </summary>
             <param name="tag"> The tag of the caller. </param>
             <param name="message"> The specified message to be logged. </param>
         </member>
-        <member name="M:Mentula.Utilities.Logging.Log.Error(System.String,System.String)">
+        <member name="M:DeJong.Utilities.Logging.Log.Error(System.String,System.String)">
             <summary>
             Logs a message with error priority.
             </summary>
             <param name="tag"> The tag of the caller. </param>
             <param name="message"> The specified message to be logged. </param>
         </member>
-        <member name="M:Mentula.Utilities.Logging.Log.Info(System.String,System.String)">
+        <member name="M:DeJong.Utilities.Logging.Log.Info(System.String,System.String)">
             <summary>
             Logs a message with info priority.
             </summary>
             <param name="tag"> The tag of the caller. </param>
             <param name="message"> The specified message to be logged. </param>
         </member>
-        <member name="M:Mentula.Utilities.Logging.Log.Verbose(System.String,System.String)">
+        <member name="M:DeJong.Utilities.Logging.Log.Verbose(System.String,System.String)">
             <summary>
             Logs a message with verbose priority.
             </summary>
             <param name="tag"> The tag of the caller. </param>
             <param name="message"> The specified message to be logged. </param>
         </member>
-        <member name="M:Mentula.Utilities.Logging.Log.Warning(System.String,System.String)">
+        <member name="M:DeJong.Utilities.Logging.Log.Warning(System.String,System.String)">
             <summary>
             Logs a message with warning priority.
             </summary>
             <param name="tag"> The tag of the caller. </param>
             <param name="message"> The specified message to be logged. </param>
         </member>
-        <member name="M:Mentula.Utilities.Logging.Log.Fatal(System.String,System.Exception)">
+        <member name="M:DeJong.Utilities.Logging.Log.Fatal(System.String,System.Exception)">
             <summary>
             Logs a exception with fatal priority.
             </summary>
             <param name="tag"> The tag of the caller. </param>
             <param name="e"> The specified message to be logged. </param>
         </member>
-        <member name="M:Mentula.Utilities.Logging.Log.PopLog">
+        <member name="M:DeJong.Utilities.Logging.Log.PopLog">
             <summary>
             Gets the next message to be displayed.
             </summary>
-            <returns> The next message, if there is one; otherwise, <see cref="F:Mentula.Utilities.Logging.LogMessage.Empty"/>. </returns>
+            <returns> The next message, if there is one; otherwise, <see cref="F:DeJong.Utilities.Logging.LogMessage.Empty"/>. </returns>
         </member>
-        <member name="T:Mentula.Utilities.Logging.LogMessageType">
+        <member name="T:DeJong.Utilities.Logging.LogMessageType">
             <summary>
-            Defines the priority of a <see cref="T:Mentula.Utilities.Logging.LogMessage"/>.
+            Defines the priority of a <see cref="T:DeJong.Utilities.Logging.LogMessage"/>.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogMessageType.None">
+        <member name="F:DeJong.Utilities.Logging.LogMessageType.None">
             <summary>
             Empty, no message available.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogMessageType.Verbose">
+        <member name="F:DeJong.Utilities.Logging.LogMessageType.Verbose">
             <summary>
             Lowest priority.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogMessageType.Debug">
+        <member name="F:DeJong.Utilities.Logging.LogMessageType.Debug">
             <summary>
             Low priority (DEBUG only).
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogMessageType.Info">
+        <member name="F:DeJong.Utilities.Logging.LogMessageType.Info">
             <summary>
             Normal priority.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogMessageType.Warning">
+        <member name="F:DeJong.Utilities.Logging.LogMessageType.Warning">
             <summary>
             Medium priority.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogMessageType.Error">
+        <member name="F:DeJong.Utilities.Logging.LogMessageType.Error">
             <summary>
             High priority
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogMessageType.Fatal">
+        <member name="F:DeJong.Utilities.Logging.LogMessageType.Fatal">
             <summary>
             Only used for exceptions.
             </summary>
         </member>
-        <member name="T:Mentula.Utilities.Logging.LogMessage">
+        <member name="T:DeJong.Utilities.Logging.LogMessage">
             <summary>
             Defines a container for log messages.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.LogMessage.Type">
+        <member name="P:DeJong.Utilities.Logging.LogMessage.Type">
             <summary>
             The type or priority of the message.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.LogMessage.OccuredAt">
+        <member name="P:DeJong.Utilities.Logging.LogMessage.OccuredAt">
             <summary>
             The date and time of logging.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.LogMessage.PId">
+        <member name="P:DeJong.Utilities.Logging.LogMessage.PId">
             <summary>
             The process Id of the caller.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.LogMessage.TId">
+        <member name="P:DeJong.Utilities.Logging.LogMessage.TId">
             <summary>
             The thread Id of the caller.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.LogMessage.Tag">
+        <member name="P:DeJong.Utilities.Logging.LogMessage.Tag">
             <summary>
             The tag of the caller.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Logging.LogMessage.Message">
+        <member name="P:DeJong.Utilities.Logging.LogMessage.Message">
             <summary>
             The actual message.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Logging.LogMessage.Empty">
+        <member name="F:DeJong.Utilities.Logging.LogMessage.Empty">
             <summary>
-            This message is returned by <see cref="M:Mentula.Utilities.Logging.Log.PopLog"/> when no message is left.
+            This message is returned by <see cref="M:DeJong.Utilities.Logging.Log.PopLog"/> when no message is left.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Logging.LogMessage.GetTimeStamp">
+        <member name="M:DeJong.Utilities.Logging.LogMessage.GetTimeStamp">
             <summary>
-            Gets the visual representation of <see cref="P:Mentula.Utilities.Logging.LogMessage.OccuredAt"/>.
+            Gets the visual representation of <see cref="P:DeJong.Utilities.Logging.LogMessage.OccuredAt"/>.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Mentula.Utilities.Logging.LogMessage.GetLogHeaderLine(Mentula.Utilities.Logging.LogOutputType)">
+        <member name="M:DeJong.Utilities.Logging.LogMessage.GetLogHeaderLine(DeJong.Utilities.Logging.LogOutputType)">
             <summary>
             Gets the header line that should be printed with the specified output type.
             </summary>
             <param name="type"> The way the header should be represented. </param>
             <returns> A string containing the header in the specified output format. </returns>
         </member>
-        <member name="M:Mentula.Utilities.Logging.LogMessage.GetLogLine(Mentula.Utilities.Logging.LogOutputType)">
+        <member name="M:DeJong.Utilities.Logging.LogMessage.GetLogLine(DeJong.Utilities.Logging.LogOutputType)">
             <summary>
             Gets the line that should be printed with the specified output type.
             </summary>
             <param name="type"> The way the header should be represented. </param>
             <returns> A string containing the header and the message in the specified output format. </returns>
         </member>
-        <member name="T:Mentula.Utilities.Threading.StopableThread">
+        <member name="T:DeJong.Utilities.Threading.StopableThread">
             <summary>
             Contains a continually ticking STA background thread.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Threading.StopableThread.Disposed">
+        <member name="P:DeJong.Utilities.Threading.StopableThread.Disposed">
             <inheritdoc/>
         </member>
-        <member name="P:Mentula.Utilities.Threading.StopableThread.Disposing">
+        <member name="P:DeJong.Utilities.Threading.StopableThread.Disposing">
             <inheritdoc/>
         </member>
-        <member name="M:Mentula.Utilities.Threading.StopableThread.#ctor(System.Threading.ThreadStart,System.Threading.ThreadStart,System.Threading.ThreadStart)">
+        <member name="M:DeJong.Utilities.Threading.StopableThread.#ctor(System.Threading.ThreadStart,System.Threading.ThreadStart,System.Threading.ThreadStart)">
             <summary>
-            Initializes a new instance of the <see cref="T:Mentula.Utilities.Threading.StopableThread"/> class.
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.StopableThread"/> class.
             </summary>
             <param name="init"> The function to call when initialzing the run loop (can be <see langword="null"/>). </param>
             <param name="term"> The function to call when terminating the run loop (can be <see langword="null"/>). </param>
             <param name="tick"> The function that handles the thread tick, cannot be <see langword="null"/>. </param>
         </member>
-        <member name="M:Mentula.Utilities.Threading.StopableThread.Finalize">
+        <member name="M:DeJong.Utilities.Threading.StopableThread.Finalize">
             <summary>
-            Disposes and finalizes the <see cref="T:Mentula.Utilities.Threading.StopableThread"/>.
+            Disposes and finalizes the <see cref="T:DeJong.Utilities.Threading.StopableThread"/>.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Threading.StopableThread.Dispose">
+        <member name="M:DeJong.Utilities.Threading.StopableThread.Dispose">
             <summary>
             Disposes the thread unsafely.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Threading.StopableThread.Dispose(System.Boolean)">
+        <member name="M:DeJong.Utilities.Threading.StopableThread.Dispose(System.Boolean)">
             <summary>
             Disposes the thread safely or unsafely.
             </summary>
             <param name="disposing"> Whether the method should wait for the thread to exit. </param>
         </member>
-        <member name="M:Mentula.Utilities.Threading.StopableThread.Start">
+        <member name="M:DeJong.Utilities.Threading.StopableThread.Start">
             <summary>
             Starts the thread.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Threading.StopableThread.Stop">
+        <member name="M:DeJong.Utilities.Threading.StopableThread.Stop">
             <summary>
             Stops the thread.
             </summary>
@@ -1565,65 +1604,163 @@
             Thread will continue running parallel untill it has completed it's current task.
             </remarks>
         </member>
-        <member name="M:Mentula.Utilities.Threading.StopableThread.StopWait">
+        <member name="M:DeJong.Utilities.Threading.StopableThread.StopWait">
             <summary>
             Stops the thread and wait for it to close.
             </summary>
         </member>
-        <member name="T:Mentula.Utilities.Threading.ThreadBuilder">
+        <member name="T:DeJong.Utilities.Threading.ThreadBuilder">
             <summary>
             Contains general functions for creating basic threads.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Threading.ThreadBuilder.RunInSTA(System.Threading.ThreadStart)">
+        <member name="M:DeJong.Utilities.Threading.ThreadBuilder.RunInSTA(System.Threading.ThreadStart)">
             <summary>
             Runs a specified function in a STA thread.
             </summary>
             <param name="function"> The function for the thread to process. </param>
         </member>
-        <member name="M:Mentula.Utilities.Threading.ThreadBuilder.CreateSTA(System.Threading.ThreadStart)">
+        <member name="M:DeJong.Utilities.Threading.ThreadBuilder.CreateSTA(System.Threading.ThreadStart)">
             <summary>
             Creates a background thread with its appartment set to <see cref="F:System.Threading.ApartmentState.STA"/>.
             </summary>
             <param name="function"> The function for the thread to process. </param>
         </member>
-        <member name="M:Mentula.Utilities.Threading.ThreadBuilder.RunInBackground(System.Threading.ThreadStart)">
+        <member name="M:DeJong.Utilities.Threading.ThreadBuilder.RunInBackground(System.Threading.ThreadStart)">
             <summary>
             Runs a specified function in a background thread.
             </summary>
             <param name="function"> The function for the thread to process. </param>
         </member>
-        <member name="M:Mentula.Utilities.Threading.ThreadBuilder.CreateBackground(System.Threading.ThreadStart)">
+        <member name="M:DeJong.Utilities.Threading.ThreadBuilder.CreateBackground(System.Threading.ThreadStart)">
             <summary>
             Creates a thread with <see cref="P:System.Threading.Thread.IsBackground"/> set to <see langword="true"/>.
             </summary>
             <param name="func"> The function for the thread to process. </param>
         </member>
-        <member name="T:Mentula.Utilities.Utils">
+        <member name="T:DeJong.Utilities.Threading.ThreadSafeQueue`1">
+            <summary>
+            Represents a first-in, first-out thread safe collection of objects.
+            </summary>
+            <typeparam name="T"> The type of elements in the queue. </typeparam>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.Capacity">
+            <summary>
+            The current capacity of the queue.
+            </summary>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.Count">
+            <inheritdoc/>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.SyncRoot">
+            <inheritdoc/>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.IsSynchronized">
+            <inheritdoc/>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/> class with default parameters.
+            </summary>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/> class woth a specific initial capacity.
+            </summary>
+            <param name="initialCapacity"></param>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Enqueue(`0)">
+            <summary>
+            Enqueue's a specified item to the back of the queue.
+            </summary>
+            <param name="item"> The item to enqueue. </param>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Enqueue(System.Collections.Generic.ICollection{`0})">
+            <summary>
+            Enqueue's multiple specified items to the back of the queue in the given order.
+            </summary>
+            <param name="items"> The items to enqueue. </param>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.SkipQueue(`0)">
+            <summary>
+            Enqueue's a specified item to the front of the queue.
+            </summary>
+            <param name="item"> The item to enqueue. </param>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.TryDequeue(`0@)">
+            <summary>
+            Attempts to dequeue the first item in the queue.
+            </summary>
+            <param name="item"> The item at the from of the queue, if the queue was empty; default(T). </param>
+            <returns> Whether an item was successfully dequeued. </returns>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.TryDrain(System.Collections.Generic.IList{`0})">
+            <summary>
+            Attemps to drain the queue in a specified <see cref="T:System.Collections.Generic.IList`1"/>.
+            </summary>
+            <param name="desination"> The destination of the queue data. </param>
+            <returns> The amount of items drained in the destination. </returns>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Peek(System.Int32)">
+            <summary>
+            Gets the specified element without removing it.
+            </summary>
+            <param name="index"> The index of the specific element to peek. </param>
+            <returns> The element at the specified position or default(T) when the queue was empty. </returns>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The index was out of bounds. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Contains(`0)">
+            <summary>
+            Check whether a specified element is in the queue.
+            </summary>
+            <param name="item"> The specific element to check. </param>
+            <returns> Whether the element was in the queue. </returns>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.ToArray">
+            <summary>
+            Converts the queue to an array.
+            </summary>
+            <returns> The queue as an array. </returns>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Clear">
+            <summary>
+            Clears the queue.
+            </summary>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
+        <member name="T:DeJong.Utilities.Utils">
             <summary>
             Contains general utility functions.
             </summary>
         </member>
-        <member name="F:Mentula.Utilities.Utils.HASH_BASE">
+        <member name="F:DeJong.Utilities.Utils.HASH_BASE">
             <summary>
-            The base hash to be used with <see cref="M:Mentula.Utilities.Utils.ComputeHash``1(System.Int32,``0)"/>.
+            The base hash to be used with <see cref="M:DeJong.Utilities.Utils.ComputeHash``1(System.Int32,``0)"/>.
             </summary>
         </member>
-        <member name="P:Mentula.Utilities.Utils.Rng">
+        <member name="P:DeJong.Utilities.Utils.Rng">
             <summary>
             A global random used throughout this library.
             </summary>
         </member>
-        <member name="M:Mentula.Utilities.Utils.ComputeHash``1(System.Int32,``0)">
+        <member name="M:DeJong.Utilities.Utils.ComputeHash``1(System.Int32,``0)">
             <summary>
             Computes the new hash value with a specified object.
             </summary>
             <typeparam name="T"> The type of object. </typeparam>
-            <param name="prevHash"> The previous hash value (<see cref="F:Mentula.Utilities.Utils.HASH_BASE"/> as start value). </param>
+            <param name="prevHash"> The previous hash value (<see cref="F:DeJong.Utilities.Utils.HASH_BASE"/> as start value). </param>
             <param name="obj"> The object to use with computing the new hash. </param>
             <returns> The new hash value. </returns>
         </member>
-        <member name="M:Mentula.Utilities.Utils.TryConvert``2(``0,``1@)">
+        <member name="M:DeJong.Utilities.Utils.TryConvert``2(``0,``1@)">
             <summary>
             Tries to convert from a specified source to a destination type.
             </summary>
@@ -1633,7 +1770,7 @@
             <param name="result"> The variable to be assigned the value. </param>
             <returns> <see langword="true"/> if the cast was successgull; otherwise, <see langword="false"/>. </returns>
         </member>
-        <member name="M:Mentula.Utilities.Utils.PressAnyKeyToContinue">
+        <member name="M:DeJong.Utilities.Utils.PressAnyKeyToContinue">
             <summary>
             Propts the user the message 'Press any key to continue...' and waits for the user to press a key.
             </summary>

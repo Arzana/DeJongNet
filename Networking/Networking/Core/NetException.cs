@@ -1,4 +1,4 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core
 {
     using Utilities.Core;
     using System;

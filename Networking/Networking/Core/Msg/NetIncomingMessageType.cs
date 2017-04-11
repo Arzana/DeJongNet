@@ -1,45 +1,49 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core.Msg
 {
     /// <summary>
     /// The type of a incomming message.
     /// </summary>
-    public enum NetIncomingMessageType : byte
+    public enum NetIncomingMessageType : short
     {
+        /// <summary>
+        /// This value should never appear.
+        /// </summary>
+        None = 0,
         /// <summary>
         /// Status for a connection changed.
         /// </summary>
-        StatusChanged = 0,
+        StatusChanged = 1,
         /// <summary>
         /// Data send using SendUnconnectedMessage.
         /// </summary>
-        UnconnectedData = 1,
+        UnconnectedData = 2,
         /// <summary>
         /// Connection approval is needed.
         /// </summary>
-        ConnectionApproval = 2,
+        ConnectionApproval = 4,
         /// <summary>
         /// Application data.
         /// </summary>
-        Data = 4,
+        Data = 8,
         /// <summary>
         /// Receipt of delivery.
         /// </summary>
-        Receipt = 8,
+        Receipt = 16,
         /// <summary>
         /// Discovery request for a response.
         /// </summary>
-        DiscoveryRequest = 16,
+        DiscoveryRequest = 32,
         /// <summary>
         /// Discovery response for a request.
         /// </summary>
-        DiscoveryResponse = 32,
+        DiscoveryResponse = 64,
         /// <summary>
         /// NAT introduction was successfull.
         /// </summary>
-        NatIntroductionSuccess = 64,
+        NatIntroductionSuccess = 128,
         /// <summary>
         /// A roundtrip was measured and NetConnection.AverageRoundtripTime was updated.
         /// </summary>
-        ConnectionLatencyUpdate = 128
+        ConnectionLatencyUpdate = 256
     }
 }

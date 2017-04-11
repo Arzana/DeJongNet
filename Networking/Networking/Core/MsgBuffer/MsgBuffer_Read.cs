@@ -1,8 +1,10 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core.MsgBuffer
 {
+    using BinaryData;
+    using DataTypes;
     using System;
     using System.Text;
-    using static BitUtils;
+    using static BinaryData.BitUtils;
 
     public partial class MsgBuffer
     {
@@ -13,7 +15,7 @@
         public bool ReadBool()
         {
             RaiseOverflowExceptionIf(1);
-            byte result = BitExporter.ReadByte(data, 1, position);
+            byte result = BitReader.ReadByte(data, 1, position);
             position += 1;
             return result != 0;
         }
@@ -25,7 +27,7 @@
         public byte ReadByte()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
-            byte result = BitExporter.ReadByte(data, BITS_PER_BYTE, position);
+            byte result = BitReader.ReadByte(data, BITS_PER_BYTE, position);
             position += BITS_PER_BYTE;
             return result;
         }
@@ -37,7 +39,7 @@
         public sbyte ReadSByte()
         {
             RaiseOverflowExceptionIf(BITS_PER_BYTE);
-            byte result = BitExporter.ReadByte(data, BITS_PER_BYTE, position);
+            byte result = BitReader.ReadByte(data, BITS_PER_BYTE, position);
             position += BITS_PER_BYTE;
             return (sbyte)result;
         }
@@ -49,7 +51,7 @@
         public short ReadShort()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT16);
-            ushort result = BitExporter.ReadUInt16(data, BITS_PER_INT16, position);
+            ushort result = BitReader.ReadUInt16(data, BITS_PER_INT16, position);
             position += BITS_PER_INT16;
             return (short)result;
         }
@@ -61,7 +63,7 @@
         public ushort ReadUShort()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT16);
-            ushort result = BitExporter.ReadUInt16(data, BITS_PER_INT16, position);
+            ushort result = BitReader.ReadUInt16(data, BITS_PER_INT16, position);
             position += BITS_PER_INT16;
             return result;
         }
@@ -73,7 +75,7 @@
         public int ReadInt()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
-            uint result = BitExporter.ReadUInt32(data, BITS_PER_INT32, position);
+            uint result = BitReader.ReadUInt32(data, BITS_PER_INT32, position);
             position += BITS_PER_INT32;
             return (int)result;
         }
@@ -85,7 +87,7 @@
         public uint ReadUInt()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT32);
-            uint result = BitExporter.ReadUInt32(data, BITS_PER_INT32, position);
+            uint result = BitReader.ReadUInt32(data, BITS_PER_INT32, position);
             position += BITS_PER_INT32;
             return result;
         }
@@ -97,7 +99,7 @@
         public long ReadLong()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
-            ulong result = BitExporter.ReadUInt64(data, BITS_PER_INT64, position);
+            ulong result = BitReader.ReadUInt64(data, BITS_PER_INT64, position);
             position += BITS_PER_INT64;
             return (long)result;
         }
@@ -109,7 +111,7 @@
         public ulong ReadULong()
         {
             RaiseOverflowExceptionIf(BITS_PER_INT64);
-            ulong result = BitExporter.ReadUInt64(data, BITS_PER_INT64, position);
+            ulong result = BitReader.ReadUInt64(data, BITS_PER_INT64, position);
             position += BITS_PER_INT64;
             return result;
         }
@@ -127,7 +129,7 @@
             else
             {
                 byte[] bytes = new byte[sizeof(float)];
-                BitExporter.ReadBytes(data, sizeof(float), position, bytes, 0);
+                BitReader.ReadBytes(data, sizeof(float), position, bytes, 0);
                 result = BitConverter.ToSingle(bytes, 0);
             }
 
@@ -148,7 +150,7 @@
             else
             {
                 byte[] bytes = new byte[sizeof(double)];
-                BitExporter.ReadBytes(data, sizeof(double), position, bytes, 0);
+                BitReader.ReadBytes(data, sizeof(double), position, bytes, 0);
                 result = BitConverter.ToDouble(bytes, 0);
             }
 
@@ -173,7 +175,7 @@
             else
             {
                 byte[] bytes = new byte[length];
-                BitExporter.ReadBytes(data, length, position, bytes, 0);
+                BitReader.ReadBytes(data, length, position, bytes, 0);
                 result = Encoding.UTF8.GetString(bytes, 0, length);
             }
 

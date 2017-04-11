@@ -1,4 +1,4 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core.NetPeer
 {
     /// <summary>
     /// Defines a status for a net peer instance.

@@ -1,4 +1,4 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core.NetPeer
 {
     /// <summary>
     /// Defines the behaviour of unreliable sends above MTU.

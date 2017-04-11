@@ -1,5 +1,6 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core.NetPeer
 {
+    using Msg;
     using System.Diagnostics;
     using System.Net;
 

@@ -1,8 +1,10 @@
-﻿namespace Mentula.Networking.Core
+﻿namespace DeJong.Networking.Core.MsgBuffer
 {
+    using BinaryData;
+    using DataTypes;
     using System;
     using System.Text;
-    using static BitUtils;
+    using static BinaryData.BitUtils;
 
     public partial class MsgBuffer
     {
@@ -13,8 +15,8 @@
         public void Write(bool value)
         {
             EnsureBufferSize(position + 1);
-            BitExporter.WriteByte((byte)(value ? 1 : 0), 1, data, position);
-            position += 1;
+            BitWriter.WriteByte((byte)(value ? 1 : 0), 1, data, length);
+            length += 1;
         }
 
         /// <summary>
@@ -24,8 +26,8 @@
         public void Write(byte value)
         {
             EnsureBufferSize(position + BITS_PER_BYTE);
-            BitExporter.WriteByte(value, BITS_PER_BYTE, data, position);
-            position += BITS_PER_BYTE;
+            BitWriter.WriteByte(value, BITS_PER_BYTE, data, length);
+            length += BITS_PER_BYTE;
         }
 
         /// <summary>
@@ -35,8 +37,8 @@
         public void Write(sbyte value)
         {
             EnsureBufferSize(position + BITS_PER_BYTE);
-            BitExporter.WriteByte((byte)value, BITS_PER_BYTE, data, position);
-            position += BITS_PER_BYTE;
+            BitWriter.WriteByte((byte)value, BITS_PER_BYTE, data, length);
+            length += BITS_PER_BYTE;
         }
 
         /// <summary>
@@ -46,8 +48,8 @@
         public void Write(short value)
         {
             EnsureBufferSize(position + BITS_PER_INT16);
-            BitExporter.WriteUInt16((ushort)value, BITS_PER_INT16, data, position);
-            position += BITS_PER_INT16;
+            BitWriter.WriteUInt16((ushort)value, BITS_PER_INT16, data, length);
+            length += BITS_PER_INT16;
         }
 
         /// <summary>
@@ -57,8 +59,8 @@
         public void Write(ushort value)
         {
             EnsureBufferSize(position + BITS_PER_INT16);
-            BitExporter.WriteUInt16(value, BITS_PER_INT16, data, position);
-            position += BITS_PER_INT16;
+            BitWriter.WriteUInt16(value, BITS_PER_INT16, data, length);
+            length += BITS_PER_INT16;
         }
 
         /// <summary>
@@ -68,8 +70,8 @@
         public void Write(int value)
         {
             EnsureBufferSize(position + BITS_PER_INT32);
-            BitExporter.WriteUInt32((uint)value, BITS_PER_INT32, data, position);
-            position += BITS_PER_INT32;
+            BitWriter.WriteUInt32((uint)value, BITS_PER_INT32, data, length);
+            length += BITS_PER_INT32;
         }
 
         /// <summary>
@@ -79,8 +81,8 @@
         public void Write(uint value)
         {
             EnsureBufferSize(position + BITS_PER_INT32);
-            BitExporter.WriteUInt32(value, BITS_PER_INT32, data, position);
-            position += BITS_PER_INT32;
+            BitWriter.WriteUInt32(value, BITS_PER_INT32, data, length);
+            length += BITS_PER_INT32;
         }
 
         /// <summary>
@@ -90,8 +92,8 @@
         public void Write(long value)
         {
             EnsureBufferSize(position + BITS_PER_INT64);
-            BitExporter.WriteUInt64((ulong)value, BITS_PER_INT64, data, position);
-            position += BITS_PER_INT64;
+            BitWriter.WriteUInt64((ulong)value, BITS_PER_INT64, data, length);
+            length += BITS_PER_INT64;
         }
 
         /// <summary>
@@ -101,8 +103,8 @@
         public void Write(ulong value)
         {
             EnsureBufferSize(position + BITS_PER_INT64);
-            BitExporter.WriteUInt64(value, BITS_PER_INT64, data, position);
-            position += BITS_PER_INT64;
+            BitWriter.WriteUInt64(value, BITS_PER_INT64, data, length);
+            length += BITS_PER_INT64;
         }
 
         /// <summary>
@@ -113,8 +115,8 @@
         {
             EnsureBufferSize(position + BITS_PER_INT32);
             byte[] bytes = BitConverter.GetBytes(value);
-            BitExporter.WriteBytes(bytes, 0, sizeof(float), data, position);
-            position += BITS_PER_INT32;
+            BitWriter.WriteBytes(bytes, 0, sizeof(float), data, length);
+            length += BITS_PER_INT32;
         }
 
         /// <summary>
@@ -125,8 +127,8 @@
         {
             EnsureBufferSize(position + BITS_PER_INT64);
             byte[] bytes = BitConverter.GetBytes(value);
-            BitExporter.WriteBytes(bytes, 0, sizeof(double), data, position);
-            position += BITS_PER_INT64;
+            BitWriter.WriteBytes(bytes, 0, sizeof(double), data, length);
+            length += BITS_PER_INT64;
         }
 
         /// <summary>
@@ -138,8 +140,8 @@
             Write((short)value.Length);
             byte[] bytes = Encoding.UTF8.GetBytes(value);
             EnsureBufferSize(position + (bytes.Length << 3));
-            BitExporter.WriteBytes(bytes, 0, bytes.Length, data, position);
-            position += bytes.Length << 3;
+            BitWriter.WriteBytes(bytes, 0, bytes.Length, data, length);
+            length += bytes.Length << 3;
         }
 
         /// <summary>
@@ -159,7 +161,7 @@
         /// </summary>
         public void WritePadBits()
         {
-            EnsureBufferSize(position = ((position + 7) >> 3) << 3);
+            EnsureBufferSize(length = ((length + 7) >> 3) << 3);
         }
 
         /// <summary>
@@ -168,7 +170,7 @@
         /// <param name="amount"> The amount of bits to pad by. </param>
         public void WritePadBits(int amount)
         {
-            EnsureBufferSize(position += amount);
+            EnsureBufferSize(length += amount);
         }
     }
 }
