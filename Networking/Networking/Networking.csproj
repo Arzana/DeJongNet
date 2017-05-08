@@ -41,6 +41,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Core\Messages\LibHeader.cs" />
+    <Compile Include="Core\Messages\MsgType.cs" />
+    <Compile Include="Core\NetTime.cs" />
+    <Compile Include="Core\NetUtils.cs" />
+    <Compile Include="Core\PacketReceiveEventArgs.cs" />
+    <Compile Include="Core\PeerConfig.cs" />
+    <Compile Include="Core\RawSocket.cs" />
+    <Compile Include="Platform\Win32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
