@@ -1042,17 +1042,55 @@
             <exception cref="T:DeJong.Utilities.Core.LoggedException"> The sender was <see langword="null"/>. </exception>
             <exception cref="T:DeJong.Utilities.Core.InvokeException"> An unhandled exception was thrown in the event handler. </exception>
         </member>
+        <member name="M:DeJong.Utilities.Core.EventInvoker.Invoke``1(System.EventHandler{``0},System.Object,``0)">
+            <summary>
+            Dynamicly invokes the specified handler if it has been set.
+            </summary>
+            <typeparam name="TEventArgs"> The type of arguments. </typeparam>
+            <param name="handler"> The event handler or <see langword="null"/>. </param>
+            <param name="sender"> The object that is attempting to invoke the handler. </param>
+            <param name="args"> The arguments for this call. </param>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The sender was <see langword="null"/>. </exception>
+            <exception cref="T:DeJong.Utilities.Core.InvokeException"> An unhandled excpetion was thrown in the event handler. </exception>
+        </member>
         <member name="M:DeJong.Utilities.Core.EventInvoker.Invoke``2(DeJong.Utilities.Core.StrongEventHandler{``0,``1},``0,``1)">
             <summary>
             Dynamicly invokes the specified handler if it has been set.
             </summary>
             <typeparam name="TSender"> The type of sender. </typeparam>
-            <typeparam name="TArgs"> The type of arguments. </typeparam>
+            <typeparam name="TEventArgs"> The type of arguments. </typeparam>
             <param name="handler"> The event handler or <see langword="null"/>. </param>
             <param name="sender"> The object that is attempting to invoke the handler. </param>
             <param name="args"> The arguments for this call. </param>
             <exception cref="T:DeJong.Utilities.Core.LoggedException"> The sender was <see langword="null"/>. </exception>
             <exception cref="T:DeJong.Utilities.Core.InvokeException"> An unhandled exception was thrown in the event handler. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Core.EventInvoker.InvokeSafe(System.EventHandler,System.Object,System.EventArgs)">
+            <summary>
+            Dynamicly invokes the specified handler if it has been set.
+            </summary>
+            <param name="handler"> The event handler or <see langword="null"/>. </param>
+            <param name="sender"> The object that is attempting to invoke the handler or <see langword="null"/>. </param>
+            <param name="args"> The arguments for this call. </param>
+        </member>
+        <member name="M:DeJong.Utilities.Core.EventInvoker.InvokeSafe``1(System.EventHandler{``0},System.Object,``0)">
+            <summary>
+            Dynamicly invokes the specified handler if it has been set.
+            </summary>
+            <typeparam name="TEventArgs"> The type of arguments. </typeparam>
+            <param name="handler"> The event handler or <see langword="null"/>. </param>
+            <param name="sender"> The object that is attempting to invoke the handler or <see langword="null"/>.  </param>
+            <param name="args"> The arguments for this call. </param>
+        </member>
+        <member name="M:DeJong.Utilities.Core.EventInvoker.InvokeSafe``2(DeJong.Utilities.Core.StrongEventHandler{``0,``1},``0,``1)">
+            <summary>
+            Dynamicly invokes the specified handler if it has been set.
+            </summary>
+            <typeparam name="TSender"> The type of sender. </typeparam>
+            <typeparam name="TEventArgs"> The type of arguments. </typeparam>
+            <param name="handler"> The event handler or <see langword="null"/>. </param>
+            <param name="sender"> The object that is attempting to invoke the handler or <see langword="null"/>. </param>
+            <param name="args"> The arguments for this call. </param>
         </member>
         <member name="T:DeJong.Utilities.Core.IFullyDisposable">
             <summary>
@@ -1166,6 +1204,16 @@
             Contains aditional math functions.
             </summary>
         </member>
+        <member name="F:DeJong.Utilities.Core.ExtraMath.PI">
+            <summary>
+            Represents the value of pi.
+            </summary>
+        </member>
+        <member name="F:DeJong.Utilities.Core.ExtraMath.TAU">
+            <summary>
+            Represents the value of pi times two.
+            </summary>
+        </member>
         <member name="M:DeJong.Utilities.Core.ExtraMath.Clamp(System.Int32,System.Int32,System.Int32)">
             <summary>
             Clamps a integral value between a minimum and a maximum. 
@@ -1179,6 +1227,15 @@
             otherwise, <see langword="false"/>.
             </returns>
         </member>
+        <member name="M:DeJong.Utilities.Core.ExtraMath.Lerp(System.Single,System.Single,System.Single)">
+            <summary>
+            Performs linear interpolation on the specified values.
+            </summary>
+            <param name="amount"> A value between 0 and 1 indicating the interpolation amount. </param>
+            <param name="min"> The specified minimum. </param>
+            <param name="max"> The specified maximum. </param>
+            <returns> The interpolated value. </returns>
+        </member>
         <member name="M:DeJong.Utilities.Core.ExtraMath.InvLerp(System.Single,System.Single,System.Single)">
             <summary>
             Performs inverse linear interpolation on the specified values.
@@ -1187,6 +1244,27 @@
             <param name="min"> The specified minimum. </param>
             <param name="max"> The specfied maximum. </param>
             <returns> The original value before the interpolation. </returns>
+        </member>
+        <member name="M:DeJong.Utilities.Core.ExtraMath.ToDegrees(System.Single)">
+            <summary>
+            Converts radians to degrees.
+            </summary>
+            <param name="rads"> The specified angle in radians to convert. </param>
+            <returns> The angle in degrees. </returns>
+        </member>
+        <member name="M:DeJong.Utilities.Core.ExtraMath.ToRadians(System.Single)">
+            <summary>
+            Converts degree to radians.
+            </summary>
+            <param name="degs"> The specified angle in degrees to convert. </param>
+            <returns> The angle in radians. </returns>
+        </member>
+        <member name="M:DeJong.Utilities.Core.ExtraMath.WrapAngle(System.Single)">
+            <summary>
+            Clamps a specified angle between PI and -PI.
+            </summary>
+            <param name="rads"> The angle in radians to clamp. </param>
+            <returns> The new angle in radians. </returns>
         </member>
         <member name="T:DeJong.Utilities.Core.NoStackTraceException">
             <summary>
@@ -1241,45 +1319,6 @@
         </member>
         <member name="M:DeJong.Utilities.Core.NoStackTraceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <inheritdoc/>
-        </member>
-        <member name="T:DeJong.Utilities.Core.OutAction`1">
-            <summary>
-            Encapsulates a method that has a single out parameter and does not return a value.
-            </summary>
-            <typeparam name="T">
-            The type of the parameter of the method that this delegate encapsulates.
-            This type parameter is contravariant.
-            That is, you can use either the type you specified or any type that is less derived.
-            </typeparam>
-            <param name="arg"> The out parameter of the method that this delegate encapsulates. </param>
-        </member>
-        <member name="T:DeJong.Utilities.Core.OutAction`2">
-            <summary>
-            Encapsulates a method that has one normal parameter, one out parameter and does not return a value.
-            </summary>
-            <typeparam name="T1">
-            The type of the first parameter of the method that this delegate encapsulates.
-            This type parameter is contravariant.
-            That is, you can use either the type you specified or any type that is less derived.
-            </typeparam>
-            <typeparam name="T2"> The type of the out parameter of the method that this delegate encapsulates. </typeparam>
-            <param name="arg1"> The first parameter of the method that this delegate encapsulates. </param>
-            <param name="arg2"> The out parameter of the method that this delegate encapsulates. </param>
-        </member>
-        <member name="T:DeJong.Utilities.Core.OutAction`3">
-            <summary>
-            Encapsulates a method that has two normal parameter, one out parameter and does not return a value.
-            </summary>
-            <typeparam name="T1">
-            The type of the first parameter of the method that this delegate encapsulates.
-            This type parameter is contravariant.
-            That is, you can use either the type you specified or any type that is less derived.
-            </typeparam>
-            <typeparam name="T2"> The second parameter of the method that this delegate encapsulates. </typeparam>
-            <typeparam name="T3"> The type of the out parameter of the method that this delegate encapsulates. </typeparam>
-            <param name="arg1"> The first parameter of the method that this delegate encapsulates. </param>
-            <param name="arg2"> The second parameter of the method that this delegate encapsulates. </param>
-            <param name="arg3"> The out parameter of the method that this delegate encapsulates. </param>
         </member>
         <member name="T:DeJong.Utilities.Core.StrongEventHandler`2">
             <summary>
@@ -1366,7 +1405,7 @@
             <summary>
             Disposes the managed and unmanaged data of the <see cref="T:DeJong.Utilities.Logging.ConsoleLogger"/>.
             </summary>
-            <param name="disposing"></param>
+            <param name="disposing"> Whether the global log should be disposed. </param>
         </member>
         <member name="T:DeJong.Utilities.Logging.LogOutputType">
             <summary>
@@ -1407,6 +1446,14 @@
             <summary>
             Represents a general logging pipeline.
             </summary>
+        </member>
+        <member name="P:DeJong.Utilities.Logging.Log.RecycleBufferSize">
+            <summary>
+            Gets or sets the size of the recycling buffer (zero or negative values will result in no message recycling).
+            </summary>
+            <remarks>
+            Default value = 64.
+            </remarks>
         </member>
         <member name="M:DeJong.Utilities.Logging.Log.Debug(System.String,System.String)">
             <summary>
@@ -1455,6 +1502,12 @@
             Gets the next message to be displayed.
             </summary>
             <returns> The next message, if there is one; otherwise, <see cref="F:DeJong.Utilities.Logging.LogMessage.Empty"/>. </returns>
+        </member>
+        <member name="M:DeJong.Utilities.Logging.Log.FlushLog(DeJong.Utilities.Logging.LogMessage)">
+            <summary>
+            Flushes a specified message.
+            </summary>
+            <param name="msg"> The message to be marked for recycling. </param>
         </member>
         <member name="T:DeJong.Utilities.Logging.LogMessageType">
             <summary>
@@ -1556,6 +1609,41 @@
             <param name="type"> The way the header should be represented. </param>
             <returns> A string containing the header and the message in the specified output format. </returns>
         </member>
+        <member name="T:DeJong.Utilities.Logging.VoidLogger">
+            <summary>
+            Defines a handler that voids logged messages.
+            </summary>
+        </member>
+        <member name="P:DeJong.Utilities.Logging.VoidLogger.AutoUpdate">
+            <summary>
+            Gets or sets whether the <see cref="T:DeJong.Utilities.Logging.VoidLogger"/> should automaticly update itself.
+            </summary>
+        </member>
+        <member name="P:DeJong.Utilities.Logging.VoidLogger.Disposed">
+            <inheritdoc/>
+        </member>
+        <member name="P:DeJong.Utilities.Logging.VoidLogger.Disposing">
+            <inheritdoc/>
+        </member>
+        <member name="M:DeJong.Utilities.Logging.VoidLogger.Finalize">
+            <summary>
+            Disposes and finalizes the <see cref="T:DeJong.Utilities.Logging.VoidLogger"/>
+            </summary>
+        </member>
+        <member name="M:DeJong.Utilities.Logging.VoidLogger.Update">
+            <summary>
+            Voids the logs.
+            </summary>
+        </member>
+        <member name="M:DeJong.Utilities.Logging.VoidLogger.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:DeJong.Utilities.Logging.VoidLogger.Dispose(System.Boolean)">
+            <summary>
+            Disposes the managed and unmanaged data of the <see cref="T:DeJong.Utilities.Logging.VoidLogger"/>.
+            </summary>
+            <param name="disposing"> Whether the global log should be disposed. </param>
+        </member>
         <member name="T:DeJong.Utilities.Threading.StopableThread">
             <summary>
             Contains a continually ticking STA background thread.
@@ -1567,18 +1655,29 @@
         <member name="P:DeJong.Utilities.Threading.StopableThread.Disposing">
             <inheritdoc/>
         </member>
-        <member name="M:DeJong.Utilities.Threading.StopableThread.#ctor(System.Threading.ThreadStart,System.Threading.ThreadStart,System.Threading.ThreadStart)">
+        <member name="M:DeJong.Utilities.Threading.StopableThread.#ctor(System.Threading.ThreadStart,System.Threading.ThreadStart,System.Threading.ThreadStart,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.StopableThread"/> class.
             </summary>
             <param name="init"> The function to call when initialzing the run loop (can be <see langword="null"/>). </param>
             <param name="term"> The function to call when terminating the run loop (can be <see langword="null"/>). </param>
             <param name="tick"> The function that handles the thread tick, cannot be <see langword="null"/>. </param>
+            <param name="name"> The name of the thread. </param>
         </member>
         <member name="M:DeJong.Utilities.Threading.StopableThread.Finalize">
             <summary>
             Disposes and finalizes the <see cref="T:DeJong.Utilities.Threading.StopableThread"/>.
             </summary>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.StopableThread.StartNew(System.Threading.ThreadStart,System.Threading.ThreadStart,System.Threading.ThreadStart,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.StopableThread"/> class and starts it.
+            </summary>
+            <param name="init"> The function to call when initialzing the run loop (can be <see langword="null"/>). </param>
+            <param name="term"> The function to call when terminating the run loop (can be <see langword="null"/>). </param>
+            <param name="tick"> The function that handles the thread tick, cannot be <see langword="null"/>. </param>
+            <param name="name"> The name of the thread. </param>
+            <returns> The newly created thread. </returns>
         </member>
         <member name="M:DeJong.Utilities.Threading.StopableThread.Dispose">
             <summary>
@@ -1658,6 +1757,12 @@
         <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.IsSynchronized">
             <inheritdoc/>
         </member>
+        <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.Disposed">
+            <inheritdoc/>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.Disposing">
+            <inheritdoc/>
+        </member>
         <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/> class with default parameters.
@@ -1668,6 +1773,20 @@
             Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/> class woth a specific initial capacity.
             </summary>
             <param name="initialCapacity"></param>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Finalize">
+            <summary>
+            Terminates this instance of <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/>.
+            </summary>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Dispose(System.Boolean)">
+            <summary>
+            Disposes the managed and unmanaged data of the <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/>.
+            </summary>
+            <param name="disposing"> Whether to dispose unmanaged types. </param>
         </member>
         <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Enqueue(`0)">
             <summary>
@@ -1690,11 +1809,19 @@
             <param name="item"> The item to enqueue. </param>
             <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
         </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Dequeue">
+            <summary>
+            Dequeue's the first item in the queue.
+            </summary>
+            <returns> The item at the front of the queue. </returns>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> The queue was empty. </exception>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
+        </member>
         <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.TryDequeue(`0@)">
             <summary>
             Attempts to dequeue the first item in the queue.
             </summary>
-            <param name="item"> The item at the from of the queue, if the queue was empty; default(T). </param>
+            <param name="item"> The item at the front of the queue, if the queue was empty; default(T). </param>
             <returns> Whether an item was successfully dequeued. </returns>
             <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
         </member>
@@ -1736,6 +1863,16 @@
             </summary>
             <exception cref="T:DeJong.Utilities.Core.LoggedException"> An unhandled exception occured whilst excecuting the method. </exception>
         </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.CopyTo(System.Array,System.Int32)">
+            <summary>
+            Copies the underlying array to the specified array.
+            </summary>
+            <param name="array"> The destination array. </param>
+            <param name="index"> The offset for the destination array. </param>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.GetEnumerator">
+            <inheritdoc/>
+        </member>
         <member name="T:DeJong.Utilities.Utils">
             <summary>
             Contains general utility functions.
@@ -1759,6 +1896,21 @@
             <param name="prevHash"> The previous hash value (<see cref="F:DeJong.Utilities.Utils.HASH_BASE"/> as start value). </param>
             <param name="obj"> The object to use with computing the new hash. </param>
             <returns> The new hash value. </returns>
+            <remarks>
+            Example use:
+            <code>
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    int hash = HASH_BASE;
+                    hash += ComputeHash(hash, field0);
+                    hash += ComputeHash(hash, field1);
+                    return hash;
+                }
+            }
+            </code>
+            </remarks>
         </member>
         <member name="M:DeJong.Utilities.Utils.TryConvert``2(``0,``1@)">
             <summary>
@@ -1772,7 +1924,7 @@
         </member>
         <member name="M:DeJong.Utilities.Utils.PressAnyKeyToContinue">
             <summary>
-            Propts the user the message 'Press any key to continue...' and waits for the user to press a key.
+            Prompts the user the message 'Press any key to continue...' and waits for the user to press a key.
             </summary>
         </member>
     </members>

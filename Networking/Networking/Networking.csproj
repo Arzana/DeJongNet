@@ -44,6 +44,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Core\Messages\LibHeader.cs" />
     <Compile Include="Core\Messages\MsgType.cs" />
+    <Compile Include="Core\Messages\NetFlags.cs" />
     <Compile Include="Core\NetTime.cs" />
     <Compile Include="Core\NetUtils.cs" />
     <Compile Include="Core\PacketReceiveEventArgs.cs" />

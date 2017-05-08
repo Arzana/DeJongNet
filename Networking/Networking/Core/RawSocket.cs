@@ -9,8 +9,11 @@
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    internal sealed class RawSocket
+    internal sealed class RawSocket : IFullyDisposable
     {
+        public bool Disposed { get; private set; }
+        public bool Disposing { get; private set; }
+
         public byte[] SendBuffer { get; set; }
         public byte[] ReceiveBuffer { get; set; }
 
@@ -29,6 +32,17 @@
 
             lastBindCall = float.MinValue;
             this.config = config;
+        }
+
+        public void Dispose()
+        {
+            if (!Disposed)
+            {
+                Disposing = true;
+                if (socket?.IsBound == true) UnBind();
+                Disposing = false;
+                Disposed = true;
+            }
         }
 
         public void Bind(bool reBind)
