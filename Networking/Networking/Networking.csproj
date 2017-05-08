@@ -7,7 +7,7 @@
     <ProjectGuid>{E9DF4B61-48BB-49E8-9030-6A14174733EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mentula.Networking</RootNamespace>
+    <RootNamespace>DeJong.Networking</RootNamespace>
     <AssemblyName>Networking</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -32,43 +32,15 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
     <Reference Include="Utilities">
       <HintPath>..\Dll\Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\BinaryData\BitReader.cs" />
-    <Compile Include="Core\BinaryData\BitUtils.cs" />
-    <Compile Include="Core\BinaryData\BitWriter.cs" />
-    <Compile Include="Core\Channels\NetReceiverChannelBase.cs" />
-    <Compile Include="Core\Channels\NetSenderChannelBase.cs" />
-    <Compile Include="Core\Connections\NetConnection.cs" />
-    <Compile Include="Core\Connections\NetConnectionStats.cs" />
-    <Compile Include="Core\Connections\NetConnectionStatus.cs" />
-    <Compile Include="Core\Connections\NetConnection_MTU.cs" />
-    <Compile Include="Core\DataTypes\BitFlags.cs" />
-    <Compile Include="Core\MsgBuffer\MsgBuffer.cs" />
-    <Compile Include="Core\MsgBuffer\MsgBuffer_Peek.cs" />
-    <Compile Include="Core\MsgBuffer\MsgBuffer_Read.cs" />
-    <Compile Include="Core\MsgBuffer\MsgBuffer_Write.cs" />
-    <Compile Include="Core\Msg\NetDeliveryMethod.cs" />
-    <Compile Include="Core\Msg\NetIncomingMessageType.cs" />
-    <Compile Include="Core\Msg\NetIncomingMsg.cs" />
-    <Compile Include="Core\Msg\NetMsgType.cs" />
-    <Compile Include="Core\Msg\NetOutgoingMsg.cs" />
-    <Compile Include="Core\NetException.cs" />
-    <Compile Include="Core\NetPeer\NetPeer.cs" />
-    <Compile Include="Core\NetPeer\NetPeerConfig.cs" />
-    <Compile Include="Core\NetPeer\NetPeerStatus.cs" />
-    <Compile Include="Core\NetPeer\NetUnreliableSizeBehaviour.cs" />
-    <Compile Include="Core\Pair.cs" />
-    <Compile Include="Core\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

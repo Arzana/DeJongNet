@@ -1,7 +1,6 @@
 ﻿namespace TestProject
-{
-    using Mentula.Networking.Core;
-    using System;
+{ 
+   using System;
 
     public static class Program
     {
