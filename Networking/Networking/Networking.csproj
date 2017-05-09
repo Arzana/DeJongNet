@@ -42,8 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Core\DataHandlers\BitReader.cs" />
+    <Compile Include="Core\DataHandlers\BitWriter.cs" />
     <Compile Include="Core\Messages\LibHeader.cs" />
+    <Compile Include="Core\Messages\MsgBuffer.Peek.cs" />
+    <Compile Include="Core\Messages\MsgBuffer.Read.cs" />
+    <Compile Include="Core\Messages\MsgBuffer.Write.cs" />
     <Compile Include="Core\Messages\MsgType.cs" />
+    <Compile Include="Core\Messages\MsgBuffer.cs" />
     <Compile Include="Core\Messages\NetFlags.cs" />
     <Compile Include="Core\NetTime.cs" />
     <Compile Include="Core\NetUtils.cs" />

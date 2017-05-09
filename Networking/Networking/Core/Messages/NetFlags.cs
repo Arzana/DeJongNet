@@ -7,6 +7,9 @@
     /// <summary>
     /// Defines a fixed size vector of booleans.
     /// </summary>
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public sealed class NetFlags
     {
         /// <summary>
@@ -25,6 +28,7 @@
         /// </summary>
         /// <param name="index"> The specific index in bits. </param>
         /// <returns> The value of the boolean at the specified index. </returns>
+        /// <exception cref="LoggedException"> The index was out of bounds. </exception>
         public bool this[int index]
         {
             get { return Get(index); }
@@ -35,6 +39,7 @@
         /// Initializes a new instance of the <see cref="NetFlags"/> class with a fixed capacity.
         /// </summary>
         /// <param name="capacity"> The fixed capacity of the vector. </param>
+        /// <exception cref="LoggedException"> The capacity was lower than one. </exception>
         public NetFlags(int capacity)
         {
             LoggedException.RaiseIf(capacity < 1, nameof(NetFlags), "Capacity must be at least 1");
@@ -47,6 +52,7 @@
         /// </summary>
         /// <param name="index"> The specified index. </param>
         /// <returns> The value at the specified index. </returns>
+        /// <exception cref="LoggedException"> The index was out of bounds. </exception>
         public bool Get(int index)
         {
             CheckIndex(index);
@@ -79,6 +85,7 @@
         /// </summary>
         /// <param name="index"> The specified index. </param>
         /// <param name="value"> The new value of the boolean. </param>
+        /// <exception cref="LoggedException"> The index was out of bounds. </exception>
         public void Set(int index, bool value)
         {
             CheckIndex(index);
@@ -102,7 +109,6 @@
         {
             Array.Clear(data, 0, Capacity);
             Count = 0;
-            LoggedException.RaiseIf(Count > 0, nameof(NetFlags), "Failed to clear flags");
         }
 
         /// <inheritdoc/>
