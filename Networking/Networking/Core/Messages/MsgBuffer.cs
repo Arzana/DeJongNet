@@ -23,22 +23,17 @@ namespace DeJong.Networking.Core.Messages
         /// <summary>
         /// Gets or sets the length of the message buffer in bits.
         /// </summary>
-        public int LengthBits { get { return length; } set { EnsureBufferSize(length = value); } }
+        public int LengthBits { get { return length; } internal set { EnsureBufferSize(length = value); } }
         /// <summary>
         /// Gets ot sets the length of the message buffer in bytes.
         /// </summary>
-        public int LengthBytes { get { return (length + 7) >> 3; } set { EnsureBufferSize(length = value << 3); } }
+        public int LengthBytes { get { return (length + 7) >> 3; } internal set { EnsureBufferSize(length = value << 3); } }
 
         private bool BitAlligned { get { return (position % 8) == 0; } }
 
         private byte[] data;
         private int position;
         private int length;
-
-        internal MsgBuffer(int initialSize)
-        {
-            EnsureBufferSize(initialSize);
-        }
 
         internal void CopyData(byte[] destination, int offset)
         {

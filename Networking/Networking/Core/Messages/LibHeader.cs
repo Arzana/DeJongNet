@@ -18,12 +18,20 @@
         public readonly int SequenceNumber;
         public readonly int PacketSize;
 
-        public LibHeader(byte[] data)
+        public LibHeader(MsgBuffer buffer)
         {
-            Type = (MsgType)data[0];
-            Fragment = (data[1] & 0x80) != 0;
-            SequenceNumber = ((data[1] & 0x7F) << 8) | data[2];
-            PacketSize = (data[3] << 8) | data[4];
+            Type = (MsgType)buffer.ReadByte();
+            Fragment = buffer.ReadBool();
+            SequenceNumber = (buffer.ReadPadBits(7) << 8) | buffer.ReadByte();
+            PacketSize = buffer.ReadInt16();
+        }
+
+        public LibHeader(MsgType type, int fragGroup, int sequenceNum, int dataSize)
+        {
+            Type = type;
+            Fragment = fragGroup != 0;
+            SequenceNumber = sequenceNum;
+            PacketSize = dataSize;
         }
 
         public override bool Equals(object obj)

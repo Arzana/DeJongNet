@@ -6,9 +6,23 @@ namespace DeJong.Networking.Core
     using System.Net;
     using System.Net.NetworkInformation;
     using System.Net.Sockets;
+    using System.Security.Cryptography;
 
     internal static partial class NetUtils
     {
+        private static readonly SHA256 sha = SHA256.Create();
+
+        public static byte[] ComputeSHAHash(byte[] bytes, int offset, int count)
+        {
+            return sha.ComputeHash(bytes, offset, count);
+        }
+
+        public static byte[] GetMacAdderssBytes()
+        {
+            NetworkInterface ni = GetNetworkInterface();
+            return ni != null ? ni.GetPhysicalAddress().GetAddressBytes() : null;
+        }
+
         private static IPAddress GetNewBroadcastAddress()
         {
             NetworkInterface ni = GetNetworkInterface();

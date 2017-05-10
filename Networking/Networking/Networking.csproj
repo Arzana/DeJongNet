@@ -44,6 +44,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Core\DataHandlers\BitReader.cs" />
     <Compile Include="Core\DataHandlers\BitWriter.cs" />
+    <Compile Include="Core\Messages\FragmentHeader.cs" />
     <Compile Include="Core\Messages\LibHeader.cs" />
     <Compile Include="Core\Messages\MsgBuffer.Peek.cs" />
     <Compile Include="Core\Messages\MsgBuffer.Read.cs" />
@@ -51,10 +52,13 @@
     <Compile Include="Core\Messages\MsgType.cs" />
     <Compile Include="Core\Messages\MsgBuffer.cs" />
     <Compile Include="Core\Messages\NetFlags.cs" />
+    <Compile Include="Core\Messages\OutgoingMessage.cs" />
     <Compile Include="Core\NetTime.cs" />
     <Compile Include="Core\NetUtils.cs" />
     <Compile Include="Core\PacketReceiveEventArgs.cs" />
     <Compile Include="Core\PeerConfig.cs" />
+    <Compile Include="Core\Peers\Connection.cs" />
+    <Compile Include="Core\Peers\ConnectionStatus.cs" />
     <Compile Include="Core\RawSocket.cs" />
     <Compile Include="Platform\Win32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
