@@ -13,6 +13,8 @@
     [DebuggerDisplay("[{ToString()}]")]
     internal struct LibHeader : IEquatable<LibHeader>
     {
+        public const int SIZE_BITS = 5 << 3;
+
         public readonly MsgType Type;
         public readonly bool Fragment;
         public readonly int SequenceNumber;
@@ -32,6 +34,15 @@
             Fragment = fragGroup != 0;
             SequenceNumber = sequenceNum;
             PacketSize = dataSize;
+        }
+
+        public void WriteToBuffer(MsgBuffer buffer)
+        {
+            buffer.EnsureBufferSize(buffer.LengthBits + SIZE_BITS);
+            buffer.Write((byte)Type);
+            buffer.Write(Fragment);
+            buffer.WritePartial((ulong)SequenceNumber, 15);
+            buffer.Write((ushort)PacketSize);
         }
 
         public override bool Equals(object obj)

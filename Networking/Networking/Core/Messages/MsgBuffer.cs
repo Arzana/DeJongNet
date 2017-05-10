@@ -35,12 +35,19 @@ namespace DeJong.Networking.Core.Messages
         private int position;
         private int length;
 
+        internal MsgBuffer() { }
+
+        internal MsgBuffer(byte[] data)
+        {
+            this.data = data;
+        }
+
         internal void CopyData(byte[] destination, int offset)
         {
             Array.Copy(data, 0, destination, offset, data.Length);
         }
 
-        private void EnsureBufferSize(int numBits)
+        internal void EnsureBufferSize(int numBits)
         {
             int byteLen = (numBits + 7) >> 3;
             if (data == null) data = new byte[byteLen];

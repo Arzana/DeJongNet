@@ -2,33 +2,72 @@
 {
     internal struct FragmentHeader
     {
-        public int Group { get; private set; }      // Wich group of fragments this belongs to.
-        public int TotalBits { get; private set; }  // Total number of bits in this group.
-        public int ChunkSize { get; private set; }  // Size (in  bytes) of every chunk but the last one.
-        public int ChunkNum { get; private set; }   // With number chunk this is, starts at zero.
+        public int Group { get; private set; }          // Wich group of fragments this belongs to.
+        public int TotalBits { get; private set; }      // Total number of bits in this group.
+        public int FragmentSize { get; private set; }   // Size (in  bytes) of every chunk but the last one.
+        public int FragmentNum { get; private set; }    // With number chunk this is, starts at zero.
 
         public FragmentHeader(MsgBuffer buffer)
         {
             Group = GetValue(buffer);
             TotalBits = GetValue(buffer);
-            ChunkSize = GetValue(buffer);
-            ChunkNum = GetValue(buffer);
+            FragmentSize = GetValue(buffer);
+            FragmentNum = GetValue(buffer);
         }
 
         public FragmentHeader(int group, int totalSize, int chunkSize, int chunkNum)
         {
             Group = group;
             TotalBits = totalSize;
-            ChunkSize = chunkSize;
-            ChunkNum = chunkNum;
+            FragmentSize = chunkSize;
+            FragmentNum = chunkNum;
         }
 
         public void Reset()
         {
             Group = 0;
             TotalBits = 0;
-            ChunkSize = 0;
-            ChunkNum = 0;
+            FragmentSize = 0;
+            FragmentNum = 0;
+        }
+
+        public int GetSizeBits()
+        {
+            int result = 4;
+
+            IncrementSize((uint)Group, ref result);
+            IncrementSize((uint)TotalBits, ref result);
+            IncrementSize((uint)FragmentSize, ref result);
+            IncrementSize((uint)FragmentNum, ref result);
+
+            return result;
+        }
+
+        public void WriteToBuffer(MsgBuffer buffer)
+        {
+            buffer.EnsureBufferSize(buffer.LengthBits + GetSizeBits());
+            WriteVariableSize(buffer, (uint)Group);
+            WriteVariableSize(buffer, (uint)TotalBits);
+            WriteVariableSize(buffer, (uint)FragmentSize);
+            WriteVariableSize(buffer, (uint)FragmentNum);
+        }
+
+        private static void WriteVariableSize(MsgBuffer buffer, uint value)
+        {
+            while (value >= 0x80)
+            {
+                buffer.Write((byte)(value | 0x80));
+                value >>= 7;
+            }
+        }
+
+        private static void IncrementSize(uint value, ref int result)
+        {
+            while (value >= 0x80)
+            {
+                ++result;
+                value >>= 7;
+            }
         }
 
         // Loop untill a value is assigned.

@@ -156,5 +156,17 @@
         {
             EnsureBufferSize(length += amount);
         }
+
+        /// <summary>
+        /// Writes a specified number of bits from a ulong to the buffer.
+        /// </summary>
+        /// <param name="value"> The container for the value. </param>
+        /// <param name="bitAmount"> The amount of bits to write. </param>
+        public void WritePartial(ulong value, int bitAmount)
+        {
+            EnsureBufferSize(length + bitAmount);
+            BitWriter.WriteUInt64(data, value, length, bitAmount);
+            length += bitAmount;
+        }
     }
 }

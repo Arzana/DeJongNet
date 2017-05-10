@@ -4,11 +4,16 @@
 
     public sealed class OutgoingMsg : MsgBuffer
     {
-        private MsgType type;
-        private bool isSend;
+        internal bool IsSend { get; set; }
 
+        private MsgType type;
         private int recyclingCount;
         private FragmentHeader fragHeader;
+
+        internal OutgoingMsg(MsgType type)
+        {
+            this.type = type;
+        }
 
         internal LibHeader GenerateHeader(int sequenceNumber)
         {
@@ -21,13 +26,13 @@
 
             type = MsgType.LibraryError;
             LengthBits = 0;
-            isSend = false;
+            IsSend = false;
             fragHeader.Reset();
         }
 
         public override string ToString()
         {
-            return $"[{nameof(OutgoingMsg)}{(isSend ? $" {type}" : string.Empty)} {LengthBytes} bytes]";
+            return $"[{nameof(OutgoingMsg)}{(IsSend ? $" {type}" : string.Empty)} {LengthBytes} bytes]";
         }
     }
 }
