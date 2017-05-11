@@ -1,6 +1,11 @@
 ﻿namespace DeJong.Networking.Core.Messages
 {
-    internal struct FragmentHeader
+    using Utilities;
+    using System;
+    using System.Diagnostics;
+
+    [DebuggerDisplay("[{ToString()}]")]
+    public struct FragmentHeader : IEquatable<FragmentHeader>
     {
         public int Group { get; private set; }          // Wich group of fragments this belongs to.
         public int TotalBits { get; private set; }      // Total number of bits in this group.
@@ -23,15 +28,43 @@
             FragmentNum = chunkNum;
         }
 
-        public void Reset()
+        // Get maximum chunk size including the library header(5 bytes) and fragmentation header(minimum 4 bytes).
+        // Create temporary header.
+        // Get estimated fragmentation header size.
+        // Update result.
+        // Keep reducing fragment size until it fits within MTU.
+        // Update number of fragments.
+        public static int GetChunkSize(int group, int totalBytes, int mtu)
         {
-            Group = 0;
-            TotalBits = 0;
-            FragmentSize = 0;
-            FragmentNum = 0;
+            int result = mtu - LibHeader.SIZE_BYTES - 4;
+            FragmentHeader tempHeader = new FragmentHeader(group, totalBytes, result, totalBytes / result);
+            int headerSize = tempHeader.GetSizeBytes();
+            result = mtu - LibHeader.SIZE_BYTES - headerSize;
+
+            do
+            {
+                --result;
+
+                int numChunks = totalBytes / result;
+                if (numChunks * result < totalBytes) ++numChunks;
+
+                tempHeader.FragmentSize = result;
+                tempHeader.FragmentNum = numChunks;
+                headerSize = tempHeader.GetSizeBytes();
+            } while (result + headerSize + LibHeader.SIZE_BYTES + 1 >= mtu);
+
+            return result;
         }
 
-        public int GetSizeBits()
+        public void ReInit(int group, int totalSize, int chunkSize, int chunkNum)
+        {
+            Group = group;
+            TotalBits = totalSize;
+            FragmentSize = chunkSize;
+            FragmentNum = chunkNum;
+        }
+
+        public int GetSizeBytes()
         {
             int result = 4;
 
@@ -45,11 +78,37 @@
 
         public void WriteToBuffer(MsgBuffer buffer)
         {
-            buffer.EnsureBufferSize(buffer.LengthBits + GetSizeBits());
+            buffer.EnsureBufferSize(buffer.LengthBits + (GetSizeBytes() << 3));
             WriteVariableSize(buffer, (uint)Group);
             WriteVariableSize(buffer, (uint)TotalBits);
             WriteVariableSize(buffer, (uint)FragmentSize);
             WriteVariableSize(buffer, (uint)FragmentNum);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == typeof(FragmentHeader) ? Equals((FragmentHeader)obj) : false;
+        }
+
+        public bool Equals(FragmentHeader other)
+        {
+            return other.Group == Group && other.FragmentNum == FragmentNum;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = Utils.HASH_BASE;
+                hash += Utils.ComputeHash(hash, Group);
+                hash += Utils.ComputeHash(hash, FragmentNum);
+                return hash;
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"{Group}#{FragmentNum} ({FragmentSize}/{TotalBits >> 3} bytes)";
         }
 
         private static void WriteVariableSize(MsgBuffer buffer, uint value)

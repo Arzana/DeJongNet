@@ -13,7 +13,8 @@
     [DebuggerDisplay("[{ToString()}]")]
     internal struct LibHeader : IEquatable<LibHeader>
     {
-        public const int SIZE_BITS = 5 << 3;
+        public const int SIZE_BYTES = 5;
+        public const int SIZE_BITS = SIZE_BYTES << 3;
 
         public readonly MsgType Type;
         public readonly bool Fragment;
@@ -28,10 +29,10 @@
             PacketSize = buffer.ReadInt16();
         }
 
-        public LibHeader(MsgType type, int fragGroup, int sequenceNum, int dataSize)
+        public LibHeader(MsgType type, bool isFragment, int sequenceNum, int dataSize)
         {
             Type = type;
-            Fragment = fragGroup != 0;
+            Fragment = isFragment;
             SequenceNumber = sequenceNum;
             PacketSize = dataSize;
         }

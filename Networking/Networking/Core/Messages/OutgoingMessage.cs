@@ -1,38 +1,52 @@
 ﻿namespace DeJong.Networking.Core.Messages
 {
-    using Utilities.Core;
+    using System.Collections.Generic;
 
     public sealed class OutgoingMsg : MsgBuffer
     {
         internal bool IsSend { get; set; }
 
         private MsgType type;
-        private int recyclingCount;
-        private FragmentHeader fragHeader;
 
         internal OutgoingMsg(MsgType type)
         {
             this.type = type;
         }
 
-        internal LibHeader GenerateHeader(int sequenceNumber)
+        internal LibHeader GenerateHeader(int sequenceNumber, int mtu)
         {
-            return new LibHeader(type, fragHeader.Group, sequenceNumber, LengthBytes);
+            return new LibHeader(type, NeedsFragmentation(mtu), sequenceNumber, LengthBytes);
         }
 
-        internal void Reset()
+        internal Dictionary<FragmentHeader, OutgoingMsg> ToFragments(int group, int mtu)
         {
-            LoggedException.RaiseIf(recyclingCount != 0, nameof(OutgoingMsg), $"Reset called on non garbage message");
+            Dictionary<FragmentHeader, OutgoingMsg> result = new Dictionary<FragmentHeader, OutgoingMsg>();
+            int fragmentSize = FragmentHeader.GetChunkSize(group, LengthBytes, mtu);
 
-            type = MsgType.LibraryError;
-            LengthBits = 0;
-            IsSend = false;
-            fragHeader.Reset();
+            int bytesLeft = LengthBytes, curFragmentSize = fragmentSize;
+            for (int i = 0; bytesLeft > 0; i++)
+            {
+                if (curFragmentSize > bytesLeft) curFragmentSize = bytesLeft;
+                bytesLeft -= curFragmentSize;
+                FragmentHeader header = new FragmentHeader(group, LengthBits, curFragmentSize, i);
+
+                OutgoingMsg msg = new OutgoingMsg(type);
+                CopyData(msg, i * fragmentSize, header.FragmentSize);
+
+                result.Add(header, msg);
+            }
+
+            return result;
         }
 
         public override string ToString()
         {
             return $"[{nameof(OutgoingMsg)}{(IsSend ? $" {type}" : string.Empty)} {LengthBytes} bytes]";
+        }
+
+        private bool NeedsFragmentation(int mtu)
+        {
+            return LengthBytes >= mtu;
         }
     }
 }
