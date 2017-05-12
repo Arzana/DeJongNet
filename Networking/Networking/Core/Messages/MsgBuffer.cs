@@ -31,7 +31,7 @@ namespace DeJong.Networking.Core.Messages
 
         private bool BitAlligned { get { return (position % 8) == 0; } }
 
-        private byte[] data;
+        protected byte[] data;
         private int position;
         private int length;
 

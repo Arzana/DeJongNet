@@ -4,8 +4,7 @@
 
     public partial class Connection
     {
-        public long ID { get; private set; }
-        public string ReadableID { get { return NetUtils.ToHexString(ID); } }
+        public NetID ID { get; private set; }
         public ConnectionStatus Status { get; private set; }
         public IPEndPoint RemoteEndPoint { get; private set; }
     }
