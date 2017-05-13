@@ -11,6 +11,8 @@
 #endif
     internal sealed class RawSocket : IFullyDisposable
     {
+        public IPEndPoint BoundEP { get { return socket.LocalEndPoint as IPEndPoint; } }
+
         public bool Disposed { get; private set; }
         public bool Disposing { get; private set; }
 

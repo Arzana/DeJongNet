@@ -3,8 +3,16 @@
     using DataHandlers;
     using System.Text;
 
-    public abstract class WriteableBuffer : MsgBuffer
+    public class WriteableBuffer : MsgBuffer
     {
+        public WriteableBuffer() { }
+
+        public WriteableBuffer(byte[] buffer)
+            : base(buffer)
+        {
+
+        }
+
         /// <summary>
         /// Writes a bool to the buffer as 1 bit and increases the length if needed.
         /// </summary>

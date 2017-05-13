@@ -6,7 +6,6 @@
 
     public sealed partial class Connection
     {
-        public NetID ID { get; private set; }
         public ConnectionStatus Status { get; private set; }
         public IPEndPoint RemoteEndPoint { get; private set; }
 
@@ -17,9 +16,8 @@
         private ThreadSafeQueue<OutgoingMsg> toSend;
         private int pingCount;
 
-        internal Connection(NetID id)
+        internal Connection()
         {
-            ID = id;
             received = new ThreadSafeQueue<IncommingMsg>();
             toSend = new ThreadSafeQueue<OutgoingMsg>();
         }

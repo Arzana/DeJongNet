@@ -47,7 +47,7 @@
                 result[i << 1] = (char)(high > 9 ? high + 0x37 : high + 0x30);
 
                 byte low = (byte)(data[i] & 0xF);
-                result[(i << 2) + 1] = (char)(low > 9 ? low + 0x37 : low + 0x30);
+                result[(i << 1) + 1] = (char)(low > 9 ? low + 0x37 : low + 0x30);
             }
 
             return new string(result);

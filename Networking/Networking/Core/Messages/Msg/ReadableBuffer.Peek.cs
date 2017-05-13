@@ -3,7 +3,7 @@
     using DataHandlers;
     using System.Text;
 
-    public abstract partial class ReadableBuffer : MsgBuffer
+    public partial class ReadableBuffer : MsgBuffer
     {
         /// <summary>
         /// Reads the next bit from the buffer as a bool without increasing the position.

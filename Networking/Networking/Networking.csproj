@@ -62,8 +62,11 @@
     <Compile Include="Core\Peers\Connection.cs" />
     <Compile Include="Core\Peers\Connection.Send.cs" />
     <Compile Include="Core\Peers\ConnectionStatus.cs" />
+    <Compile Include="Core\Peers\NetClient.cs" />
     <Compile Include="Core\Peers\NetID.cs" />
+    <Compile Include="Core\Peers\NetServer.cs" />
     <Compile Include="Core\Peers\Peer.cs" />
+    <Compile Include="Core\Peers\PeerStatus.cs" />
     <Compile Include="Core\RawSocket.cs" />
     <Compile Include="Platform\Win32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

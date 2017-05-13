@@ -21,6 +21,10 @@
         /// </summary>
         public IPAddress LocalAddress { get { return localAddress; } set { CheckLock(); localAddress = value; } }
         /// <summary>
+        /// Gets or sets the maximum transmision unit.
+        /// </summary>
+        public int MTU { get; set; }
+        /// <summary>
         /// Gets or sets the port that the socket should use (may differ from actual port).
         /// </summary>
         public int Port { get { return port; } set { CheckLock(); port = value; } }
@@ -49,6 +53,7 @@
             AppID = id;
 
             LocalAddress = IPAddress.Any;
+            MTU = Constants.MTU_ETHERNET;
             ReceiveBufferSize = Constants.DEFAULT_BUFFER_SIZE;
             SendBufferSize = Constants.DEFAULT_BUFFER_SIZE;
         }

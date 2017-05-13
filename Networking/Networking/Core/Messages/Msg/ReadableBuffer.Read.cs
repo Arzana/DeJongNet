@@ -3,7 +3,7 @@
     using DataHandlers;
     using System.Text;
 
-    public abstract partial class ReadableBuffer : MsgBuffer
+    public partial class ReadableBuffer : MsgBuffer
     {
         internal ReadableBuffer()
             : base()
