@@ -9,10 +9,10 @@
     {
         public int Group { get; private set; }          // Wich group of fragments this belongs to.
         public int TotalBits { get; private set; }      // Total number of bits in this group.
-        public int FragmentSize { get; private set; }   // Size (in  bytes) of every chunk but the last one.
-        public int FragmentNum { get; private set; }    // With number chunk this is, starts at zero.
+        public int FragmentSize { get; private set; }   // Size (in  bytes) of every chunk but the last one (probably).
+        public int FragmentNum { get; private set; }    // With number chunk this is (starts at zero).
 
-        public FragmentHeader(MsgBuffer buffer)
+        public FragmentHeader(ReadableBuffer buffer)
         {
             Group = GetValue(buffer);
             TotalBits = GetValue(buffer);
@@ -56,14 +56,6 @@
             return result;
         }
 
-        public void ReInit(int group, int totalSize, int chunkSize, int chunkNum)
-        {
-            Group = group;
-            TotalBits = totalSize;
-            FragmentSize = chunkSize;
-            FragmentNum = chunkNum;
-        }
-
         public int GetSizeBytes()
         {
             int result = 4;
@@ -76,7 +68,7 @@
             return result;
         }
 
-        public void WriteToBuffer(MsgBuffer buffer)
+        public void WriteToBuffer(WriteableBuffer buffer)
         {
             buffer.EnsureBufferSize(buffer.LengthBits + (GetSizeBytes() << 3));
             WriteVariableSize(buffer, (uint)Group);
@@ -111,7 +103,7 @@
             return $"{Group}#{FragmentNum} ({FragmentSize}/{TotalBits >> 3} bytes)";
         }
 
-        private static void WriteVariableSize(MsgBuffer buffer, uint value)
+        private static void WriteVariableSize(WriteableBuffer buffer, uint value)
         {
             while (value >= 0x80)
             {
@@ -140,7 +132,7 @@
         // 9 bit third byte flag (set if more bytes are needed for the value)
         // 10-16 bits second (if flag is set) byte of the value
         // etc
-        private static int GetValue(MsgBuffer buffer)
+        private static int GetValue(ReadableBuffer buffer)
         {
             int temp = 0, byteIndex = 0, result = -1;
 

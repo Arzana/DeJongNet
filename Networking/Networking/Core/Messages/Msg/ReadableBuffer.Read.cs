@@ -3,8 +3,16 @@
     using DataHandlers;
     using System.Text;
 
-    public abstract partial class MsgBuffer
+    public abstract partial class ReadableBuffer : MsgBuffer
     {
+        internal ReadableBuffer()
+            : base()
+        { }
+
+        internal ReadableBuffer(byte[] buffer)
+            : base(buffer)
+        { }
+
         /// <summary>
         /// Reads the next bit from the buffer as a bool and increases the position by 1.
         /// </summary>
@@ -12,7 +20,7 @@
         public bool ReadBool()
         {
             bool result = PeekBool();
-            position += 1;
+            PositionBits += 1;
             return result;
         }
 
@@ -23,7 +31,7 @@
         public byte ReadByte()
         {
             byte result = PeekByte();
-            position += 8;
+            PositionBits += 8;
             return result;
         }
 
@@ -52,7 +60,7 @@
         public ushort ReadUInt16()
         {
             ushort result = PeekUInt16();
-            position += 16;
+            PositionBits += 16;
             return result;
         }
 
@@ -72,7 +80,7 @@
         public uint ReadUInt32()
         {
             uint result = PeekUInt32();
-            position += 32;
+            PositionBits += 32;
             return result;
         }
 
@@ -92,7 +100,7 @@
         public ulong ReadUInt64()
         {
             ulong result = PeekUInt64();
-            position += 64;
+            PositionBits += 64;
             return result;
         }
 
@@ -103,7 +111,7 @@
         public float ReadSingle()
         {
             float result = PeekSingle();
-            position += 32;
+            PositionBits += 32;
             return result;
         }
 
@@ -114,7 +122,7 @@
         public double ReadDouble()
         {
             double result = PeekDouble();
-            position += 64;
+            PositionBits += 64;
             return result;
         }
 
@@ -128,15 +136,15 @@
             if (length < 1) return string.Empty;
 
             string result;
-            if (BitAlligned) result = Encoding.UTF8.GetString(data, position >> 3, length);
+            if (BitAlligned) result = Encoding.UTF8.GetString(data, PositionBytes, length);
             else
             {
                 byte[] bytes = new byte[length];
-                BitReader.ReadBytes(data, position, length, bytes, 0);
+                BitReader.ReadBytes(data, PositionBits, length, bytes, 0);
                 result = Encoding.UTF8.GetString(bytes, 0, length);
             }
 
-            position += length << 3;
+            PositionBits += length << 3;
             return result;
         }
 
@@ -185,7 +193,7 @@
         /// </summary>
         public void SkipPadBits()
         {
-            position = ((position + 7) >> 3) << 3;
+            PositionBits = ((PositionBits + 7) >> 3) << 3;
         }
 
         /// <summary>
@@ -194,7 +202,7 @@
         /// <param name="amount"> The specified amount to skip. </param>
         public void SkipPadBits(int amount)
         {
-            position += amount;
+            PositionBits += amount;
         }
     }
 }

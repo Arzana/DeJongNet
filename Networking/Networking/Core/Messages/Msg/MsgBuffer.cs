@@ -10,7 +10,7 @@ namespace DeJong.Networking.Core.Messages
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    public abstract partial class MsgBuffer
+    public abstract class MsgBuffer
     {
         /// <summary>
         /// Gets or sets the read position of the message buffer in bits.
@@ -29,7 +29,7 @@ namespace DeJong.Networking.Core.Messages
         /// </summary>
         public int LengthBytes { get { return (length + 7) >> 3; } internal set { EnsureBufferSize(length = value << 3); } }
 
-        private bool BitAlligned { get { return (position % 8) == 0; } }
+        protected bool BitAlligned { get { return (position % 8) == 0; } }
 
         protected byte[] data;
         private int position;
@@ -53,20 +53,20 @@ namespace DeJong.Networking.Core.Messages
             Array.Copy(data, srcOffset, destination.data, 0, size);
         }
 
-        internal void EnsureBufferSize(int numBits)
+        protected internal void EnsureBufferSize(int numBits)
         {
             int byteLen = (numBits + 7) >> 3;
             if (data == null) data = new byte[byteLen];
             else if (data.Length < byteLen) Array.Resize(ref data, byteLen);
         }
 
-        private void CheckOverflow(int bitsNeeded)
+        protected void CheckOverflow(int bitsNeeded)
         {
             LoggedException.RaiseIf((data.Length << 3) - position < bitsNeeded, nameof(MsgBuffer), "Cannot read past buffer size");
         }
 
         [StructLayout(LayoutKind.Explicit, Size = 4)]
-        private struct IntSingleUnion
+        protected struct IntSingleUnion
         {
             [FieldOffset(0)]
             public uint IntValue;
@@ -88,7 +88,7 @@ namespace DeJong.Networking.Core.Messages
         }
 
         [StructLayout(LayoutKind.Explicit, Size = 8)]
-        private struct IntDoubleUnion
+        protected struct IntDoubleUnion
         {
             [FieldOffset(0)]
             public ulong IntValue;

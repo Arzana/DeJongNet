@@ -3,7 +3,7 @@
     using DataHandlers;
     using System.Text;
 
-    public abstract partial class MsgBuffer
+    public abstract class WriteableBuffer : MsgBuffer
     {
         /// <summary>
         /// Writes a bool to the buffer as 1 bit and increases the length if needed.
@@ -11,9 +11,9 @@
         /// <param name="value"> The value to write. </param>
         public void Write(bool value)
         {
-            EnsureBufferSize(length + 1);
-            BitWriter.WriteByte(data, (byte)(value ? 1 : 0), length, 1);
-            length += 1;
+            EnsureBufferSize(LengthBits + 1);
+            BitWriter.WriteByte(data, (byte)(value ? 1 : 0), LengthBits, 1);
+            LengthBits += 1;
         }
 
         /// <summary>
@@ -22,9 +22,9 @@
         /// <param name="value"> The value to write. </param>
         public void Write(byte value)
         {
-            EnsureBufferSize(length + 8);
-            BitWriter.WriteByte(data, value, length, 8);
-            length += 8;
+            EnsureBufferSize(LengthBits + 8);
+            BitWriter.WriteByte(data, value, LengthBits, 8);
+            LengthBits += 8;
         }
 
         /// <summary>
@@ -51,9 +51,9 @@
         /// <param name="value"> The value to write. </param>
         public void Write(ushort value)
         {
-            EnsureBufferSize(length + 16);
-            BitWriter.WriteUInt16(data, value, length, 16);
-            length += 16;
+            EnsureBufferSize(LengthBits + 16);
+            BitWriter.WriteUInt16(data, value, LengthBits, 16);
+            LengthBits += 16;
         }
 
         /// <summary>
@@ -71,9 +71,9 @@
         /// <param name="value"> The value to write. </param>
         public void Write(uint value)
         {
-            EnsureBufferSize(length + 32);
-            BitWriter.WriteUInt32(data, value, length, 32);
-            length += 32;
+            EnsureBufferSize(LengthBits + 32);
+            BitWriter.WriteUInt32(data, value, LengthBits, 32);
+            LengthBits += 32;
         }
 
 
@@ -92,9 +92,9 @@
         /// <param name="value"> The value to write. </param>
         public void Write(ulong value)
         {
-            EnsureBufferSize(length + 64);
-            BitWriter.WriteUInt64(data, value, length, 64);
-            length += 64;
+            EnsureBufferSize(LengthBits + 64);
+            BitWriter.WriteUInt64(data, value, LengthBits, 64);
+            LengthBits += 64;
         }
 
         /// <summary>
@@ -123,9 +123,9 @@
         {
             Write((short)value.Length);
             byte[] bytes = Encoding.UTF8.GetBytes(value);
-            EnsureBufferSize(length + (bytes.Length << 3));
-            BitWriter.WriteBytes(data, bytes, 0, bytes.Length, length);
-            length += bytes.Length << 3;
+            EnsureBufferSize(LengthBits + (bytes.Length << 3));
+            BitWriter.WriteBytes(data, bytes, 0, bytes.Length, LengthBits);
+            LengthBits += bytes.Length << 3;
         }
 
         /// <summary>
@@ -145,7 +145,7 @@
         /// </summary>
         public void WritePadBits()
         {
-            EnsureBufferSize(length = ((length + 7) >> 3) << 3);
+            EnsureBufferSize(LengthBits = ((LengthBits + 7) >> 3) << 3);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@
         /// <param name="amount"> The amount of padding bits to write. </param>
         public void WritePadBits(int amount)
         {
-            EnsureBufferSize(length += amount);
+            EnsureBufferSize(LengthBits += amount);
         }
 
         /// <summary>
@@ -164,9 +164,9 @@
         /// <param name="bitAmount"> The amount of bits to write. </param>
         public void WritePartial(ulong value, int bitAmount)
         {
-            EnsureBufferSize(length + bitAmount);
-            BitWriter.WriteUInt64(data, value, length, bitAmount);
-            length += bitAmount;
+            EnsureBufferSize(LengthBits + bitAmount);
+            BitWriter.WriteUInt64(data, value, LengthBits, bitAmount);
+            LengthBits += bitAmount;
         }
     }
 }

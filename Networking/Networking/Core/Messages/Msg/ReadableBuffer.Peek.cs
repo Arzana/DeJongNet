@@ -3,7 +3,7 @@
     using DataHandlers;
     using System.Text;
 
-    public abstract partial class MsgBuffer
+    public abstract partial class ReadableBuffer : MsgBuffer
     {
         /// <summary>
         /// Reads the next bit from the buffer as a bool without increasing the position.
@@ -12,7 +12,7 @@
         public bool PeekBool()
         {
             CheckOverflow(1);
-            byte result = BitReader.ReadByte(data, position, 1);
+            byte result = BitReader.ReadByte(data, PositionBits, 1);
             return result != 0;
         }
 
@@ -23,7 +23,7 @@
         public byte PeekByte()
         {
             CheckOverflow(8);
-            byte result = BitReader.ReadByte(data, position, 8);
+            byte result = BitReader.ReadByte(data, PositionBits, 8);
             return result;
         }
 
@@ -52,7 +52,7 @@
         public ushort PeekUInt16()
         {
             CheckOverflow(16);
-            ushort result = BitReader.ReadUInt16(data, position, 16);
+            ushort result = BitReader.ReadUInt16(data, PositionBits, 16);
             return result;
         }
 
@@ -72,7 +72,7 @@
         public uint PeekUInt32()
         {
             CheckOverflow(32);
-            uint result = BitReader.ReadUInt32(data, position, 32);
+            uint result = BitReader.ReadUInt32(data, PositionBits, 32);
             return result;
         }
 
@@ -92,7 +92,7 @@
         public ulong PeekUInt64()
         {
             CheckOverflow(64);
-            ulong result = BitReader.ReadUInt64(data, position, 64);
+            ulong result = BitReader.ReadUInt64(data, PositionBits, 64);
             return result;
         }
 
@@ -126,11 +126,11 @@
             CheckOverflow(16 + (length << 3));
             string result;
 
-            if (BitAlligned) result = Encoding.UTF8.GetString(data, 16 + (position >> 3), length);
+            if (BitAlligned) result = Encoding.UTF8.GetString(data, 16 + PositionBytes, length);
             else
             {
                 byte[] bytes = new byte[length];
-                BitReader.ReadBytes(data, position, length, bytes, 0);
+                BitReader.ReadBytes(data, PositionBits, length, bytes, 0);
                 result = Encoding.UTF8.GetString(bytes, 0, length);
             }
 
@@ -149,10 +149,10 @@
             for (int i = 0; i < amount; i++)
             {
                 result[i] = PeekBool();
-                ++position;
+                ++PositionBits;
             }
 
-            position -= amount;
+            PositionBits -= amount;
             return result;
         }
 
@@ -162,9 +162,9 @@
         /// <returns> The padding bits as a byte. </returns>
         public byte PeekPadBits()
         {
-            int length = position % 8;
+            int length = PositionBits % 8;
             CheckOverflow(length);
-            return BitReader.ReadByte(data, position, length);
+            return BitReader.ReadByte(data, PositionBits, length);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@
         public byte PeekPadBits(int amount)
         {
             CheckOverflow(amount);
-            return BitReader.ReadByte(data, position, amount);
+            return BitReader.ReadByte(data, PositionBits, amount);
         }
     }
 }

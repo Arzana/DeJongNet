@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public sealed class OutgoingMsg : MsgBuffer
+    public sealed class OutgoingMsg : WriteableBuffer
     {
         internal bool IsSend { get; set; }
 

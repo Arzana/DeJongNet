@@ -21,7 +21,7 @@
         public readonly int SequenceNumber;
         public readonly int PacketSize;
 
-        public LibHeader(MsgBuffer buffer)
+        public LibHeader(ReadableBuffer buffer)
         {
             Type = (MsgType)buffer.ReadByte();
             Fragment = buffer.ReadBool();
@@ -37,7 +37,7 @@
             PacketSize = dataSize;
         }
 
-        public void WriteToBuffer(MsgBuffer buffer)
+        public void WriteToBuffer(WriteableBuffer buffer)
         {
             buffer.EnsureBufferSize(buffer.LengthBits + SIZE_BITS);
             buffer.Write((byte)Type);
