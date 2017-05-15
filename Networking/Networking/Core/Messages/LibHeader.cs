@@ -17,21 +17,24 @@
         public const int SIZE_BITS = SIZE_BYTES << 3;
 
         public readonly MsgType Type;
+        public readonly int Channel;
         public readonly bool Fragment;
         public readonly int SequenceNumber;
         public readonly int PacketSize;
 
         public LibHeader(ReadableBuffer buffer)
         {
-            Type = (MsgType)buffer.ReadByte();
+            Type = (MsgType)buffer.ReadPadBits(4);
+            Channel = buffer.ReadPadBits(4);
             Fragment = buffer.ReadBool();
             SequenceNumber = (buffer.ReadPadBits(7) << 8) | buffer.ReadByte();
             PacketSize = buffer.ReadInt16();
         }
 
-        public LibHeader(MsgType type, bool isFragment, int sequenceNum, int dataSize)
+        public LibHeader(MsgType type, int channel, bool isFragment, int sequenceNum, int dataSize)
         {
             Type = type;
+            Channel = channel;
             Fragment = isFragment;
             SequenceNumber = sequenceNum;
             PacketSize = dataSize;
@@ -40,7 +43,8 @@
         public void WriteToBuffer(WriteableBuffer buffer)
         {
             buffer.EnsureBufferSize(buffer.LengthBits + SIZE_BITS);
-            buffer.Write((byte)Type);
+            buffer.WritePartial((byte)((byte)Type & 0xF), 4);
+            buffer.WritePartial((byte)(Channel & 0xF), 4);
             buffer.Write(Fragment);
             buffer.WritePartial((ulong)SequenceNumber, 15);
             buffer.Write((ushort)PacketSize);
