@@ -11,7 +11,7 @@ The header for all packages (5 bytes).
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 Type:           Message type                (4 bits)
-The type of message being send/received and its channel.
+The type of message being send/received.
 
 Channel:        Sequence channel            (4 bits)
 The channel that this message is being send through (zero for library messages)
@@ -23,7 +23,7 @@ SequenceNumber: Sequence number             (15 bits)
 The ID of this packet, this is to order messages.
 
 PacketSize:     Packet size                 (16 bits)
-The size of the data (used to check for expansion or corruption)
+The size of the data in bits (used to check for expansion or corruption)
 
 
 
@@ -203,11 +203,14 @@ This is an internal message that is used to indicate that a reliable message has
  0               1               3
  0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|     Type      |        SequenceNumber         |
+| Type  |Channel|        SequenceNumber         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-Type:           Message type                (8 bits)
-The type of message being received and its channel.
+Type:           Message type                (4 bits)
+The type of message being received.
+
+Channel:        Sequence channel            (4 bits)
+The channel that this message is being send through
 
 SequenceNumber: Sequence number             (16 bits)
 The ID of the received packet.

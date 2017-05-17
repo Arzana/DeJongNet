@@ -7,6 +7,8 @@
     {
         public IncommingMsgType Type { get; private set; }
 
+        internal LibHeader Header { get; set; }
+
         public override string ToString()
         {
             return $"{nameof(IncommingMsg)} {LengthBytes} bytes";

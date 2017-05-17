@@ -21,7 +21,7 @@
         /// <summary>
         /// Connect was received and response has been sent; waiting for connection established.
         /// </summary>
-        RespndedConnected,
+        RespondedConnected,
         /// <summary>
         /// Connected.
         /// </summary>

@@ -86,7 +86,7 @@ namespace DeJong.Networking.Core
     internal static partial class NetTime
     {
         /// <summary>
-        /// Defines what now is on windows platform.
+        /// Defines what now is on windows platform (in seconds).
         /// </summary>
         public static double Now { get { return (Stopwatch.GetTimestamp() - initializedAt) * invFreq; } }
 

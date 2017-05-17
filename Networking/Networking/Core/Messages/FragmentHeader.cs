@@ -5,12 +5,14 @@
     using System.Diagnostics;
 
     [DebuggerDisplay("[{ToString()}]")]
-    public struct FragmentHeader : IEquatable<FragmentHeader>
+    internal struct FragmentHeader : IEquatable<FragmentHeader>
     {
         public int Group { get; private set; }          // Wich group of fragments this belongs to.
         public int TotalBits { get; private set; }      // Total number of bits in this group.
         public int FragmentSize { get; private set; }   // Size (in  bytes) of every chunk but the last one (probably).
         public int FragmentNum { get; private set; }    // With number chunk this is (starts at zero).
+
+        public static readonly FragmentHeader Empty = new FragmentHeader();
 
         public FragmentHeader(ReadableBuffer buffer)
         {

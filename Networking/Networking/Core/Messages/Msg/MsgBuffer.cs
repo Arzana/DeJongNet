@@ -42,15 +42,15 @@ namespace DeJong.Networking.Core.Messages
             this.data = data;
         }
 
-        internal void CopyData(byte[] destination, int offset)
+        internal void CopyData(MsgBuffer destination)
         {
-            Array.Copy(data, 0, destination, offset, data.Length);
+            CopyData(destination, 0, data.Length);
         }
 
-        internal void CopyData(MsgBuffer destination, int srcOffset, int size)
+        internal void CopyData(MsgBuffer destination, int srcOffset, int length)
         {
-            destination.LengthBytes = size;
-            Array.Copy(data, srcOffset, destination.data, 0, size);
+            destination.EnsureBufferSize(destination.LengthBits + (LengthBits - srcOffset));
+            Array.Copy(data, srcOffset, destination.data, destination.LengthBits, length);
         }
 
         protected internal void EnsureBufferSize(int numBits)

@@ -36,11 +36,16 @@
         /// Gets or sets the size of the send buffer.
         /// </summary>
         public int SendBufferSize { get { return sendBufferSize; } set { CheckLock(); sendBufferSize = value; } }
+        /// <summary>
+        /// Gets or sets a value indicating the delay (in seconds) before resending a reliable message.
+        /// </summary>
+        public int ResendDelay { get { return resendDelay; } set { CheckLock(); resendDelay = value; } }
 
         private IPAddress localAddress;
         private int port;
         private int receiveBufferSize;
         private int sendBufferSize;
+        private int resendDelay;
         private bool locked;
 
         /// <summary>
@@ -56,6 +61,7 @@
             MTU = Constants.MTU_ETHERNET;
             ReceiveBufferSize = Constants.DEFAULT_BUFFER_SIZE;
             SendBufferSize = Constants.DEFAULT_BUFFER_SIZE;
+            ResendDelay = Constants.DEFAULT_RESEND_DELAY;
         }
 
         internal void Lock()

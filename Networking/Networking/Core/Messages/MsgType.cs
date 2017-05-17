@@ -17,6 +17,6 @@
         Disconnect = 12,
         Discovery = 13,
         DiscoveryResponse = 14,
-        // TODO: Add NAT into and MTU expand
+        // TODO: Add NAT intro and MTU expand
     }
 }

@@ -42,10 +42,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Core\Channels\ChannelBase.cs" />
+    <Compile Include="Core\Channels\OrderChannelBehaviour.cs" />
+    <Compile Include="Core\Channels\Receiver\OrderedReceiverChannel.cs" />
+    <Compile Include="Core\Channels\Receiver\ReceiverChannelBase.cs" />
+    <Compile Include="Core\Channels\ReceiverController.cs" />
+    <Compile Include="Core\Channels\Receiver\ReliableOrderedReceiverChannel.cs" />
+    <Compile Include="Core\Channels\Receiver\ReliableReceiverChannel.cs" />
+    <Compile Include="Core\Channels\Receiver\UnreliableReceiverChannel.cs" />
+    <Compile Include="Core\Channels\Sender\OrderedSenderChannel.cs" />
+    <Compile Include="Core\Channels\Sender\ReliableSenderChannel.cs" />
+    <Compile Include="Core\Channels\Sender\SenderChannelBase.cs" />
+    <Compile Include="Core\Channels\Sender\UnreliableSenderChannel.cs" />
     <Compile Include="Core\DataHandlers\BitReader.cs" />
     <Compile Include="Core\DataHandlers\BitWriter.cs" />
     <Compile Include="Core\Messages\DeliveryMethod.cs" />
     <Compile Include="Core\Messages\FragmentHeader.cs" />
+    <Compile Include="Core\Messages\MessageHelper.cs" />
     <Compile Include="Core\Messages\Msg\IncommingMsg.cs" />
     <Compile Include="Core\Messages\IncommingMsgType.cs" />
     <Compile Include="Core\Messages\LibHeader.cs" />
