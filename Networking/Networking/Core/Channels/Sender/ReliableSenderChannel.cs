@@ -1,7 +1,7 @@
 ﻿namespace DeJong.Networking.Core.Channels.Sender
 {
     using Messages;
-    using Peers;
+    using System.Net;
     using Utilities.Core;
 
     internal sealed class ReliableSenderChannel : SenderChannelBase
@@ -9,8 +9,8 @@
         private readonly int resendDelay;
         private int sequenceCount;
 
-        public ReliableSenderChannel(RawSocket socket, Connection conn, PeerConfig config)
-            : base(socket, conn.RemoteEndPoint)
+        public ReliableSenderChannel(RawSocket socket, IPEndPoint remote, PeerConfig config)
+            : base(socket, remote)
         {
             resendDelay = config.ResendDelay;
         }

@@ -5,9 +5,16 @@
     [DebuggerDisplay("[{ToString()}]")]
     public sealed class IncommingMsg : ReadableBuffer
     {
-        public IncommingMsgType Type { get; private set; }
+        public IncommingMsgType Type { get; internal set; }
 
         internal LibHeader Header { get; set; }
+
+        internal IncommingMsg()
+        { }
+
+        internal IncommingMsg(byte[] data)
+            : base(data)
+        { }
 
         public override string ToString()
         {

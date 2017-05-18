@@ -1,15 +1,15 @@
 ﻿namespace DeJong.Networking.Core.Channels.Sender
 {
-    using Utilities.Core;
     using Messages;
-    using Peers;
+    using System.Net;
+    using Utilities.Core;
 
     internal sealed class OrderedSenderChannel : SenderChannelBase
     {
         private int sequenceCount;
 
-        public OrderedSenderChannel(RawSocket socket, Connection conn)
-            : base(socket, conn.RemoteEndPoint)
+        public OrderedSenderChannel(RawSocket socket, IPEndPoint remote)
+            : base(socket, remote)
         { }
 
         public override void Heartbeat()

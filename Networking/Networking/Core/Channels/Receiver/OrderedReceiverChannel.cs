@@ -1,8 +1,8 @@
 ﻿namespace DeJong.Networking.Core.Channels.Receiver
 {
     using Messages;
-    using Peers;
     using System;
+    using System.Net;
     using Utilities.Threading;
 
     internal class OrderedReceiverChannel : ReceiverChannelBase
@@ -13,8 +13,8 @@
         private int sequenceCount;
         private ThreadSafeQueue<IncommingMsg> released;
 
-        public OrderedReceiverChannel(RawSocket socket, Connection conn, OrderChannelBehaviour behaviour)
-            : base(socket, conn.RemoteEndPoint)
+        public OrderedReceiverChannel(IPEndPoint remote, OrderChannelBehaviour behaviour)
+            : base(remote)
         {
             this.behaviour = behaviour;
             released = new ThreadSafeQueue<IncommingMsg>();
@@ -43,6 +43,15 @@
         public override IncommingMsg DequeueMessage()
         {
             return released.Dequeue();
+        }
+
+        protected override void ReceiveMsg(IncommingMsg msg)
+        {
+            if (msg.Header.SequenceNumber > sequenceCount)
+            {
+                sequenceCount = msg.Header.SequenceNumber;
+                base.ReceiveMsg(msg);
+            }
         }
     }
 }

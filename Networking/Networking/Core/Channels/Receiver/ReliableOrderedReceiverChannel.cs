@@ -1,15 +1,15 @@
 ﻿namespace DeJong.Networking.Core.Channels.Receiver
 {
     using Messages;
-    using Peers;
     using Sender;
+    using System.Net;
 
     internal sealed class ReliableOrderedReceiverChannel : OrderedReceiverChannel
     {
         private UnreliableSenderChannel ackSender;
 
-        public ReliableOrderedReceiverChannel(RawSocket socket, Connection conn, UnreliableSenderChannel libSender, OrderChannelBehaviour behaviour)
-            : base(socket, conn, behaviour)
+        public ReliableOrderedReceiverChannel(IPEndPoint remote, UnreliableSenderChannel libSender, OrderChannelBehaviour behaviour)
+            : base(remote, behaviour)
         {
             ackSender = libSender;
         }

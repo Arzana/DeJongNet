@@ -129,11 +129,15 @@
         /// <param name="value"> The value to write. </param>
         public void Write(string value)
         {
-            Write((short)value.Length);
-            byte[] bytes = Encoding.UTF8.GetBytes(value);
-            EnsureBufferSize(LengthBits + (bytes.Length << 3));
-            BitWriter.WriteBytes(data, bytes, 0, bytes.Length, LengthBits);
-            LengthBits += bytes.Length << 3;
+            if (string.IsNullOrEmpty(value)) Write((short)0);
+            else
+            {
+                Write((short)value.Length);
+                byte[] bytes = Encoding.UTF8.GetBytes(value);
+                EnsureBufferSize(LengthBits + (bytes.Length << 3));
+                BitWriter.WriteBytes(data, bytes, 0, bytes.Length, LengthBits);
+                LengthBits += bytes.Length << 3;
+            }
         }
 
         /// <summary>

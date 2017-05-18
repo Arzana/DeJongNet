@@ -50,6 +50,7 @@
     <Compile Include="Core\Channels\Receiver\ReliableOrderedReceiverChannel.cs" />
     <Compile Include="Core\Channels\Receiver\ReliableReceiverChannel.cs" />
     <Compile Include="Core\Channels\Receiver\UnreliableReceiverChannel.cs" />
+    <Compile Include="Core\Channels\SenderController.cs" />
     <Compile Include="Core\Channels\Sender\OrderedSenderChannel.cs" />
     <Compile Include="Core\Channels\Sender\ReliableSenderChannel.cs" />
     <Compile Include="Core\Channels\Sender\SenderChannelBase.cs" />

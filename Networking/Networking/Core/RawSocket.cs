@@ -25,7 +25,7 @@
         private int listenPort;
         private double lastBindCall;
 
-        public event StrongEventHandler<RawSocket, PacketReceiveEventArgs> PacketReceived;
+        public event StrongEventHandler<IPEndPoint, PacketReceiveEventArgs> PacketReceived;
 
         public RawSocket(PeerConfig config)
         {
@@ -141,7 +141,7 @@
             }
         }
 
-        public void ReceivePacket(ref EndPoint from)
+        public void ReceivePacket()
         {
             if (socket == null) return;
             if (!socket.Poll(1000, SelectMode.SelectRead)) return;
@@ -149,12 +149,12 @@
             double now = NetTime.Now;
             do
             {
+                EndPoint from = new IPEndPoint(0, 0);
                 int bytesReceived = 0;
                 if (!TryReceivePacket(ref from, out bytesReceived)) return;
 
                 if (bytesReceived < Constants.HEADER_BYTE_SIZE) return;
-                EventInvoker.Invoke(PacketReceived, this, new PacketReceiveEventArgs(bytesReceived));
-
+                EventInvoker.Invoke(PacketReceived, (IPEndPoint)from, new PacketReceiveEventArgs(bytesReceived));
             } while (socket.Available > 0);
         }
 

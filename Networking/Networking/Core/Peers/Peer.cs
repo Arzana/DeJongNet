@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 
 namespace DeJong.Networking.Core.Peers
 {
@@ -20,11 +21,39 @@ namespace DeJong.Networking.Core.Peers
 
             connections = new List<Connection>();
             socket = new RawSocket(config);
+            socket.PacketReceived += ReceiveUnconnectedPacket;
         }
 
         public override string ToString()
         {
             return $"[{ID}: {Status}]";
+        }
+
+        public void Heartbeat()
+        {
+            socket.ReceivePacket();
+            for (int i = 0; i < connections.Count; i++)
+            {
+                connections[i].Heartbeat();
+            }
+        }
+
+        private void ReceiveUnconnectedPacket(IPEndPoint sender, PacketReceiveEventArgs e)
+        {
+            for (int i = 0; i < connections.Count; i++)
+            {
+                if (connections[i].RemoteEndPoint.Equals(sender))
+                {
+                    connections[i].ReceivePacket(socket, e);
+                }
+            }
+
+            HandleUnconnectedPacket(sender, e);
+        }
+
+        private void HandleUnconnectedPacket(IPEndPoint sender, PacketReceiveEventArgs e)
+        {
+
         }
     }
 }

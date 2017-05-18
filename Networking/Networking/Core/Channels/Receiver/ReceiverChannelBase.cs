@@ -15,8 +15,8 @@
         private Dictionary<int, List<KeyValuePair<FragmentHeader, IncommingMsg>>> receivedFragments;
         private ThreadSafeQueue<IncommingMsg> receivedPackets;
 
-        protected ReceiverChannelBase(RawSocket socket, IPEndPoint remote)
-            : base(socket)
+        protected ReceiverChannelBase(IPEndPoint remote)
+            : base(null)
         {
             Sender = remote;
             receivedFragments = new Dictionary<int, List<KeyValuePair<FragmentHeader, IncommingMsg>>>();
@@ -49,10 +49,7 @@
 
         private void ProcessMsg(IncommingMsg msg)
         {
-            LibHeader header = new LibHeader(msg);
-            msg.Header = header;
-
-            if (header.Fragment) ProcessFragment(msg);
+            if (msg.Header.Fragment) ProcessFragment(msg);
             else ReceiveMsg(msg);
         }
 

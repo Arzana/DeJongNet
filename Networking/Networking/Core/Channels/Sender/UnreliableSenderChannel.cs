@@ -1,11 +1,11 @@
 ﻿namespace DeJong.Networking.Core.Channels.Sender
 {
-    using Peers;
+    using System.Net;
 
     internal sealed class UnreliableSenderChannel : SenderChannelBase
     {
-        public UnreliableSenderChannel(RawSocket socket, Connection conn)
-            : base(socket, conn.RemoteEndPoint)
+        public UnreliableSenderChannel(RawSocket socket, IPEndPoint remote)
+            : base(socket, remote)
         { }
 
         public override void Heartbeat()
