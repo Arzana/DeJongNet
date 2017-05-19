@@ -44,7 +44,7 @@ namespace DeJong.Networking.Core.Messages
 
         internal void CopyData(MsgBuffer destination)
         {
-            CopyData(destination, 0, data.Length);
+            if (data != null) CopyData(destination, 0, data.Length);
         }
 
         internal void CopyData(MsgBuffer destination, int srcOffset, int length)

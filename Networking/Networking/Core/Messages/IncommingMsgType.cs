@@ -13,7 +13,7 @@
         /// <remarks> String data. </remarks>
         StatusChanged = 1,
         /// <summary>
-        /// Data send to a unconnected host.
+        /// Data send to or from a unconnected host.
         /// </summary>
         /// <remarks> User data. </remarks>
         UnconnectedData = 2,

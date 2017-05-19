@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using DeJong.Networking.Core.Messages;
+using DeJong.Utilities.Logging;
+using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace DeJong.Networking.Core.Peers
@@ -8,8 +11,6 @@ namespace DeJong.Networking.Core.Peers
         public NetID ID { get; private set; }
         public PeerConfig Config { get; private set; }
         public PeerStatus Status { get; private set; }
-
-        protected bool CanReceiveConnections { get; set; }
 
         private RawSocket socket;
         private List<Connection> connections;
@@ -24,6 +25,11 @@ namespace DeJong.Networking.Core.Peers
             socket.PacketReceived += ReceiveUnconnectedPacket;
         }
 
+        public void Init()
+        {
+            socket.Bind(false);
+        }
+
         public override string ToString()
         {
             return $"[{ID}: {Status}]";
@@ -36,6 +42,20 @@ namespace DeJong.Networking.Core.Peers
             {
                 connections[i].Heartbeat();
             }
+        }
+
+        protected void AddConnection(IPEndPoint remote)
+        {
+            Connection conn = new Connection(socket, remote, Config);
+            conn.SendTo(MessageHelper.Discovery(), 0);
+            connections.Add(conn);
+        }
+
+        protected void AddConnection(IPEndPoint remote, OutgoingMsg secMsg)
+        {
+            Connection conn = new Connection(socket, remote, Config);
+            conn.SendTo(MessageHelper.DiscoveryResponse(secMsg), 0);
+            connections.Add(conn);
         }
 
         private void ReceiveUnconnectedPacket(IPEndPoint sender, PacketReceiveEventArgs e)
@@ -53,7 +73,14 @@ namespace DeJong.Networking.Core.Peers
 
         private void HandleUnconnectedPacket(IPEndPoint sender, PacketReceiveEventArgs e)
         {
+            byte[] data = new byte[e.PacketSize];
+            Array.Copy(socket.ReceiveBuffer, 0, data, 0, e.PacketSize);
+            IncommingMsg msg = new IncommingMsg(data);
 
+            if (msg.Header.Channel == 0 && msg.Header.Type == MsgType.Discovery) HandleDiscovery(sender, msg);
+            else Log.Warning(nameof(Peer), $"Unconnected data received from remote host {sender}, message dropped");
         }
+
+        protected abstract void HandleDiscovery(IPEndPoint sender, IncommingMsg msg);
     }
 }

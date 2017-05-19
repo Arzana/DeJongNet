@@ -14,7 +14,9 @@
 
         internal IncommingMsg(byte[] data)
             : base(data)
-        { }
+        {
+            Header = new LibHeader(this);
+        }
 
         public override string ToString()
         {

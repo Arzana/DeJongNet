@@ -73,7 +73,6 @@
             Array.Copy(sender.ReceiveBuffer, 0, data, 0, e.PacketSize);
             IncommingMsg msg = new IncommingMsg(data);
 
-            msg.Header = new LibHeader(msg);
             for (int i = 0; i < size; i++)
             {
                 if (channels[i].ID == msg.Header.Channel)
