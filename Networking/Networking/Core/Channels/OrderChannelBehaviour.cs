@@ -6,6 +6,10 @@
     public enum OrderChannelBehaviour : byte
     {
         /// <summary>
+        /// Default value.
+        /// </summary>
+        None,
+        /// <summary>
         /// When caught early, late messages should be ordered before later ones.
         /// </summary>
         Order,

@@ -50,7 +50,7 @@ namespace DeJong.Networking.Core.Messages
         internal void CopyData(MsgBuffer destination, int srcOffset, int length)
         {
             destination.EnsureBufferSize(destination.LengthBits + (LengthBits - srcOffset));
-            Array.Copy(data, srcOffset, destination.data, destination.LengthBits, length);
+            Array.Copy(data, srcOffset, destination.data, destination.LengthBytes, length);
         }
 
         protected internal void EnsureBufferSize(int numBits)

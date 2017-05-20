@@ -10,7 +10,7 @@
         public IPEndPoint Sender { get; set; }
         public virtual bool HasMessages { get { return received.Count > 0; } }
 
-        protected ThreadSafeList<IncommingMsg> received;
+        protected ThreadSafeQueue<IncommingMsg> received;
 
         private Dictionary<int, List<KeyValuePair<FragmentHeader, IncommingMsg>>> receivedFragments;
         private ThreadSafeQueue<IncommingMsg> receivedPackets;
@@ -21,7 +21,7 @@
             Sender = remote;
             receivedFragments = new Dictionary<int, List<KeyValuePair<FragmentHeader, IncommingMsg>>>();
             receivedPackets = new ThreadSafeQueue<IncommingMsg>();
-            received = new ThreadSafeList<IncommingMsg>();
+            received = new ThreadSafeQueue<IncommingMsg>();
         }
 
         public override void Heartbeat()
@@ -39,12 +39,12 @@
 
         public virtual IncommingMsg DequeueMessage()
         {
-            return receivedPackets.Dequeue();
+            return received.Dequeue();
         }
 
         protected virtual void ReceiveMsg(IncommingMsg msg)
         {
-            received.Add(msg);
+            received.Enqueue(msg);
         }
 
         private void ProcessMsg(IncommingMsg msg)

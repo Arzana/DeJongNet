@@ -9,9 +9,7 @@
 
         public WriteableBuffer(byte[] buffer)
             : base(buffer)
-        {
-
-        }
+        { }
 
         /// <summary>
         /// Writes a bool to the buffer as 1 bit and increases the length if needed.

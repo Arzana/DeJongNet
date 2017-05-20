@@ -3,20 +3,19 @@
     internal enum MsgType : byte
     {
         LibraryError = 0,
-        Unconnected = 1,
-        Unreliable = 2,
-        Ordered = 3,
-        Reliable = 4,
-        ReliableOrdered = 5,
-        Ping = 6,
-        Pong = 7,
-        Connect = 8,     
-        ConnectResponse = 9,
-        ConnectionEstablished = 10,
-        Acknowledge = 11,
-        Disconnect = 12,
-        Discovery = 13,
-        DiscoveryResponse = 14,
+        Unreliable = 1,
+        Ordered = 2,
+        Reliable = 3,
+        ReliableOrdered = 4,
+        Ping = 5,
+        Pong = 6,
+        Connect = 7,     
+        ConnectResponse = 8,
+        ConnectionEstablished = 9,
+        Acknowledge = 10,
+        Disconnect = 11,
+        Discovery = 12,
+        DiscoveryResponse = 13,
         // TODO: Add NAT intro and MTU expand
     }
 }

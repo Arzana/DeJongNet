@@ -70,7 +70,7 @@ A number that represent the id of this fragment (ascending order).
 
 
 { Structure-diagram, Ping }
-This is an internal message used for round tip time calculation.
+This is an internal message used for round trip time calculation.
 
  0               1               3               4
  0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7

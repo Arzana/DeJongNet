@@ -5,8 +5,6 @@
     [DebuggerDisplay("[{ToString()}]")]
     public sealed class IncommingMsg : ReadableBuffer
     {
-        public IncommingMsgType Type { get; internal set; }
-
         internal LibHeader Header { get; set; }
 
         internal IncommingMsg()

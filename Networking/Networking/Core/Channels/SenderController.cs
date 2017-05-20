@@ -12,12 +12,18 @@
         private int size;
         private PeerConfig config;
 
-        public SenderChannelBase this[int index]
+        public SenderChannelBase this[int id]
         {
             get
             {
-                LoggedException.RaiseIf(index >= size || index < 0, nameof(ReceiverController), "index ot of range");
-                return channels[index];
+                LoggedException.RaiseIf(id >= size || id < 0, nameof(ReceiverController), "index ot of range");
+                for (int i = 0; i < channels.Length; i++)
+                {
+                    if (channels[i].ID == id) return channels[i];
+                }
+
+                LoggedException.Raise(nameof(ReceiverController), $"Cannot find channel with id {id}");
+                return null;
             }
         }
 

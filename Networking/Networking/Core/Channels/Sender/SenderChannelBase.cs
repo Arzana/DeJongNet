@@ -61,7 +61,7 @@
 
         private bool SendPacket(LibHeader libHeader, FragmentHeader fragHeader, OutgoingMsg msg)
         {
-            packetWriteHelper.PositionBits = 0;
+            packetWriteHelper.LengthBits = 0;
 
             libHeader.WriteToBuffer(packetWriteHelper);
             if (libHeader.Fragment) fragHeader.WriteToBuffer(packetWriteHelper);

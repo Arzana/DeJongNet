@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Core\Channels\ChannelBase.cs" />
+    <Compile Include="Core\Channels\ChannelConfig.cs" />
     <Compile Include="Core\Channels\OrderChannelBehaviour.cs" />
     <Compile Include="Core\Channels\Receiver\OrderedReceiverChannel.cs" />
     <Compile Include="Core\Channels\Receiver\ReceiverChannelBase.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Core\Channels\Sender\UnreliableSenderChannel.cs" />
     <Compile Include="Core\DataHandlers\BitReader.cs" />
     <Compile Include="Core\DataHandlers\BitWriter.cs" />
+    <Compile Include="Core\DataMessageEventArgs.cs" />
     <Compile Include="Core\Messages\DeliveryMethod.cs" />
     <Compile Include="Core\Messages\FragmentHeader.cs" />
     <Compile Include="Core\Messages\MessageHelper.cs" />

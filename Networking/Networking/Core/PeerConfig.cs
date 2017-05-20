@@ -25,6 +25,14 @@
         /// </summary>
         public int MTU { get; set; }
         /// <summary>
+        /// Gets or sets a value indicating the name of the underlying networking thread.
+        /// </summary>
+        public string NetworkThreadName { get { return networkThreadName; } set { CheckLock(); networkThreadName = value; } }
+        /// <summary>
+        /// Gets or sets a value indicating the time (in seconds) between latency calculations.
+        /// </summary>
+        public int PingInterval { get; set; }
+        /// <summary>
         /// Gets or sets the port that the socket should use (may differ from actual port).
         /// </summary>
         public int Port { get { return port; } set { CheckLock(); port = value; } }
@@ -33,19 +41,22 @@
         /// </summary>
         public int ReceiveBufferSize { get { return receiveBufferSize; } set { CheckLock(); receiveBufferSize = value; } }
         /// <summary>
-        /// Gets or sets the size of the send buffer.
-        /// </summary>
-        public int SendBufferSize { get { return sendBufferSize; } set { CheckLock(); sendBufferSize = value; } }
-        /// <summary>
         /// Gets or sets a value indicating the delay (in seconds) before resending a reliable message.
         /// </summary>
         public int ResendDelay { get { return resendDelay; } set { CheckLock(); resendDelay = value; } }
+        /// <summary>
+        /// Gets or sets the size of the send buffer.
+        /// </summary>
+        public int SendBufferSize { get { return sendBufferSize; } set { CheckLock(); sendBufferSize = value; } }
+
+        private static int peersCreated;
 
         private IPAddress localAddress;
         private int port;
         private int receiveBufferSize;
         private int sendBufferSize;
         private int resendDelay;
+        private string networkThreadName;
         private bool locked;
 
         /// <summary>
@@ -62,6 +73,9 @@
             ReceiveBufferSize = Constants.DEFAULT_BUFFER_SIZE;
             SendBufferSize = Constants.DEFAULT_BUFFER_SIZE;
             ResendDelay = Constants.DEFAULT_RESEND_DELAY;
+            PingInterval = Constants.DEFAULT_PING_INTERVAL;
+            NetworkThreadName = "DeJong Networking";
+            if (++peersCreated > 1) NetworkThreadName += $" {peersCreated + 1}";
         }
 
         internal void Lock()

@@ -12,18 +12,18 @@
         /// <summary>
         /// Messages can be lost and are not ordered.
         /// </summary>
-        Unreliable = 2,
+        Unreliable = 1,
         /// <summary>
         /// Messages can be lost and are dropped when late.
         /// </summary>
-        Ordered = 3,
+        Ordered = 2,
         /// <summary>
         /// Messages cannot be lost but are not ordered.
         /// </summary>
-        Reliable = 4,
+        Reliable = 3,
         /// <summary>
         /// Messages cannot be lost and are dropped when late.
         /// </summary>
-        ReliableOrdered = 5,
+        ReliableOrdered = 4,
     }
 }
