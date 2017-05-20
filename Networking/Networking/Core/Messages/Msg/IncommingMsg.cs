@@ -2,6 +2,9 @@
 {
     using System.Diagnostics;
 
+#if !DEBUG
+    [DebuggerStepThrough]
+#endif
     [DebuggerDisplay("[{ToString()}]")]
     public sealed class IncommingMsg : ReadableBuffer
     {
@@ -18,7 +21,7 @@
 
         public override string ToString()
         {
-            return $"{nameof(IncommingMsg)} {LengthBytes} bytes";
+            return $"{nameof(IncommingMsg)} {(Header.PacketSize + 7) >> 3} bytes";
         }
     }
 }

@@ -3,6 +3,9 @@
     using Utilities.Threading;
     using Messages;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal abstract class ChannelBase<T>
         where T : MsgBuffer
     {

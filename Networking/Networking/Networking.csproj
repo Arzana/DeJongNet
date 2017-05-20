@@ -59,6 +59,7 @@
     <Compile Include="Core\DataHandlers\BitReader.cs" />
     <Compile Include="Core\DataHandlers\BitWriter.cs" />
     <Compile Include="Core\DataMessageEventArgs.cs" />
+    <Compile Include="Core\DiscoveryResponseEventArgs.cs" />
     <Compile Include="Core\Messages\DeliveryMethod.cs" />
     <Compile Include="Core\Messages\FragmentHeader.cs" />
     <Compile Include="Core\Messages\MessageHelper.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="Core\Messages\Msg\MsgBuffer.cs" />
     <Compile Include="Core\Messages\NetFlags.cs" />
     <Compile Include="Core\Messages\Msg\OutgoingMsg.cs" />
-    <Compile Include="Core\NetTime.cs" />
     <Compile Include="Core\NetUtils.cs" />
     <Compile Include="Core\PacketReceiveEventArgs.cs" />
     <Compile Include="Core\PeerConfig.cs" />

@@ -7,6 +7,9 @@
     using Utilities.Logging;
     using Utilities.Threading;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public sealed class NetServer : Peer
     {
         public event StrongEventHandler<IPEndPoint, EventArgs> OnDiscovery;
@@ -50,6 +53,11 @@
                 for (int j = 1; j < cur.Receiver.Size; j++)
                 {
                     while (cur.Receiver[j].HasMessages) EventInvoker.InvokeSafe(OnDataMessage, cur, new DataMessageEventArgs(cur.Receiver[j].DequeueMessage()));
+                    if (cur.Status == ConnectionStatus.Disconnected)
+                    {
+                        Connections.Remove(cur);
+                        --i;
+                    }
                 }
             }
         }
@@ -64,6 +72,8 @@
             if (msg.LengthBits > LibHeader.SIZE_BITS) Log.Warning(nameof(Peer), $"Invalid discovery message received from remote host {sender}, message dropped");
             else queuedDiscoveries.Enqueue(sender);
         }
+
+        protected override void HandleDiscoveryResponse(IPEndPoint sender, IncommingMsg msg) { }
 
         private void HandleLibMsgs(Connection sender, IncommingMsg msg)
         {
@@ -85,6 +95,7 @@
                 case MsgType.Acknowledge:
                     break;
                 case MsgType.Disconnect:
+                    sender.Disconnect(msg.ReadString());
                     break;
                 case MsgType.LibraryError:
                 case MsgType.Unreliable:

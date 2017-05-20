@@ -3,7 +3,10 @@
     using Messages;
     using System;
 
-    public struct ChannelConfig : IEquatable<ChannelConfig>
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
+    internal struct ChannelConfig : IEquatable<ChannelConfig>
     {
         public readonly int Id;
         public readonly DeliveryMethod Type;

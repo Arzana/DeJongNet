@@ -18,20 +18,24 @@
             client = new NetClient(new PeerConfig("TEST"));
             server.OnDiscovery += TestDiscovery;
 
-            client.DiscoverRemote(new IPEndPoint(new IPAddress(new byte[] { 127, 0, 0, 1 }), 25565));
+            client.DiscoverLocal(25565);
 
             using (ConsoleLogger cl = new ConsoleLogger { AutoUpdate = true })
             {
+                Thread.Sleep(100);
                 do
                 {
                     server.PollMessages();
-                    client.PollMessages();
+                    client.Disconnect("Testing");
                 } while (Console.ReadKey().Key != ConsoleKey.Escape);
+
+                Thread.Sleep(100);
             }
         }
 
         public static void TestDiscovery(IPEndPoint remote, EventArgs e)
         {
+            Log.Info(nameof(Program), "Discovery received");
             server.SendDiscoveryResponse(null, remote);
         }
     }

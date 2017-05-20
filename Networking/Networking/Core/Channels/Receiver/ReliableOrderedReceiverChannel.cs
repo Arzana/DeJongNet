@@ -4,6 +4,9 @@
     using Sender;
     using System.Net;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal sealed class ReliableOrderedReceiverChannel : OrderedReceiverChannel
     {
         private UnreliableSenderChannel ackSender;

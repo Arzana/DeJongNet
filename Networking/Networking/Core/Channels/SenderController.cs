@@ -4,6 +4,9 @@
     using System.Net;
     using Utilities.Core;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal sealed class SenderController
     {
         private RawSocket socket;
@@ -66,6 +69,11 @@
             {
                 channels[i].Heartbeat();
             }
+        }
+
+        public override string ToString()
+        {
+            return $"Sender controller with {size} channels";
         }
 
         private void CheckNewChannel(int id)

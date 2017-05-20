@@ -4,6 +4,9 @@
     using System.Net;
     using Utilities.Core;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal sealed class OrderedSenderChannel : SenderChannelBase
     {
         private int sequenceCount;

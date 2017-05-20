@@ -2,6 +2,9 @@
 {
     using System;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public sealed class NetID : IEquatable<NetID>
     {
         public long ID { get; private set; }

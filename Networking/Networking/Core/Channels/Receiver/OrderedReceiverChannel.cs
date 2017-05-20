@@ -5,6 +5,9 @@
     using System.Net;
     using Utilities.Threading;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal class OrderedReceiverChannel : ReceiverChannelBase
     {
         public override bool HasMessages { get { return released.Count > 0; } }

@@ -3,6 +3,9 @@
     using DataHandlers;
     using System.Text;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public class WriteableBuffer : MsgBuffer
     {
         public WriteableBuffer() { }

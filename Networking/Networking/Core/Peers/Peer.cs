@@ -9,6 +9,9 @@
     using Channels;
     using Utilities.Core;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public abstract class Peer : IFullyDisposable
     {
         public NetID ID { get; private set; }
@@ -39,6 +42,22 @@
             Dispose(false);
         }
 
+        public void ShutDown(string reason)
+        {
+            OutgoingMsg msg = MessageHelper.Disconnect(reason);
+            networkThread.StopWait();
+
+            for (int i = 0; i < Connections.Count; i++)
+            {
+                Connections[i].SendTo(msg, 0);
+            }
+
+            Heartbeat();
+
+            Connections.Clear();
+            socket.UnBind();
+        }
+
         public void Dispose()
         {
             Dispose(false);
@@ -49,6 +68,7 @@
             if (!(Disposed | Disposing))
             {
                 Disposing = true;
+                ShutDown("Wrongfully disposed");
                 socket.Dispose();
                 networkThread.StopWait();
                 networkThread.Dispose();
@@ -59,12 +79,15 @@
 
         private void Init()
         {
+            Status = PeerStatus.Starting;
             socket.Bind(false);
+            ID = new NetID(NetUtils.GetID(socket.BoundEP));
+            Status = PeerStatus.Running;
         }
 
         public override string ToString()
         {
-            return $"[{ID}: {Status}]";
+            return $"[{Config.AppID} ({ID}): {Status}]";
         }
 
         public void AddChannel(int id, DeliveryMethod type, OrderChannelBehaviour orderBehavior = OrderChannelBehaviour.None)
@@ -104,6 +127,7 @@
 
         public abstract void PollMessages();
         protected abstract void HandleDiscovery(IPEndPoint sender, IncommingMsg msg);
+        protected abstract void HandleDiscoveryResponse(IPEndPoint sender, IncommingMsg msg);
 
         protected virtual void Heartbeat()
         {
@@ -114,11 +138,11 @@
             }
         }
 
-        protected void AddConnection(IPEndPoint remote)
+        protected void AddConnection(IPEndPoint remote, bool sendDiscovery)
         {
             Connection conn = new Connection(socket, remote, Config);
             AddChannelsToConnection(conn);
-            conn.SendTo(MessageHelper.Discovery(), 0);
+            if (sendDiscovery) conn.SendTo(MessageHelper.Discovery(), 0);
             Connections.Add(conn);
         }
 
@@ -175,6 +199,7 @@
             IncommingMsg msg = new IncommingMsg(data);
 
             if (msg.Header.Channel == 0 && msg.Header.Type == MsgType.Discovery) HandleDiscovery(sender, msg);
+            else if (msg.Header.Channel == 0 && msg.Header.Type == MsgType.DiscoveryResponse) HandleDiscoveryResponse(sender, msg);
             else Log.Warning(nameof(Peer), $"Unconnected data received from remote host {sender}, message dropped");
         }
     }

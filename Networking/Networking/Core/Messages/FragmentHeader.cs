@@ -4,6 +4,9 @@
     using System;
     using System.Diagnostics;
 
+#if !DEBUG
+    [DebuggerStepThrough]
+#endif
     [DebuggerDisplay("[{ToString()}]")]
     internal struct FragmentHeader : IEquatable<FragmentHeader>
     {

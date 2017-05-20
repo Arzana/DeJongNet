@@ -1,5 +1,8 @@
 ﻿namespace DeJong.Networking.Core.Messages
 {
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal static class MessageHelper
     {
         public static OutgoingMsg Ack(MsgType type, int channel, int sequenceNum)

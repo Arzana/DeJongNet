@@ -43,7 +43,7 @@ namespace DeJong.Networking.Core
                     byte[] broadcast = new byte[ipAddress.Length];
                     for (int j = 0; j < broadcast.Length; j++)
                     {
-                        broadcast[i] = (byte)(ipAddress[i] | (subnetMask[i] ^ 255));
+                        broadcast[j] = (byte)(ipAddress[j] | (~subnetMask[j]));
                     }
 
                     return new IPAddress(broadcast);
@@ -83,6 +83,9 @@ namespace DeJong.Networking.Core
         }
     }
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal static partial class NetTime
     {
         /// <summary>

@@ -1,5 +1,8 @@
 ﻿namespace DeJong.Networking.Core.Messages
 {
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public sealed class OutgoingMsg : WriteableBuffer
     {
         internal bool IsSend { get; set; }

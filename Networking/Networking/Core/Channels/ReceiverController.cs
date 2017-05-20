@@ -8,6 +8,9 @@
     using Utilities.Core;
     using Utilities.Logging;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal sealed class ReceiverController
     {
         public int Size { get; private set; }
@@ -84,6 +87,11 @@
             }
 
             Log.Warning(nameof(ReceiverController), $"Message received on unknown channel({msg.Header.Channel}), message dropped");
+        }
+
+        public override string ToString()
+        {
+            return $"Receiver controller with {Size} channels";
         }
 
         private void CheckNewChannel(int id)

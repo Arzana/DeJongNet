@@ -58,7 +58,7 @@ namespace DeJong.Networking.Core.DataHandlers
             int byteIndex = destOffset >> 3;
             int firstPartLen = destOffset & 7;
 
-            if (firstPartLen == 0) Buffer.BlockCopy(value, valueOffset, destination, destOffset, length);
+            if (firstPartLen == 0) Buffer.BlockCopy(value, valueOffset, destination, byteIndex, length);
             else
             {
                 int nextPartLen = 8 - firstPartLen;

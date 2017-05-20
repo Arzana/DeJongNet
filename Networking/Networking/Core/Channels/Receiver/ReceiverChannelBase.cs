@@ -5,6 +5,9 @@
     using System.Net;
     using Utilities.Threading;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal abstract class ReceiverChannelBase : ChannelBase<IncommingMsg>
     {
         public IPEndPoint Sender { get; set; }
@@ -40,6 +43,11 @@
         public virtual IncommingMsg DequeueMessage()
         {
             return received.Dequeue();
+        }
+
+        public override string ToString()
+        {
+            return $"Receiver channel {ID}";
         }
 
         protected virtual void ReceiveMsg(IncommingMsg msg)

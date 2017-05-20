@@ -6,6 +6,9 @@
     using Utilities.Core;
     using Utilities.Threading;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal abstract class SenderChannelBase : ChannelBase<OutgoingMsg>
     {
         protected ThreadSafeList<Ack> sendPackets;
@@ -35,8 +38,14 @@
             queue.Enqueue(msg);
         }
 
+        public override string ToString()
+        {
+            return $"Sender channel {ID}";
+        }
+
         private void SendMessage(OutgoingMsg msg)
         {
+            LoggedException.RaiseIf(msg.IsSend, nameof(SenderChannelBase), "Message already send");
             bool send = true;
 
             LibHeader libHeader = msg.GenerateHeader(ID, Constants.MTU_ETHERNET_WITH_HEADERS);

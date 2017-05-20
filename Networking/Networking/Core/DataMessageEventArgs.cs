@@ -3,6 +3,9 @@
     using Messages;
     using System;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public sealed class DataMessageEventArgs : EventArgs
     {
         public readonly IncommingMsgType Type;

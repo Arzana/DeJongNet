@@ -1,14 +1,17 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
     using Channels;
-    using System.Net;
     using Channels.Sender;
+    using Utilities.Logging;
     using Messages;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using Utilities.Core;
-    using Utilities.Logging;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     public sealed partial class Connection
     {
         public double Ping { get; private set; }
@@ -40,7 +43,13 @@
 
         public override string ToString()
         {
-            return RemoteID.ToString();
+            return $"{RemoteID} ({Status})";
+        }
+
+        internal void Disconnect(string reason)
+        {
+            Status = ConnectionStatus.Disconnected;
+            Log.Verbose(nameof(Connection), $"Disconnected from remote host {RemoteID}, {reason}");
         }
 
         internal void PingConnection()
@@ -78,8 +87,6 @@
 
         internal void AddRTT()
         {
-            Log.Debug(GetType().Name, $"{{Ping: {Ping}, ARTT: {AverageRoundTripTime}}}");
-
             double sec = NetTime.Now - lastPingSend;
             rttBuffer.Enqueue(sec / 0.001d);
             if (rttBuffer.Count > Constants.RTT_BUFFER_SIZE) rttBuffer.Dequeue();

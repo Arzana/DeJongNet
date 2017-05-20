@@ -1,7 +1,10 @@
 ﻿namespace DeJong.Networking.Core
 {
+    using Utilities.Core;
     using System;
     using System.Net;
+    using System.Net.Sockets;
+    using Utilities.Logging;
 
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
@@ -51,6 +54,45 @@
             }
 
             return new string(result);
+        }
+
+        public static IPAddress ResolveAddress(string host)
+        {
+            LoggedException.RaiseIf(string.IsNullOrEmpty(host), nameof(ResolveAddress), "Host cannot be empty");
+            host.Trim();
+
+            IPAddress result = null;
+            if (IPAddress.TryParse(host, out result))
+            {
+                if (result.AddressFamily == AddressFamily.InterNetwork) return result;
+                LoggedException.Raise("Only IPv4 addresses can be resolved");
+            }
+
+            try
+            {
+                IPAddress[] addresses = Dns.GetHostAddresses(host);
+                if (addresses == null) return null;
+
+                for (int i = 0; i < addresses.Length; i++)
+                {
+                    if (addresses[i].AddressFamily == AddressFamily.InterNetwork) return addresses[i];
+                }
+
+                return null;
+            }
+            catch (SocketException se)
+            {
+                if (se.SocketErrorCode == SocketError.HostNotFound)
+                {
+                    Log.Info(nameof(ResolveAddress), $"Host {host} cannot be found");
+                    return null;
+                }
+                else
+                {
+                    LoggedException.Raise(nameof(ResolveAddress), "An error occured whilst resolving the remote host address", se);
+                    throw;
+                }
+            }
         }
 
         private static byte[] ComputeSHAHash(byte[] bytes)
