@@ -8,9 +8,9 @@
 #endif
     public class WriteableBuffer : MsgBuffer
     {
-        public WriteableBuffer() { }
+        internal WriteableBuffer() { }
 
-        public WriteableBuffer(byte[] buffer)
+        internal WriteableBuffer(byte[] buffer)
             : base(buffer)
         { }
 

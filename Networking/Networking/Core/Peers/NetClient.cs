@@ -1,27 +1,29 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
-    using Utilities.Logging;
     using Messages;
+    using System.Collections.Generic;
     using System.Net;
     using Utilities.Core;
+    using Utilities.Logging;
     using Utilities.Threading;
-    using System.Collections.Generic;
-    using System;
 
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
     public sealed class NetClient : Peer
     {
-        public event StrongEventHandler<Connection, DiscoveryResponseEventArgs> OnDiscoveryResponse;
+        public event StrongEventHandler<Connection, SimpleMessageEventArgs> OnDiscoveryResponse;
         public event StrongEventHandler<Connection, DataMessageEventArgs> OnDataMessage;
+        public event StrongEventHandler<Connection, StatusChangedEventArgs> OnStatusChanged;
 
-        private ThreadSafeQueue<KeyValuePair<Connection, DiscoveryResponseEventArgs>> queuedDiscoveries;
+        private ThreadSafeQueue<KeyValuePair<Connection, SimpleMessageEventArgs>> queuedDiscoveries;
+        private IncommingMsg connectHail;
+        private string disconnectReason;
 
         public NetClient(PeerConfig config)
             : base(config)
         {
-            queuedDiscoveries = new ThreadSafeQueue<KeyValuePair<Connection, DiscoveryResponseEventArgs>>();
+            queuedDiscoveries = new ThreadSafeQueue<KeyValuePair<Connection, SimpleMessageEventArgs>>();
         }
 
         public void DiscoverLocal(int port)
@@ -51,6 +53,12 @@
             Connections[0].Disconnect(reason);
         }
 
+        public void Connect(Connection host, OutgoingMsg hail)
+        {
+            OutgoingMsg msg = MessageHelper.Connect(Config.AppID, ID.ID, hail);
+            Connections[0].SendTo(msg, 0);
+        }
+
         protected override void Heartbeat()
         {
             base.Heartbeat();
@@ -70,8 +78,19 @@
         {
             while (queuedDiscoveries.Count > 0)
             {
-                KeyValuePair<Connection, DiscoveryResponseEventArgs> cur = queuedDiscoveries.Dequeue();
+                KeyValuePair<Connection, SimpleMessageEventArgs> cur = queuedDiscoveries.Dequeue();
                 EventInvoker.InvokeSafe(OnDiscoveryResponse, cur.Key, cur.Value);
+            }
+
+            if (connectHail != null)
+            {
+                EventInvoker.InvokeSafe(OnStatusChanged, Connections[0], new StatusChangedEventArgs(connectHail));
+                connectHail = null;
+            }
+            if (disconnectReason != null)
+            {
+                EventInvoker.InvokeSafe(OnStatusChanged, Connections[0], new StatusChangedEventArgs(disconnectReason));
+                disconnectReason = null;
             }
 
             for (int i = 0; i < Connections.Count; i++)
@@ -90,7 +109,7 @@
         {
             Connections.Clear();
             AddConnection(sender, false);
-            queuedDiscoveries.Enqueue(new KeyValuePair<Connection, DiscoveryResponseEventArgs>(Connections[0], new DiscoveryResponseEventArgs(msg)));
+            queuedDiscoveries.Enqueue(new KeyValuePair<Connection, SimpleMessageEventArgs>(Connections[0], new SimpleMessageEventArgs(msg)));
         }
 
         private void HandleLibMsgs(Connection sender, IncommingMsg msg)
@@ -104,27 +123,25 @@
                 case MsgType.Pong:
                     sender.ReceivePong(msg);
                     break;
-                case MsgType.Connect:
-                    break;
                 case MsgType.ConnectResponse:
-                    break;
-                case MsgType.ConnectionEstablished:
+                    string remoteAppID = msg.ReadString();
+                    long remoteID = msg.ReadInt64();
+                    if (remoteID != sender.RemoteID.ID) sender.RemoteID = new NetID(remoteID);
+                    if (remoteAppID != Config.AppID) Log.Warning(nameof(Peer), $"Cannot conect to host application({remoteAppID}) as {Config.AppID}");
+                    else
+                    {
+                        sender.Status = ConnectionStatus.Connected;
+                        OutgoingMsg establish = MessageHelper.ConnectionEstablished();
+                        sender.SendTo(establish, 0);
+                        if (msg.PositionBits < msg.Header.PacketSize) connectHail = msg;
+                        else connectHail = new IncommingMsg();
+                    }
                     break;
                 case MsgType.Acknowledge:
                     break;
                 case MsgType.Disconnect:
                     sender.Disconnect(msg.ReadString());
-                    Connections.Remove(sender);
                     break;
-                case MsgType.DiscoveryResponse:
-                    queuedDiscoveries.Enqueue(new KeyValuePair<Connection, DiscoveryResponseEventArgs>(sender, new DiscoveryResponseEventArgs(msg)));
-                    break;
-                case MsgType.LibraryError:
-                case MsgType.Unreliable:
-                case MsgType.Ordered:
-                case MsgType.Reliable:
-                case MsgType.ReliableOrdered:
-                case MsgType.Discovery:
                 default:
                     Log.Warning(nameof(Peer), $"{msg.Header.Type} message of size {msg.Header.PacketSize} send over library channel by {sender}, message dropped");
                     break;

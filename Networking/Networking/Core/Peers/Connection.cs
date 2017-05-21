@@ -16,8 +16,8 @@
     {
         public double Ping { get; private set; }
         public double AverageRoundTripTime { get; private set; }
-        public ConnectionStatus Status { get; private set; }
-        public NetID RemoteID { get; private set; }
+        public ConnectionStatus Status { get; internal set; }
+        public NetID RemoteID { get; internal set; }
         public IPEndPoint RemoteEndPoint { get; private set; }
 
         internal ReceiverController Receiver { get; private set; }

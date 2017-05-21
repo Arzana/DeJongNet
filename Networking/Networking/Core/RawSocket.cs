@@ -11,7 +11,7 @@
 #endif
     internal sealed class RawSocket : IFullyDisposable
     {
-        public IPEndPoint BoundEP { get { return socket.LocalEndPoint as IPEndPoint; } }
+        public IPEndPoint BoundEP { get; private set; }
 
         public bool Disposed { get; private set; }
         public bool Disposing { get; private set; }
@@ -76,9 +76,8 @@
                 Log.Warning(nameof(RawSocket), $"{nameof(Constants.SIO_UDP_CONNRESET)} not supported on this platform");
             }
 
-            IPEndPoint boundEp = socket.LocalEndPoint as IPEndPoint;
-            Log.Info(nameof(RawSocket), $"Socket bound to {boundEp}: {socket.IsBound}");
-            listenPort = boundEp.Port;
+            SetBoundEP();
+            listenPort = BoundEP.Port;
         }
 
         public void UnBind()
@@ -187,6 +186,25 @@
         private void SetBroadcast(bool value)
         {
             socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, value);
+        }
+
+        private void SetBoundEP()
+        {
+            IPAddress host = NetUtils.GetHostAddress();
+            IPEndPoint boundEp = socket.LocalEndPoint as IPEndPoint;
+
+            byte[] hostBytes = host.GetAddressBytes();
+            byte[] boundBytes = boundEp.Address.GetAddressBytes();
+            LoggedException.RaiseIf(hostBytes.Length != boundBytes.Length, nameof(NetUtils), $"Cannot match bound address and host mask");
+
+            byte[] result = new byte[hostBytes.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = (byte)(hostBytes[i] | boundBytes[i]);
+            }
+            BoundEP = new IPEndPoint(new IPAddress(result), boundEp.Port);
+
+            Log.Info(nameof(RawSocket), $"Socket bound to {BoundEP}: {socket.IsBound}");
         }
     }
 }

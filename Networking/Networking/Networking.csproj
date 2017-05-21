@@ -84,6 +84,7 @@
     <Compile Include="Core\Peers\Peer.cs" />
     <Compile Include="Core\Peers\PeerStatus.cs" />
     <Compile Include="Core\RawSocket.cs" />
+    <Compile Include="Core\StatusChangedEventArgs.cs" />
     <Compile Include="Documentation.cs" />
     <Compile Include="Platform\Win32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

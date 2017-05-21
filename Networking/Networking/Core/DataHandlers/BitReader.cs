@@ -74,10 +74,8 @@
             ulong result = 0;
             for (int i = 0; i < numBytes && length > 0; i++, length -= 8, offset += 8)
             {
-#pragma warning disable CS0675 // Bitwise-or operator used on a sign-extended operand
-                if (length <= 8) result |= (ulong)(ReadByte(source, offset, length) << (i << 3));
-                else result |= (ulong)(ReadByte(source, offset, 8) << (i << 3));
-#pragma warning restore CS0675 // Bitwise-or operator used on a sign-extended operand
+                if (length <= 8) result |= (ulong)ReadByte(source, offset, length) << (i << 3);
+                else result |= (ulong)ReadByte(source, offset, 8) << (i << 3);
             }
             return result;
         }

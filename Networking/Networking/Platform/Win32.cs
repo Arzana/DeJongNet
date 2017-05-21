@@ -23,6 +23,25 @@ namespace DeJong.Networking.Core
             return ni != null ? ni.GetPhysicalAddress().GetAddressBytes() : null;
         }
 
+        private static IPAddress GetNewHostAddress()
+        {
+            NetworkInterface ni = GetNetworkInterface();
+            if (ni == null) return null;
+
+            IPInterfaceProperties props = ni.GetIPProperties();
+            for (int i = 0; i < props.UnicastAddresses.Count; i++)
+            {
+                UnicastIPAddressInformation unicastAddress = props.UnicastAddresses[i];
+
+                if (unicastAddress?.Address?.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return unicastAddress.Address;
+                }
+            }
+
+            return null;
+        }
+
         private static IPAddress GetNewBroadcastAddress()
         {
             NetworkInterface ni = GetNetworkInterface();

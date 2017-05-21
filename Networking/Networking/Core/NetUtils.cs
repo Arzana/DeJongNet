@@ -12,6 +12,7 @@
     internal static partial class NetUtils
     {
         private static IPAddress broadcastAddress;
+        private static IPAddress hostAddress;
 
         /// <summary>
         /// Attempts to get the broadcast address from cache.
@@ -21,6 +22,16 @@
         {
             if (broadcastAddress == null) broadcastAddress = GetNewBroadcastAddress();
             return broadcastAddress;
+        }
+
+        /// <summary>
+        /// Attempt to get the host IP address from cache.
+        /// </summary>
+        /// <returns> The cahced address or a newly generated one. </returns>
+        public static IPAddress GetHostAddress()
+        {
+            if (hostAddress == null) hostAddress = GetNewHostAddress();
+            return hostAddress;
         }
 
         /// <summary>

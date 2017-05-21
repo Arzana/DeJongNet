@@ -6,12 +6,12 @@
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    public sealed class DiscoveryResponseEventArgs : EventArgs
+    public sealed class SimpleMessageEventArgs : EventArgs
     {
         public bool HasAdditionalMessage { get { return Message.Header.PacketSize > 0; } }
         public readonly IncommingMsg Message;
 
-        internal DiscoveryResponseEventArgs(IncommingMsg msg)
+        internal SimpleMessageEventArgs(IncommingMsg msg)
         {
             Message = msg;
         }

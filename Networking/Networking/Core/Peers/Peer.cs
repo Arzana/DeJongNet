@@ -83,6 +83,7 @@
             socket.Bind(false);
             ID = new NetID(NetUtils.GetID(socket.BoundEP));
             Status = PeerStatus.Running;
+            Log.Info(nameof(Peer), $"Peer {ID} starting");
         }
 
         public override string ToString()
