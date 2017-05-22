@@ -21,6 +21,10 @@
         /// </summary>
         public IPAddress LocalAddress { get { return localAddress; } set { CheckLock(); localAddress = value; } }
         /// <summary>
+        /// Gets or sets how big the buffer for the message cache can be.
+        /// </summary>
+        public int MessageCacheSize { get { return maxBufferSize; } set { CheckLock(); maxBufferSize = value; } }
+        /// <summary>
         /// Gets or sets the maximum transmision unit.
         /// </summary>
         public int MTU { get; set; }
@@ -57,6 +61,7 @@
         private int sendBufferSize;
         private int resendDelay;
         private string networkThreadName;
+        private int maxBufferSize;
         private bool locked;
 
         /// <summary>
@@ -75,7 +80,8 @@
             ResendDelay = Constants.DEFAULT_RESEND_DELAY;
             PingInterval = Constants.DEFAULT_PING_INTERVAL;
             NetworkThreadName = "DeJong Networking";
-            if (++peersCreated > 1) NetworkThreadName += $" {peersCreated + 1}";
+            MessageCacheSize = Constants.DEFAULT_CACHE_SIZE;
+            if (++peersCreated > 1) NetworkThreadName += $" {peersCreated}";
         }
 
         internal void Lock()

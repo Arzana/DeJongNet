@@ -7,15 +7,25 @@
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
-    internal sealed class ReliableSenderChannel : SenderChannelBase
+    internal class ReliableSenderChannel : SenderChannelBase
     {
         private readonly int resendDelay;
         private int sequenceCount;
 
         public ReliableSenderChannel(RawSocket socket, IPEndPoint remote, PeerConfig config)
-            : base(socket, remote)
+            : base(socket, remote, config)
         {
             resendDelay = config.ResendDelay;
+        }
+
+        public override OutgoingMsg CreateMessage()
+        {
+            return new OutgoingMsg(ID, MsgType.Reliable, cache.Get());
+        }
+
+        public override OutgoingMsg CreateMessage(int initialSize)
+        {
+            return new OutgoingMsg(ID, MsgType.Reliable, cache.Get(initialSize));
         }
 
         public override void Heartbeat()
@@ -37,7 +47,7 @@
 
         public void ReceiveAck(int sequnceNum)
         {
-            sendPackets.Remove(new Ack(new OutgoingMsg(MsgType.LibraryError) { SequenceNumber = sequnceNum }));
+            sendPackets.Remove(new Ack(new OutgoingMsg(ID, MsgType.LibraryError, null) { SequenceNumber = sequnceNum }));
         }
 
         public override void EnqueueMessage(OutgoingMsg msg)

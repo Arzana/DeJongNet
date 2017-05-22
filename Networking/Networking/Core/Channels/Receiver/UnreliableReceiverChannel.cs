@@ -7,8 +7,8 @@
 #endif
     internal sealed class UnreliableReceiverChannel : ReceiverChannelBase
     {
-        public UnreliableReceiverChannel(IPEndPoint remote)
-            : base(remote)
+        public UnreliableReceiverChannel(RawSocket socket, IPEndPoint remote, PeerConfig config)
+            : base(socket, remote, config)
         { }
     }
 }

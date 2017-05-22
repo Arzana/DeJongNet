@@ -4,9 +4,6 @@
     using System;
     using System.Diagnostics;
 
-    /// <summary>
-    /// Defines the packet header used for this library.
-    /// </summary>
 #if !DEBUG
     [DebuggerStepThrough]
 #endif
@@ -15,6 +12,8 @@
     {
         public const int SIZE_BYTES = 5;
         public const int SIZE_BITS = SIZE_BYTES << 3;
+
+        public static readonly LibHeader Empty = new LibHeader();
 
         public readonly MsgType Type;
         public readonly int Channel;

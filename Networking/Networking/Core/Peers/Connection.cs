@@ -21,22 +21,22 @@
         public IPEndPoint RemoteEndPoint { get; private set; }
 
         internal ReceiverController Receiver { get; private set; }
+        internal SenderController Sender { get; private set; }
+
         private double lastPingSend;
         private int pingInterval;
         private int lastPingCount;
-
-        private SenderController sender;
         private Queue<double> rttBuffer;
         private int pingCount;
 
         internal Connection(RawSocket socket, IPEndPoint remoteEP, PeerConfig config)
         {
-            RemoteID = new NetID(NetUtils.GetID(remoteEP));
+            RemoteID = NetID.Unknown;
             RemoteEndPoint = remoteEP;
             rttBuffer = new Queue<double>();
 
-            sender = new SenderController(socket, remoteEP, config);
-            Receiver = new ReceiverController(remoteEP, (UnreliableSenderChannel)sender[0]);
+            Sender = new SenderController(socket, remoteEP, config);
+            Receiver = new ReceiverController(socket, remoteEP, config, Sender);
             pingInterval = config.PingInterval;
             lastPingSend = NetTime.Now;
         }
@@ -55,7 +55,7 @@
         internal void PingConnection()
         {
             lastPingCount = pingCount = ExtraMath.Clamp(++pingCount, 0, int.MaxValue);
-            SendTo(MessageHelper.Ping(pingCount), 0);
+            SendTo(MessageHelper.Ping(Sender.LibSender.CreateMessage(MsgType.Ping), pingCount));
             lastPingSend = NetTime.Now;
         }
 
@@ -72,7 +72,7 @@
             if ((NetTime.Now - lastPingSend) >= pingInterval) PingConnection();
 
             Receiver.Heartbeat();
-            sender.HeartBeat();
+            Sender.HeartBeat();
         }
 
         internal void ReceivePacket(RawSocket socket, PacketReceiveEventArgs e)
@@ -80,9 +80,9 @@
             Receiver.ReceivedPacket(socket, e);
         }
 
-        internal void SendTo(OutgoingMsg msg, int channel)
+        internal void SendTo(OutgoingMsg msg)
         {
-            sender[channel].EnqueueMessage(msg);
+            Sender[msg.channel].EnqueueMessage(msg);
         }
 
         internal void AddRTT()

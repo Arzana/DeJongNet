@@ -44,12 +44,12 @@
 
         public void ShutDown(string reason)
         {
-            OutgoingMsg msg = MessageHelper.Disconnect(reason);
+            OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect), reason);
             networkThread.StopWait();
 
             for (int i = 0; i < Connections.Count; i++)
             {
-                Connections[i].SendTo(msg, 0);
+                Connections[i].SendTo(msg);
             }
 
             Heartbeat();
@@ -103,27 +103,36 @@
                 {
                     case DeliveryMethod.Unreliable:
                         Connections[i].Receiver.AddUnreliable(id);
+                        Connections[i].Sender.AddUnreliable(id);
                         break;
                     case DeliveryMethod.Ordered:
                         Connections[i].Receiver.AddOrdered(id, orderBehavior);
+                        Connections[i].Sender.AddOrdered(id);
                         break;
                     case DeliveryMethod.Reliable:
+                        Connections[i].Sender.AddReliable(id);
                         Connections[i].Receiver.AddReliable(id);
                         break;
                     case DeliveryMethod.ReliableOrdered:
                         Connections[i].Receiver.AddReliableOrdered(id, orderBehavior);
+                        Connections[i].Sender.AddReliableOrdered(id);
                         break;
                 }
             }
         }
 
-        public void Send(int channel, OutgoingMsg msg)
+        public void Send(OutgoingMsg msg)
         {
-            LoggedException.RaiseIf(channel == 0, nameof(Peer), "Cannot send messages over library channel");
-            for (int i = 1; i < Connections.Count; i++)
+            for (int i = 0; i < Connections.Count; i++)
             {
-                Connections[i].SendTo(msg, channel);
+                if (Connections[i].Status == ConnectionStatus.Connected) Connections[i].SendTo(msg);
             }
+        }
+
+        internal OutgoingMsg CreateMessage(MsgType type, Connection conn = null)
+        {
+            conn = conn ?? Connections[0];
+            return conn.Sender.LibSender.CreateMessage(type);
         }
 
         public abstract void PollMessages();
@@ -143,16 +152,16 @@
         {
             Connection conn = new Connection(socket, remote, Config);
             AddChannelsToConnection(conn);
-            if (sendDiscovery) conn.SendTo(MessageHelper.Discovery(), 0);
             Connections.Add(conn);
+            if (sendDiscovery) conn.SendTo(CreateMessage(MsgType.Discovery));
         }
 
         protected void AddConnection(IPEndPoint remote, OutgoingMsg secMsg)
         {
             Connection conn = new Connection(socket, remote, Config);
             AddChannelsToConnection(conn);
-            conn.SendTo(MessageHelper.DiscoveryResponse(secMsg), 0);
             Connections.Add(conn);
+            conn.SendTo(MessageHelper.DiscoveryResponse(CreateMessage(MsgType.DiscoveryResponse), secMsg));
         }
 
         private void AddChannelsToConnection(Connection conn)
@@ -165,15 +174,19 @@
                 {
                     case DeliveryMethod.Unreliable:
                         conn.Receiver.AddUnreliable(config.Id);
+                        conn.Sender.AddUnreliable(config.Id);
                         break;
                     case DeliveryMethod.Ordered:
                         conn.Receiver.AddOrdered(config.Id, config.Behavior);
+                        conn.Sender.AddOrdered(config.Id);
                         break;
                     case DeliveryMethod.Reliable:
                         conn.Receiver.AddReliable(config.Id);
+                        conn.Sender.AddReliable(config.Id);
                         break;
                     case DeliveryMethod.ReliableOrdered:
                         conn.Receiver.AddReliableOrdered(config.Id, config.Behavior);
+                        conn.Sender.AddReliableOrdered(config.Id);
                         break;
                 }
             }
@@ -198,6 +211,7 @@
             byte[] data = new byte[e.PacketSize];
             Array.Copy(socket.ReceiveBuffer, 0, data, 0, e.PacketSize);
             IncommingMsg msg = new IncommingMsg(data);
+            msg.Header = new LibHeader(msg);
 
             if (msg.Header.Channel == 0 && msg.Header.Type == MsgType.Discovery) HandleDiscovery(sender, msg);
             else if (msg.Header.Channel == 0 && msg.Header.Type == MsgType.DiscoveryResponse) HandleDiscoveryResponse(sender, msg);

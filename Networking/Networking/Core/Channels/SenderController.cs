@@ -9,6 +9,8 @@
 #endif
     internal sealed class SenderController
     {
+        public LibSenderChannel LibSender { get { return (LibSenderChannel)this[0]; } }
+
         private RawSocket socket;
         private IPEndPoint remote;
         private SenderChannelBase[] channels;
@@ -19,8 +21,7 @@
         {
             get
             {
-                LoggedException.RaiseIf(id >= size || id < 0, nameof(ReceiverController), "index ot of range");
-                for (int i = 0; i < channels.Length; i++)
+                for (int i = 0; i < size; i++)
                 {
                     if (channels[i].ID == id) return channels[i];
                 }
@@ -37,19 +38,19 @@
             channels = new SenderChannelBase[15];
             this.config = config;
 
-            channels[size++] = new UnreliableSenderChannel(socket, ep);
+            channels[size++] = new LibSenderChannel(socket, ep, config);
         }
 
         public void AddUnreliable(int id)
         {
             CheckNewChannel(id);
-            channels[size++] = new UnreliableSenderChannel(socket, remote) { ID = id };
+            channels[size++] = new UnreliableSenderChannel(socket, remote, config) { ID = id };
         }
 
         public void AddOrdered(int id)
         {
             CheckNewChannel(id);
-            channels[size++] = new OrderedSenderChannel(socket, remote) { ID = id };
+            channels[size++] = new OrderedSenderChannel(socket, remote, config) { ID = id };
         }
 
         public void AddReliable(int id)
@@ -60,7 +61,8 @@
 
         public void AddReliableOrdered(int id)
         {
-            AddReliable(id);
+            CheckNewChannel(id);
+            channels[size++] = new ReliableOrderedSenderChannel(socket, remote, config);
         }
 
         public void HeartBeat()

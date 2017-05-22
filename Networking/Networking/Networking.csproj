@@ -52,7 +52,9 @@
     <Compile Include="Core\Channels\Receiver\ReliableReceiverChannel.cs" />
     <Compile Include="Core\Channels\Receiver\UnreliableReceiverChannel.cs" />
     <Compile Include="Core\Channels\SenderController.cs" />
+    <Compile Include="Core\Channels\Sender\LibSenderChannel.cs" />
     <Compile Include="Core\Channels\Sender\OrderedSenderChannel.cs" />
+    <Compile Include="Core\Channels\Sender\ReliableOrderedSenderChannel.cs" />
     <Compile Include="Core\Channels\Sender\ReliableSenderChannel.cs" />
     <Compile Include="Core\Channels\Sender\SenderChannelBase.cs" />
     <Compile Include="Core\Channels\Sender\UnreliableSenderChannel.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Core\DiscoveryResponseEventArgs.cs" />
     <Compile Include="Core\Messages\DeliveryMethod.cs" />
     <Compile Include="Core\Messages\FragmentHeader.cs" />
+    <Compile Include="Core\Messages\MessageCache.cs" />
     <Compile Include="Core\Messages\MessageHelper.cs" />
     <Compile Include="Core\Messages\Msg\IncommingMsg.cs" />
     <Compile Include="Core\Messages\IncommingMsgType.cs" />

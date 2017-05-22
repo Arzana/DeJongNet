@@ -10,6 +10,8 @@
         public long ID { get; private set; }
         private readonly string hexId;
 
+        internal static readonly NetID Unknown = new NetID();
+
         public static bool operator ==(NetID left, NetID right) { return left?.ID == right?.ID; }
         public static bool operator !=(NetID left, NetID right) { return left?.ID != right?.ID; }
 
@@ -29,6 +31,12 @@
         {
             ID = id;
             hexId = NetUtils.ToHexString(id);
+        }
+
+        private NetID()
+        {
+            ID = 0;
+            hexId = "Unknown";
         }
 
         public override bool Equals(object obj)

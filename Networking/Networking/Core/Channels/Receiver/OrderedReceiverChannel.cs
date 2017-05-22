@@ -16,8 +16,8 @@
         private int sequenceCount;
         private ThreadSafeQueue<IncommingMsg> released;
 
-        public OrderedReceiverChannel(IPEndPoint remote, OrderChannelBehaviour behaviour)
-            : base(remote)
+        public OrderedReceiverChannel(RawSocket socket, IPEndPoint remote, PeerConfig config, OrderChannelBehaviour behaviour)
+            : base(socket, remote, config)
         {
             this.behaviour = behaviour;
             released = new ThreadSafeQueue<IncommingMsg>();

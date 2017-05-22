@@ -17,13 +17,16 @@
         private WriteableBuffer packetWriteHelper;
         private int groupCount;
 
-        protected SenderChannelBase(RawSocket socket, IPEndPoint target)
-            : base(socket)
+        protected SenderChannelBase(RawSocket socket, IPEndPoint target, PeerConfig config)
+            : base(socket, config)
         {
             this.target = target;
             packetWriteHelper = new WriteableBuffer(socket.SendBuffer);
             sendPackets = new ThreadSafeList<Ack>();
         }
+
+        public abstract OutgoingMsg CreateMessage();
+        public abstract OutgoingMsg CreateMessage(int initialSize);
 
         public override void Heartbeat()
         {
@@ -48,7 +51,7 @@
             LoggedException.RaiseIf(msg.IsSend, nameof(SenderChannelBase), "Message already send");
             bool send = true;
 
-            LibHeader libHeader = msg.GenerateHeader(ID, Constants.MTU_ETHERNET_WITH_HEADERS);
+            LibHeader libHeader = msg.GenerateHeader(Constants.MTU_ETHERNET_WITH_HEADERS);
             if (libHeader.Fragment)
             {
                 int size = FragmentHeader.GetChunkSize(GetClampedGroupID(), msg.LengthBytes, Constants.MTU_ETHERNET_WITH_HEADERS);
@@ -56,7 +59,7 @@
                 for (int i = 0, bytesLeft = msg.LengthBytes; bytesLeft > 0; i++, bytesLeft -= size)
                 {
                     FragmentHeader fragHeader = new FragmentHeader(groupCount, msg.LengthBytes, size, i);
-                    OutgoingMsg packet = new OutgoingMsg(libHeader.Type);
+                    OutgoingMsg packet = CreateMessage();
                     msg.CopyData(packet, msg.LengthBytes - bytesLeft, size);
 
                     send = send && SendPacket(libHeader, fragHeader, packet);
@@ -78,6 +81,8 @@
 
             bool connReset;
             socket.SendPacket(packetWriteHelper.LengthBytes + msg.LengthBytes, target, out connReset);
+            if (!connReset) Recycle(msg);
+
             return !connReset;
         }
 

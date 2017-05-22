@@ -3,7 +3,6 @@
     using Messages;
     using Receiver;
     using Sender;
-    using System;
     using System.Net;
     using Utilities.Core;
     using Utilities.Logging;
@@ -18,7 +17,10 @@
         private IPEndPoint remote;
         private EndPoint ep;
         private ReceiverChannelBase[] channels;
-        private UnreliableSenderChannel ackSender;
+        private SenderController sendController;
+        private ReadableBuffer readHelper;
+        private PeerConfig config;
+        private RawSocket socket;
 
         public ReceiverChannelBase this[int index]
         {
@@ -29,38 +31,41 @@
             }
         }
 
-        public ReceiverController(IPEndPoint ep, UnreliableSenderChannel libSender)
+        public ReceiverController(RawSocket socket, IPEndPoint ep, PeerConfig config, SenderController sender)
         {
             remote = ep;
             this.ep = remote;
+            this.config = config;
+            this.socket = socket;
             channels = new ReceiverChannelBase[15];
-            ackSender = libSender;
+            sendController = sender;
+            readHelper = new ReadableBuffer(socket.ReceiveBuffer);
 
-            channels[Size++] = new UnreliableReceiverChannel(ep);
+            channels[Size++] = new UnreliableReceiverChannel(socket, ep, config);
         }
 
         public void AddUnreliable(int id)
         {
             CheckNewChannel(id);
-            channels[Size++] = new UnreliableReceiverChannel(remote) { ID = id };
+            channels[Size++] = new UnreliableReceiverChannel(socket, remote, config) { ID = id };
         }
 
         public void AddOrdered(int id, OrderChannelBehaviour behaviour)
         {
             CheckNewChannel(id);
-            channels[Size++] = new OrderedReceiverChannel(remote, behaviour) { ID = id };
+            channels[Size++] = new OrderedReceiverChannel(socket, remote, config, behaviour) { ID = id };
         }
 
         public void AddReliable(int id)
         {
             CheckNewChannel(id);
-            channels[Size++] = new ReliableReceiverChannel(remote, ackSender) { ID = id };
+            channels[Size++] = new ReliableReceiverChannel(socket, remote, config, sendController.LibSender) { ID = id };
         }
 
         public void AddReliableOrdered(int id, OrderChannelBehaviour behaviour)
         {
             CheckNewChannel(id);
-            channels[Size++] = new ReliableOrderedReceiverChannel(remote, ackSender, behaviour) { ID = id };
+            channels[Size++] = new ReliableOrderedReceiverChannel(socket, remote, config, sendController.LibSender, behaviour) { ID = id };
         }
 
         public void Heartbeat()
@@ -73,15 +78,19 @@
 
         public void ReceivedPacket(RawSocket sender, PacketReceiveEventArgs e)
         {
-            byte[] data = new byte[e.PacketSize];
-            Array.Copy(sender.ReceiveBuffer, 0, data, 0, e.PacketSize);
-            IncommingMsg msg = new IncommingMsg(data);
+            readHelper.PositionBits = 0;
+            LibHeader header = new LibHeader(readHelper);
+            IncommingMsg msg = this[header.Channel].CreateMessage(header);
 
             for (int i = 0; i < Size; i++)
             {
-                if (channels[i].ID == msg.Header.Channel)
+                ReceiverChannelBase cur = channels[i];
+
+                if (cur.ID == msg.Header.Channel)
                 {
-                    channels[i].EnqueueMessage(msg);
+                    if (msg.Header.Type == MsgType.Acknowledge) ((ReliableSenderChannel)sendController[cur.ID]).ReceiveAck(msg.Header.SequenceNumber);
+                    else cur.EnqueueMessage(msg);
+
                     return;
                 }
             }

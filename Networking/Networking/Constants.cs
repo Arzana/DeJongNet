@@ -18,6 +18,7 @@
         public const int DEFAULT_BUFFER_SIZE = 131071;
         public const int DEFAULT_RESEND_DELAY = 2;
         public const int DEFAULT_PING_INTERVAL = 4;
+        public const int DEFAULT_CACHE_SIZE = 10;
         public const int RTT_BUFFER_SIZE = 100;
     }
 }

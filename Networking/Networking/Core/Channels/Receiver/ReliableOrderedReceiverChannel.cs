@@ -11,15 +11,15 @@
     {
         private UnreliableSenderChannel ackSender;
 
-        public ReliableOrderedReceiverChannel(IPEndPoint remote, UnreliableSenderChannel libSender, OrderChannelBehaviour behaviour)
-            : base(remote, behaviour)
+        public ReliableOrderedReceiverChannel(RawSocket socket, IPEndPoint remote, PeerConfig config, UnreliableSenderChannel libSender, OrderChannelBehaviour behaviour)
+            : base(socket, remote, config, behaviour)
         {
             ackSender = libSender;
         }
 
         protected override void ReceiveMsg(IncommingMsg msg)
         {
-            ackSender.EnqueueMessage(MessageHelper.Ack(msg.Header.Type, ID, msg.Header.SequenceNumber));
+            ackSender.EnqueueMessage(MessageHelper.Ack(ackSender.CreateMessage(), msg.Header.Type, ID, msg.Header.SequenceNumber));
             base.ReceiveMsg(msg);
         }
     }

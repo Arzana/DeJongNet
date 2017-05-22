@@ -11,9 +11,19 @@
     {
         private int sequenceCount;
 
-        public OrderedSenderChannel(RawSocket socket, IPEndPoint remote)
-            : base(socket, remote)
+        public OrderedSenderChannel(RawSocket socket, IPEndPoint remote, PeerConfig config)
+            : base(socket, remote, config)
         { }
+
+        public override OutgoingMsg CreateMessage()
+        {
+            return new OutgoingMsg(ID, MsgType.Ordered, cache.Get());
+        }
+
+        public override OutgoingMsg CreateMessage(int initialSize)
+        {
+            return new OutgoingMsg(ID, MsgType.Ordered, cache.Get(initialSize));
+        }
 
         public override void Heartbeat()
         {

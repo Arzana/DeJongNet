@@ -30,27 +30,20 @@
             queuedStatusChanges = new ThreadSafeQueue<KeyValuePair<Connection, StatusChangedEventArgs>>();
         }
 
-        public void Send(Connection to, int channel, OutgoingMsg msg)
-        {
-            LoggedException.RaiseIf(channel == 0, nameof(Peer), "Cannot send messages over library channel");
-            LoggedException.RaiseIf(to.Status != ConnectionStatus.Connected, nameof(Peer), "Cannot send messages to unconnected client");
-            to.SendTo(msg, channel);
-        }
-
         public void AcceptConnection(Connection connection, OutgoingMsg hail)
         {
             LoggedException.RaiseIf(connection.Status != ConnectionStatus.RespondedAwaitingApproval, nameof(Peer), $"Cannot accept connection while connection is {connection.Status}");
             connection.Status = ConnectionStatus.RespondedConnected;
-            OutgoingMsg msg = MessageHelper.ConnectResponse(Config.AppID, ID.ID, hail);
-            connection.SendTo(msg, 0);
+            OutgoingMsg msg = MessageHelper.ConnectResponse(CreateMessage(MsgType.ConnectResponse, connection), Config.AppID, ID.ID, hail);
+            connection.SendTo(msg);
         }
 
         public void DenyConnection(Connection connection, string reason)
         {
             LoggedException.RaiseIf(connection.Status != ConnectionStatus.RespondedAwaitingApproval, nameof(Peer), $"Cannot deny connection while connection is {connection.Status}");
             connection.Status = ConnectionStatus.Disconnecting;
-            OutgoingMsg msg = MessageHelper.Disconnect(reason);
-            connection.SendTo(msg, 0);
+            OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect, connection), reason);
+            connection.SendTo(msg);
             connection.Disconnect(reason);
         }
 
@@ -66,12 +59,14 @@
                 KeyValuePair<Connection, IncommingMsg> cur = queuedConnects.Dequeue();
                 cur.Key.Status = ConnectionStatus.RespondedAwaitingApproval;
                 EventInvoker.InvokeSafe(OnConnect, cur.Key, new SimpleMessageEventArgs(cur.Value));
+                cur.Key.Sender.LibSender.Recycle(cur.Value);
             }
 
             while (queuedStatusChanges.Count > 0)
             {
                 KeyValuePair<Connection, StatusChangedEventArgs> cur = queuedStatusChanges.Dequeue();
                 EventInvoker.InvokeSafe(OnStatusChanged, cur.Key, cur.Value);
+                cur.Key.Sender.LibSender.Recycle(cur.Value.Hail);
             }
 
             for (int i = 0; i < Connections.Count; i++)
@@ -79,7 +74,12 @@
                 Connection cur = Connections[i];
                 for (int j = 1; j < cur.Receiver.Size; j++)
                 {
-                    while (cur.Receiver[j].HasMessages) EventInvoker.InvokeSafe(OnDataMessage, cur, new DataMessageEventArgs(cur.Receiver[j].DequeueMessage()));
+                    while (cur.Receiver[j].HasMessages)
+                    {
+                        DataMessageEventArgs args = new DataMessageEventArgs(cur.Receiver[j].DequeueMessage());
+                        EventInvoker.InvokeSafe(OnDataMessage, cur, args);
+                        cur.Sender.LibSender.Recycle(args.Message);
+                    }
                     if (cur.Status == ConnectionStatus.Disconnected)
                     {
                         Connections.Remove(cur);
@@ -117,28 +117,30 @@
             switch (msg.Header.Type)
             {
                 case MsgType.Ping:
-                    sender.SendTo(MessageHelper.Pong(msg.ReadInt32()), 0);
+                    sender.SendTo(MessageHelper.Pong(CreateMessage(MsgType.Pong, sender), msg.ReadInt32()));
                     sender.SetPing(msg.ReadSingle());
                     break;
                 case MsgType.Pong:
                     sender.ReceivePong(msg);
                     break;
                 case MsgType.Connect:
-                    int oldPos = msg.PositionBits;
-                    msg.ReadString();
+                    string remoteAppID = msg.ReadString();
                     long remoteID = msg.ReadInt64();
-                    msg.PositionBits = oldPos;
-
-                    if (sender.RemoteID != remoteID) sender.RemoteID = new NetID(remoteID);
-
-                    queuedConnects.Enqueue(new KeyValuePair<Connection, IncommingMsg>(sender, msg));
-                    sender.Status = ConnectionStatus.ReceivedInitiation;
+                    sender.RemoteID = new NetID(remoteID);
+                    if (remoteAppID != Config.AppID)
+                    {
+                        Log.Warning(nameof(Peer), $"{sender.RemoteEndPoint} attempted to conenct to unknown service {remoteAppID}");
+                        DenyConnection(sender, "Invalid service ID");
+                    }
+                    else
+                    {
+                        queuedConnects.Enqueue(new KeyValuePair<Connection, IncommingMsg>(sender, msg));
+                        sender.Status = ConnectionStatus.ReceivedInitiation;
+                    }
                     break;
                 case MsgType.ConnectionEstablished:
                     sender.Status = ConnectionStatus.Connected;
                     queuedStatusChanges.Enqueue(new KeyValuePair<Connection, StatusChangedEventArgs>(sender, new StatusChangedEventArgs((IncommingMsg)null)));
-                    break;
-                case MsgType.Acknowledge:
                     break;
                 case MsgType.Disconnect:
                     string reason = msg.ReadString();

@@ -48,30 +48,27 @@
 
         public void Disconnect(string reason)
         {
-            OutgoingMsg msg = MessageHelper.Disconnect(reason);
-            Connections[0].SendTo(msg, 0);
+            OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect), reason);
+            Connections[0].SendTo(msg);
             Connections[0].Disconnect(reason);
         }
 
         public void Connect(Connection host, OutgoingMsg hail)
         {
-            OutgoingMsg msg = MessageHelper.Connect(Config.AppID, ID.ID, hail);
-            Connections[0].SendTo(msg, 0);
+            OutgoingMsg msg = MessageHelper.Connect(CreateMessage(MsgType.Connect), Config.AppID, ID.ID, hail);
+            Connections[0].SendTo(msg);
         }
 
-        protected override void Heartbeat()
+        public OutgoingMsg CreateMessage(int channel)
         {
-            base.Heartbeat();
-            for (int i = 0; i < Connections.Count; i++)
-            {
-                Connection cur = Connections[i];
-                while (cur.Receiver[0].HasMessages) HandleLibMsgs(cur, cur.Receiver[0].DequeueMessage());
-                if (cur.Status == ConnectionStatus.Disconnected)
-                {
-                    Connections.Remove(cur);
-                    --i;
-                }
-            }
+            CheckConnection();
+            return Connections[0].Sender[channel].CreateMessage();
+        }
+
+        public OutgoingMsg CreateMessage(int channel, int initialSize)
+        {
+            CheckConnection();
+            return Connections[0].Sender[channel].CreateMessage(initialSize);
         }
 
         public override void PollMessages()
@@ -80,11 +77,13 @@
             {
                 KeyValuePair<Connection, SimpleMessageEventArgs> cur = queuedDiscoveries.Dequeue();
                 EventInvoker.InvokeSafe(OnDiscoveryResponse, cur.Key, cur.Value);
+                cur.Key.Receiver[0].Recycle(cur.Value.Message);
             }
 
             if (connectHail != null)
             {
                 EventInvoker.InvokeSafe(OnStatusChanged, Connections[0], new StatusChangedEventArgs(connectHail));
+                Connections[0].Receiver[0].Recycle(connectHail);
                 connectHail = null;
             }
             if (disconnectReason != null)
@@ -98,7 +97,27 @@
                 Connection cur = Connections[i];
                 for (int j = 1; j < cur.Receiver.Size; j++)
                 {
-                    while (cur.Receiver[j].HasMessages) EventInvoker.InvokeSafe(OnDataMessage, cur, new DataMessageEventArgs(cur.Receiver[j].DequeueMessage()));
+                    while (cur.Receiver[j].HasMessages)
+                    {
+                        DataMessageEventArgs args = new DataMessageEventArgs(cur.Receiver[j].DequeueMessage());
+                        EventInvoker.InvokeSafe(OnDataMessage, cur, args);
+                        cur.Receiver[j].Recycle(args.Message);
+                    }
+                }
+            }
+        }
+
+        protected override void Heartbeat()
+        {
+            base.Heartbeat();
+            for (int i = 0; i < Connections.Count; i++)
+            {
+                Connection cur = Connections[i];
+                while (cur.Receiver[0].HasMessages) HandleLibMsgs(cur, cur.Receiver[0].DequeueMessage());
+                if (cur.Status == ConnectionStatus.Disconnected)
+                {
+                    Connections.Remove(cur);
+                    --i;
                 }
             }
         }
@@ -117,7 +136,7 @@
             switch (msg.Header.Type)
             {
                 case MsgType.Ping:
-                    sender.SendTo(MessageHelper.Pong(msg.ReadInt32()), 0);
+                    sender.SendTo(MessageHelper.Pong(CreateMessage(MsgType.Pong, sender), msg.ReadInt32()));
                     sender.SetPing(msg.ReadSingle());
                     break;
                 case MsgType.Pong:
@@ -125,19 +144,16 @@
                     break;
                 case MsgType.ConnectResponse:
                     string remoteAppID = msg.ReadString();
-                    long remoteID = msg.ReadInt64();
-                    if (remoteID != sender.RemoteID.ID) sender.RemoteID = new NetID(remoteID);
+                    sender.RemoteID = new NetID(msg.ReadInt64());
                     if (remoteAppID != Config.AppID) Log.Warning(nameof(Peer), $"Cannot conect to host application({remoteAppID}) as {Config.AppID}");
                     else
                     {
                         sender.Status = ConnectionStatus.Connected;
-                        OutgoingMsg establish = MessageHelper.ConnectionEstablished();
-                        sender.SendTo(establish, 0);
+                        OutgoingMsg establish = MessageHelper.ConnectionEstablished(CreateMessage(MsgType.ConnectionEstablished, sender));
+                        sender.SendTo(establish);
                         if (msg.PositionBits < msg.Header.PacketSize) connectHail = msg;
-                        else connectHail = new IncommingMsg();
+                        else connectHail = sender.Receiver[0].CreateMessage(LibHeader.Empty);
                     }
-                    break;
-                case MsgType.Acknowledge:
                     break;
                 case MsgType.Disconnect:
                     sender.Disconnect(msg.ReadString());
@@ -146,6 +162,12 @@
                     Log.Warning(nameof(Peer), $"{msg.Header.Type} message of size {msg.Header.PacketSize} send over library channel by {sender}, message dropped");
                     break;
             }
+        }
+
+        private void CheckConnection()
+        {
+            LoggedException.RaiseIf(Connections.Count < 1, nameof(Peer), "Server must be connected in order to send messages");
+            LoggedException.RaiseIf(Connections[0].Status != ConnectionStatus.Connected, nameof(Peer), "Connecting needs to be connected before messsages can be send");
         }
     }
 }

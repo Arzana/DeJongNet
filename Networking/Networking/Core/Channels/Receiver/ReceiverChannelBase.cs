@@ -1,6 +1,7 @@
 ﻿namespace DeJong.Networking.Core.Channels.Receiver
 {
     using Messages;
+    using System;
     using System.Collections.Generic;
     using System.Net;
     using Utilities.Threading;
@@ -18,13 +19,20 @@
         private Dictionary<int, List<KeyValuePair<FragmentHeader, IncommingMsg>>> receivedFragments;
         private ThreadSafeQueue<IncommingMsg> receivedPackets;
 
-        protected ReceiverChannelBase(IPEndPoint remote)
-            : base(null)
+        protected ReceiverChannelBase(RawSocket socket, IPEndPoint remote, PeerConfig config)
+            : base(socket, config)
         {
             Sender = remote;
             receivedFragments = new Dictionary<int, List<KeyValuePair<FragmentHeader, IncommingMsg>>>();
             receivedPackets = new ThreadSafeQueue<IncommingMsg>();
             received = new ThreadSafeQueue<IncommingMsg>();
+        }
+
+        public IncommingMsg CreateMessage(LibHeader header)
+        {
+            byte[] buffer = cache.Get(header.PacketSize);
+            Array.Copy(socket.ReceiveBuffer, Constants.HEADER_BYTE_SIZE, buffer, 0, header.PacketSize);
+            return new IncommingMsg(buffer) { Header = header };
         }
 
         public override void Heartbeat()
@@ -77,7 +85,7 @@
 
                 if (totalBytes >= (header.TotalBits + 7) >> 3)
                 {
-                    IncommingMsg msg = new IncommingMsg();
+                    IncommingMsg msg = CreateMessage(LibHeader.Empty);
                     group.Sort((f, s) => 
                     {
                         if (f.Key.FragmentNum < s.Key.FragmentNum) return -1;

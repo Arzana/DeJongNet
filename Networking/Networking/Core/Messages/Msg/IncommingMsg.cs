@@ -10,14 +10,9 @@
     {
         internal LibHeader Header { get; set; }
 
-        internal IncommingMsg()
-        { }
-
         internal IncommingMsg(byte[] data)
             : base(data)
-        {
-            Header = new LibHeader(this);
-        }
+        { }
 
         public override string ToString()
         {
