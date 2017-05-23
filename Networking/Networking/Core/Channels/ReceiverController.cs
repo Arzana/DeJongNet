@@ -41,7 +41,7 @@
             sendController = sender;
             readHelper = new ReadableBuffer(socket.ReceiveBuffer);
 
-            channels[Size++] = new UnreliableReceiverChannel(socket, ep, config);
+            channels[Size++] = new UnreliableReceiverChannel(socket, ep, config) { ID = 0 };
         }
 
         public void AddUnreliable(int id)
@@ -88,9 +88,7 @@
 
                 if (cur.ID == msg.Header.Channel)
                 {
-                    if (msg.Header.Type == MsgType.Acknowledge) ((ReliableSenderChannel)sendController[cur.ID]).ReceiveAck(msg.Header.SequenceNumber);
-                    else cur.EnqueueMessage(msg);
-
+                    cur.EnqueueMessage(msg);
                     return;
                 }
             }

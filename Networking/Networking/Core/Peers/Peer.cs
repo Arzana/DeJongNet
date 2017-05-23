@@ -17,7 +17,7 @@
         public NetID ID { get; private set; }
         public PeerConfig Config { get; private set; }
         public PeerStatus Status { get; private set; }
-        public List<Connection> Connections { get; private set; }
+        public ThreadSafeList<Connection> Connections { get; private set; }
         public bool Disposed { get; private set; }
         public bool Disposing { get; private set; }
 
@@ -30,7 +30,7 @@
             Config = config;
             Status = PeerStatus.NotRunning;
 
-            Connections = new List<Connection>();
+            Connections = new ThreadSafeList<Connection>();
             socket = new RawSocket(config);
             channels = new ThreadSafeList<ChannelConfig>();
             socket.PacketReceived += ReceiveUnconnectedPacket;

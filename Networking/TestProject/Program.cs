@@ -24,8 +24,8 @@
             client.OnStatusChanged += ClientStatusChanged;
             server.OnDataMessage += OnDataMessage;
 
-            client.AddChannel(1, DeliveryMethod.Unreliable);
-            server.AddChannel(1, DeliveryMethod.Unreliable);
+            client.AddChannel(1, DeliveryMethod.Reliable);
+            server.AddChannel(1, DeliveryMethod.Reliable);
 
             client.DiscoverLocal(25565);
 

@@ -1,8 +1,10 @@
 ﻿namespace DeJong.Networking.Core.Channels.Sender
 {
+    using Utilities.Logging;
     using Messages;
     using System.Net;
     using Utilities.Core;
+    using System.Linq;
 
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
@@ -37,6 +39,7 @@
                 if (!cur.Msg.IsSend) queue.Enqueue(cur.Msg);
                 else if ((NetTime.Now - cur.TimeSend) >= resendDelay)
                 {
+                    sendPackets.RemoveAt(i--);
                     cur.Msg.IsSend = false;
                     queue.Enqueue(cur.Msg);
                 }
@@ -47,7 +50,10 @@
 
         public void ReceiveAck(int sequnceNum)
         {
-            sendPackets.Remove(new Ack(new OutgoingMsg(ID, MsgType.LibraryError, null) { SequenceNumber = sequnceNum }));
+            if (!sendPackets.Remove(new Ack(new OutgoingMsg(ID, MsgType.LibraryError, null) { SequenceNumber = sequnceNum })))
+            {
+                Log.Warning(nameof(ReliableSenderChannel), $"Received unknown ack with sequence number {sequnceNum} {{{string.Join(",", sendPackets.Select(prop => prop.Msg.SequenceNumber))}}}");
+            }
         }
 
         public override void EnqueueMessage(OutgoingMsg msg)

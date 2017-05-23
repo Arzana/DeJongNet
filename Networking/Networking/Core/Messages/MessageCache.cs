@@ -56,6 +56,7 @@
         private void ResizeAdd(byte[] buffer)
         {
             if (buffer.Length < maxCachedBuffers) Array.Resize(ref buffer, maxBufferSize);
+            Array.Clear(buffer, 0, buffer.Length);
             cache.Add(buffer);
         }
     }

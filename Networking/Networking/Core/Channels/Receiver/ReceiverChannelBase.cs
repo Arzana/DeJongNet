@@ -30,8 +30,9 @@
 
         public IncommingMsg CreateMessage(LibHeader header)
         {
-            byte[] buffer = cache.Get(header.PacketSize);
-            Array.Copy(socket.ReceiveBuffer, Constants.HEADER_BYTE_SIZE, buffer, 0, header.PacketSize);
+            int byteSize = (header.PacketSize + 7) >> 3;
+            byte[] buffer = cache.Get(byteSize);
+            Array.Copy(socket.ReceiveBuffer, Constants.HEADER_BYTE_SIZE, buffer, 0, byteSize);
             return new IncommingMsg(buffer) { Header = header };
         }
 

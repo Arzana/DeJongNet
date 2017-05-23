@@ -62,9 +62,15 @@
         internal void ReceivePong(IncommingMsg msg)
         {
             int pingNum = msg.ReadInt32();
-            if (pingNum != lastPingCount) return;
-            SetPing(msg.ReadSingle());
-            AddRTT();
+            if (pingNum != lastPingCount)
+            {
+                Log.Warning(nameof(Connection), $"Received {(pingNum < lastPingCount ? "late" : "unknown")} pong from {RemoteID}");
+            }
+            else
+            {
+                SetPing(msg.ReadSingle());
+                AddRTT();
+            }
         }
 
         internal void Heartbeat()

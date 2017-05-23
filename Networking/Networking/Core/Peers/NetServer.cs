@@ -1,5 +1,6 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
+    using Channels.Sender;
     using Messages;
     using System;
     using System.Collections.Generic;
@@ -146,6 +147,11 @@
                     string reason = msg.ReadString();
                     sender.Disconnect(reason);
                     queuedStatusChanges.Enqueue(new KeyValuePair<Connection, StatusChangedEventArgs>(sender, new StatusChangedEventArgs(reason)));
+                    break;
+                case MsgType.Acknowledge:
+                    msg.SkipPadBits(4);
+                    int channel = msg.ReadPadBits(4);
+                    ((ReliableSenderChannel)sender.Sender[channel]).ReceiveAck(msg.ReadInt16());
                     break;
                 default:
                     Log.Warning(nameof(Peer), $"{msg.Header.Type} message of size {msg.Header.PacketSize} send over library channel by {sender}, message dropped");

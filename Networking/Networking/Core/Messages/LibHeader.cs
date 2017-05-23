@@ -26,7 +26,7 @@
             Type = (MsgType)buffer.ReadPadBits(4);
             Channel = buffer.ReadPadBits(4);
             Fragment = buffer.ReadBool();
-            SequenceNumber = (buffer.ReadPadBits(7) << 8) | buffer.ReadByte();
+            SequenceNumber = buffer.ReadPadBits(7) | (buffer.ReadByte() << 3);
             PacketSize = buffer.ReadInt16();
         }
 

@@ -38,7 +38,7 @@
             channels = new SenderChannelBase[15];
             this.config = config;
 
-            channels[size++] = new LibSenderChannel(socket, ep, config);
+            channels[size++] = new LibSenderChannel(socket, ep, config) { ID = 0 };
         }
 
         public void AddUnreliable(int id)
@@ -56,13 +56,13 @@
         public void AddReliable(int id)
         {
             CheckNewChannel(id);
-            channels[size++] = new ReliableSenderChannel(socket, remote, config);
+            channels[size++] = new ReliableSenderChannel(socket, remote, config) { ID = id };
         }
 
         public void AddReliableOrdered(int id)
         {
             CheckNewChannel(id);
-            channels[size++] = new ReliableOrderedSenderChannel(socket, remote, config);
+            channels[size++] = new ReliableOrderedSenderChannel(socket, remote, config) { ID = id };
         }
 
         public void HeartBeat()

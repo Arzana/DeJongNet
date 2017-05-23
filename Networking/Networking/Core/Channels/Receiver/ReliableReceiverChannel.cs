@@ -9,9 +9,9 @@
 #endif
     internal sealed class ReliableReceiverChannel : ReceiverChannelBase
     {
-        private UnreliableSenderChannel ackSender;
+        private LibSenderChannel ackSender;
 
-        public ReliableReceiverChannel(RawSocket socket, IPEndPoint remote, PeerConfig config, UnreliableSenderChannel libSender)
+        public ReliableReceiverChannel(RawSocket socket, IPEndPoint remote, PeerConfig config, LibSenderChannel libSender)
             : base(socket, remote, config)
         {
             ackSender = libSender;
@@ -19,7 +19,7 @@
 
         protected override void ReceiveMsg(IncommingMsg msg)
         {
-            ackSender.EnqueueMessage(MessageHelper.Ack(ackSender.CreateMessage(), msg.Header.Type, ID, msg.Header.SequenceNumber));
+            ackSender.EnqueueMessage(MessageHelper.Ack(ackSender.CreateMessage(MsgType.Acknowledge), msg.Header.Type, ID, msg.Header.SequenceNumber));
             base.ReceiveMsg(msg);
         }
     }
