@@ -5,10 +5,12 @@
     using System.Net;
     using System;
     using Utilities.Core;
+    using System.Diagnostics;
 
 #if !DEBUG
-    [System.Diagnostics.DebuggerStepThrough]
+    [DebuggerStepThrough]
 #endif
+    [DebuggerDisplay("{ToDebuggerString()}")]
     internal sealed class RawSocket : IFullyDisposable
     {
         public IPEndPoint BoundEP { get; private set; }
@@ -205,6 +207,12 @@
             BoundEP = new IPEndPoint(new IPAddress(result), boundEp.Port);
 
             Log.Info(nameof(RawSocket), $"Socket bound to {BoundEP}: {socket.IsBound}");
+        }
+
+        private string ToDebuggerString()
+        {
+            if (lastBindCall == double.MinValue) return $"Not bound";
+            else return $"Bound to {BoundEP}";
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿namespace DeJong.Networking.Core.Messages
 {
     using System;
+    using System.Diagnostics;
     using Utilities.Threading;
 
+    [DebuggerDisplay("{ToDebbugerString()}")]
     internal sealed class MessageCache
     {
         private ThreadSafeList<byte[]> cache;
@@ -58,6 +60,11 @@
             if (buffer.Length < maxCachedBuffers) Array.Resize(ref buffer, maxBufferSize);
             Array.Clear(buffer, 0, buffer.Length);
             cache.Add(buffer);
+        }
+
+        private string ToDebbugerString()
+        {
+            return $"{cache.Count}/{maxCachedBuffers} buffers of size {maxBufferSize}";
         }
     }
 }

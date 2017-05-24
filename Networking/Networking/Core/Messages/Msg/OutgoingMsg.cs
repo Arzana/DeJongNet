@@ -1,5 +1,8 @@
 ﻿namespace DeJong.Networking.Core.Messages
 {
+    /// <summary>
+    /// Defines an outgoing networking message.
+    /// </summary>
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
@@ -23,6 +26,7 @@
             return new LibHeader(type, channel, LengthBytes >= mtu, SequenceNumber, LengthBits);
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[{nameof(OutgoingMsg)}{(IsSend ? $" {type}" : string.Empty)} {LengthBytes} bytes]";

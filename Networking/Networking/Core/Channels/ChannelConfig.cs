@@ -1,7 +1,9 @@
 ﻿namespace DeJong.Networking.Core.Channels
 {
+    using Utilities.Core;
     using Messages;
     using System;
+    using Peers;
 
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
@@ -24,6 +26,11 @@
             Id = id;
             Type = type;
             Behavior = behaviour;
+
+            if (type == DeliveryMethod.Ordered || type == DeliveryMethod.ReliableOrdered)
+            {
+                LoggedException.RaiseIf(behaviour == OrderChannelBehaviour.None, nameof(Peer), $"Behaviour must be specified when creating ReliablesOdered channel");
+            }
         }
 
         public override bool Equals(object obj)

@@ -3,6 +3,9 @@
     using DataHandlers;
     using System.Text;
 
+    /// <summary>
+    /// Defines a class used to read to a networking buffer.
+    /// </summary>
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif

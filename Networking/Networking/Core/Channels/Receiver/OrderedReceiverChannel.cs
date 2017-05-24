@@ -25,16 +25,21 @@
 
         public override void Heartbeat()
         {
-            if (received.Count > 1)
+            if (received.Count > 0)
             {
                 IncommingMsg[] holder = new IncommingMsg[received.Count];
                 received.CopyTo(holder, 0);
-                Array.Sort(holder, (f, s) =>
+                received.Clear();
+
+                if (holder.Length > 1)
                 {
-                    if (f.Header.SequenceNumber < s.Header.SequenceNumber) return -1;
-                    if (f.Header.SequenceNumber > s.Header.SequenceNumber) return 1;
-                    return 0;
-                });
+                    Array.Sort(holder, (f, s) =>
+                    {
+                        if (f.Header.SequenceNumber < s.Header.SequenceNumber) return -1;
+                        if (f.Header.SequenceNumber > s.Header.SequenceNumber) return 1;
+                        return 0;
+                    });
+                }
 
                 if (behaviour == OrderChannelBehaviour.Order) released.Enqueue(holder);
                 else released.Enqueue(holder[holder.Length - 1]);
@@ -53,6 +58,11 @@
             if (msg.Header.SequenceNumber > sequenceCount)
             {
                 sequenceCount = msg.Header.SequenceNumber;
+                base.ReceiveMsg(msg);
+            }
+            else if (msg.Header.SequenceNumber == 0 && sequenceCount == short.MaxValue)
+            {
+                sequenceCount = 0;
                 base.ReceiveMsg(msg);
             }
         }

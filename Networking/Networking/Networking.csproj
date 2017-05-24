@@ -67,7 +67,6 @@
     <Compile Include="Core\Messages\MessageCache.cs" />
     <Compile Include="Core\Messages\MessageHelper.cs" />
     <Compile Include="Core\Messages\Msg\IncommingMsg.cs" />
-    <Compile Include="Core\Messages\IncommingMsgType.cs" />
     <Compile Include="Core\Messages\LibHeader.cs" />
     <Compile Include="Core\Messages\Msg\ReadableBuffer.Peek.cs" />
     <Compile Include="Core\Messages\Msg\ReadableBuffer.Read.cs" />

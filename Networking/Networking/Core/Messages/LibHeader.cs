@@ -76,7 +76,7 @@
 
         public override string ToString()
         {
-            return $"{Type} over {SequenceNumber} with size {PacketSize}";
+            return $"{Type} over {Channel} with size {PacketSize}";
         }
     }
 }

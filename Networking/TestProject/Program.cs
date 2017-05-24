@@ -1,6 +1,7 @@
 ﻿namespace TestProject
 {
     using DeJong.Networking.Core;
+    using DeJong.Networking.Core.Channels;
     using DeJong.Networking.Core.Messages;
     using DeJong.Networking.Core.Peers;
     using DeJong.Utilities.Logging;
@@ -24,8 +25,8 @@
             client.OnStatusChanged += ClientStatusChanged;
             server.OnDataMessage += OnDataMessage;
 
-            client.AddChannel(1, DeliveryMethod.Reliable);
-            server.AddChannel(1, DeliveryMethod.Reliable);
+            client.AddChannel(1, DeliveryMethod.Ordered, OrderChannelBehaviour.Drop);
+            server.AddChannel(1, DeliveryMethod.Ordered, OrderChannelBehaviour.Drop);
 
             client.DiscoverLocal(25565);
 

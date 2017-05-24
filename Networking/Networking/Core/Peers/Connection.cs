@@ -1,23 +1,40 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
     using Channels;
-    using Channels.Sender;
-    using Utilities.Logging;
     using Messages;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using Utilities.Core;
+    using Utilities.Logging;
 
+    /// <summary>
+    /// Represent a connection between a server and a client.
+    /// </summary>
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
     public sealed partial class Connection
     {
+        /// <summary>
+        /// The amount of time (in miliseconds) that it takes a message to reach the remote host.
+        /// </summary>
         public double Ping { get; private set; }
+        /// <summary>
+        /// The amount of time (in miliseconds) that it takes a message to receive a response from the remote host.
+        /// </summary>
         public double AverageRoundTripTime { get; private set; }
+        /// <summary>
+        /// The current status of the <see cref="Connection"/>.
+        /// </summary>
         public ConnectionStatus Status { get; internal set; }
+        /// <summary>
+        /// The indentifier of the remote host.
+        /// </summary>
         public NetID RemoteID { get; internal set; }
+        /// <summary>
+        /// The ip address and port of the remote host.
+        /// </summary>
         public IPEndPoint RemoteEndPoint { get; private set; }
 
         internal ReceiverController Receiver { get; private set; }
@@ -41,6 +58,7 @@
             lastPingSend = NetTime.Now;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{RemoteID} ({Status})";

@@ -9,20 +9,39 @@
     using Utilities.Logging;
     using Utilities.Threading;
 
+    /// <summary>
+    /// Defines a peer that can receive incomming connections but can't initiate them.
+    /// </summary>
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
     public sealed class NetServer : Peer
     {
+        /// <summary>
+        /// Occurs when a discovery message was released.
+        /// </summary>
         public event StrongEventHandler<IPEndPoint, EventArgs> OnDiscovery;
+        /// <summary>
+        /// Occurs when a <see cref="Connection"/> received a data message.
+        /// </summary>
         public event StrongEventHandler<Connection, DataMessageEventArgs> OnDataMessage;
+        /// <summary>
+        /// Occurs when a <see cref="Connection"/> is attempting to finalize its connection status.
+        /// </summary>
         public event StrongEventHandler<Connection, SimpleMessageEventArgs> OnConnect;
+        /// <summary>
+        /// Occurs when a status of a <see cref="Connection"/> has changed.
+        /// </summary>
         public event StrongEventHandler<Connection, StatusChangedEventArgs> OnStatusChanged;
 
         private ThreadSafeQueue<IPEndPoint> queuedDiscoveries;
         private ThreadSafeQueue<KeyValuePair<Connection, IncommingMsg>> queuedConnects;
         private ThreadSafeQueue<KeyValuePair<Connection, StatusChangedEventArgs>> queuedStatusChanges;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetServer"/> class with a specified configuration.
+        /// </summary>
+        /// <param name="config"> The way the <see cref="NetServer"/> should work. </param>
         public NetServer(PeerConfig config)
             : base(config)
         {
@@ -31,6 +50,11 @@
             queuedStatusChanges = new ThreadSafeQueue<KeyValuePair<Connection, StatusChangedEventArgs>>();
         }
 
+        /// <summary>
+        /// Approves a <see cref="Connection"/> wich status is <see cref="ConnectionStatus.RespondedAwaitingApproval"/>.
+        /// </summary>
+        /// <param name="connection"> The <see cref="Connection"/> to approve. </param>
+        /// <param name="hail"> A hail message to send to the remote peer (Optional). </param>
         public void AcceptConnection(Connection connection, OutgoingMsg hail)
         {
             LoggedException.RaiseIf(connection.Status != ConnectionStatus.RespondedAwaitingApproval, nameof(Peer), $"Cannot accept connection while connection is {connection.Status}");
@@ -39,6 +63,11 @@
             connection.SendTo(msg);
         }
 
+        /// <summary>
+        /// Denies a <see cref="Connection"/> wich status is <see cref="ConnectionStatus.RespondedAwaitingApproval"/>.
+        /// </summary>
+        /// <param name="connection"> The <see cref="Connection"/> to deny. </param>
+        /// <param name="reason"> The reason for the connection to be denied. </param>
         public void DenyConnection(Connection connection, string reason)
         {
             LoggedException.RaiseIf(connection.Status != ConnectionStatus.RespondedAwaitingApproval, nameof(Peer), $"Cannot deny connection while connection is {connection.Status}");
@@ -48,6 +77,7 @@
             connection.Disconnect(reason);
         }
 
+        /// <inheritdoc/>
         public override void PollMessages()
         {
             while (queuedDiscoveries.Count > 0)
@@ -79,7 +109,7 @@
                     {
                         DataMessageEventArgs args = new DataMessageEventArgs(cur.Receiver[j].DequeueMessage());
                         EventInvoker.InvokeSafe(OnDataMessage, cur, args);
-                        cur.Sender.LibSender.Recycle(args.Message);
+                        cur.Receiver[j].Recycle(args.Message);
                     }
                     if (cur.Status == ConnectionStatus.Disconnected)
                     {
@@ -90,11 +120,17 @@
             }
         }
 
+        /// <summary>
+        /// Sends a discovery response to a specified remote host.
+        /// </summary>
+        /// <param name="secMsg"> Data that specifies how the remote host should connect to the server (Optional). </param>
+        /// <param name="remoteHost"> The remote host to send to. </param>
         public void SendDiscoveryResponse(OutgoingMsg secMsg, IPEndPoint remoteHost)
         {
             AddConnection(remoteHost, secMsg);
         }
 
+        /// <inheritdoc/>
         protected override void Heartbeat()
         {
             base.Heartbeat();
@@ -105,12 +141,14 @@
             }
         }
 
+        /// <inheritdoc/>
         protected override void HandleDiscovery(IPEndPoint sender, IncommingMsg msg)
         {
             if (msg.LengthBits > LibHeader.SIZE_BITS) Log.Warning(nameof(Peer), $"Invalid discovery message received from remote host {sender}, message dropped");
             else queuedDiscoveries.Enqueue(sender);
         }
 
+        /// <inheritdoc/>
         protected override void HandleDiscoveryResponse(IPEndPoint sender, IncommingMsg msg) { }
 
         private void HandleLibMsgs(Connection sender, IncommingMsg msg)

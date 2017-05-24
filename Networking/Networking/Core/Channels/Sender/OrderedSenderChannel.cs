@@ -39,7 +39,7 @@
 
         private int GetClampSequenceCount()
         {
-            return sequenceCount = ExtraMath.Clamp(++sequenceCount, 0, 1024);
+            return sequenceCount = ExtraMath.Clamp(++sequenceCount, 0, short.MaxValue);
         }
     }
 }

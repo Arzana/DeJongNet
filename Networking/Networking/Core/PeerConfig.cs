@@ -3,13 +3,15 @@
     using Utilities.Core;
     using System.Runtime.CompilerServices;
     using System.Net;
+    using System.Diagnostics;
 
     /// <summary>
     /// Defines how the library whould work.
     /// </summary>
 #if !DEBUG
-    [System.Diagnostics.DebuggerStepThrough]
+    [DebuggerStepThrough]
 #endif
+    [DebuggerDisplay("Config for {AppID}")]
     public sealed class PeerConfig
     {
         /// <summary>

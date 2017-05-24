@@ -8,30 +8,55 @@
     using Utilities.Logging;
     using Utilities.Threading;
 
+    /// <summary>
+    /// Defines a peer that can't receive incomming connections but can initiate them.
+    /// </summary>
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
     public sealed class NetClient : Peer
     {
+        /// <summary>
+        /// Occurs when a remote host responded to our discovery request.
+        /// </summary>
         public event StrongEventHandler<Connection, SimpleMessageEventArgs> OnDiscoveryResponse;
+        /// <summary>
+        /// Occurs when a <see cref="Connection"/> received a data message.
+        /// </summary>
         public event StrongEventHandler<Connection, DataMessageEventArgs> OnDataMessage;
+        /// <summary>
+        /// Occurs when a status of a <see cref="Connection"/> has changed.
+        /// </summary>
         public event StrongEventHandler<Connection, StatusChangedEventArgs> OnStatusChanged;
 
         private ThreadSafeQueue<KeyValuePair<Connection, SimpleMessageEventArgs>> queuedDiscoveries;
         private IncommingMsg connectHail;
         private string disconnectReason;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetClient"/> class with a specified configuration.
+        /// </summary>
+        /// <param name="config"> The way the <see cref="NetServer"/> should work. </param>
         public NetClient(PeerConfig config)
             : base(config)
         {
             queuedDiscoveries = new ThreadSafeQueue<KeyValuePair<Connection, SimpleMessageEventArgs>>();
         }
 
+        /// <summary>
+        /// Broadcasts a discovery message to the local network.
+        /// </summary>
+        /// <param name="port"> The port to discover services on. </param>
         public void DiscoverLocal(int port)
         {
             DiscoverRemote(new IPEndPoint(NetUtils.GetBroadcastAddress(), port));
         }
 
+        /// <summary>
+        /// Sends a discovery message to the specified remote host.
+        /// </summary>
+        /// <param name="host"> A representation of the remote host. </param>
+        /// <param name="port"> The port to discover services on. </param>
         public void DiscoverRemote(string host, int port)
         {
             IPAddress address = NetUtils.ResolveAddress(host);
@@ -40,6 +65,10 @@
             DiscoverRemote(new IPEndPoint(address, port));
         }
 
+        /// <summary>
+        /// Sends a discovery message to the specified remote host.
+        /// </summary>
+        /// <param name="host"> The ip address and port to discover services on. </param>
         public void DiscoverRemote(IPEndPoint host)
         {
             LoggedException.RaiseIf(Connections.Count > 0, nameof(Peer), "Cannot discovery new hosts whilst connected or connecting to other host");
@@ -47,31 +76,53 @@
             AddConnection(host, true);
         }
 
+        /// <summary>
+        /// Disconnects from the server.
+        /// </summary>
+        /// <param name="reason"> The reason for disconneting. </param>
         public void Disconnect(string reason)
         {
+            CheckConnection();
             OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect), reason);
             Connections[0].SendTo(msg);
             Connections[0].Disconnect(reason);
         }
 
+        /// <summary>
+        /// Connects to the specified server.
+        /// </summary>
+        /// <param name="host"> The remote host to connect to. </param>
+        /// <param name="hail"> The hail or security message to send (Optional). </param>
         public void Connect(Connection host, OutgoingMsg hail)
         {
             OutgoingMsg msg = MessageHelper.Connect(CreateMessage(MsgType.Connect), Config.AppID, ID.ID, hail);
             Connections[0].SendTo(msg);
         }
 
+        /// <summary>
+        /// Creates a new message on a specified channel.
+        /// </summary>
+        /// <param name="channel"> The indentifier for the channel. </param>
+        /// <returns> A new message. </returns>
         public OutgoingMsg CreateMessage(int channel)
         {
             CheckConnection();
             return Connections[0].Sender[channel].CreateMessage();
         }
 
+        /// <summary>
+        /// Creates a new message on a specified channel.
+        /// </summary>
+        /// <param name="channel"> The indentifier for the channel. </param>
+        /// <param name="initialSize"> The minimum size of the message. </param>
+        /// <returns> A new message. </returns>
         public OutgoingMsg CreateMessage(int channel, int initialSize)
         {
             CheckConnection();
             return Connections[0].Sender[channel].CreateMessage(initialSize);
         }
 
+        /// <inheritdoc/>
         public override void PollMessages()
         {
             while (queuedDiscoveries.Count > 0)
@@ -108,6 +159,7 @@
             }
         }
 
+        /// <inheritdoc/>
         protected override void Heartbeat()
         {
             base.Heartbeat();
@@ -123,8 +175,9 @@
             }
         }
 
+        /// <inheritdoc/>
         protected override void HandleDiscovery(IPEndPoint sender, IncommingMsg msg) { }
-
+        /// <inheritdoc/>
         protected override void HandleDiscoveryResponse(IPEndPoint sender, IncommingMsg msg)
         {
             Connections.Clear();

@@ -1,5 +1,8 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
+    /// <summary>
+    /// Represent the states of connection of a networking peer.
+    /// </summary>
     public enum ConnectionStatus : byte
     {
         /// <summary>

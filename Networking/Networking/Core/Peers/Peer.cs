@@ -1,24 +1,40 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
-    using Utilities.Threading;
+    using Channels;
     using Messages;
     using System;
-    using System.Collections.Generic;
     using System.Net;
-    using Utilities.Logging;
-    using Channels;
     using Utilities.Core;
+    using Utilities.Logging;
+    using Utilities.Threading;
 
+    /// <summary>
+    /// Represent a base class for a networking client or server.
+    /// </summary>
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
 #endif
     public abstract class Peer : IFullyDisposable
     {
+        /// <summary>
+        /// Gets the indentifier of the <see cref="Peer"/>.
+        /// </summary>
         public NetID ID { get; private set; }
+        /// <summary>
+        /// Gets the <see cref="PeerConfig"/> used to initialize this <see cref="Peer"/>.
+        /// </summary>
         public PeerConfig Config { get; private set; }
+        /// <summary>
+        /// Gets the current status of this <see cref="Peer"/>.
+        /// </summary>
         public PeerStatus Status { get; private set; }
+        /// <summary>
+        /// Gets the connections of this <see cref="Peer"/>.
+        /// </summary>
         public ThreadSafeList<Connection> Connections { get; private set; }
+        /// <inheritdoc/>
         public bool Disposed { get; private set; }
+        /// <inheritdoc/>
         public bool Disposing { get; private set; }
 
         private RawSocket socket;
@@ -37,13 +53,21 @@
             networkThread = StopableThread.StartNew(Init, null, Heartbeat, Config.NetworkThreadName);
         }
 
+        /// <summary>
+        /// Disposes and finalizes the <see cref="Peer"/>.
+        /// </summary>
         ~Peer()
         {
             Dispose(false);
         }
 
+        /// <summary>
+        /// Shut the server down for a specified reason.
+        /// </summary>
+        /// <param name="reason"> The reason for this shutdown. </param>
         public void ShutDown(string reason)
         {
+            Status = PeerStatus.ShutdownRequested;
             OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect), reason);
             networkThread.StopWait();
 
@@ -56,41 +80,27 @@
 
             Connections.Clear();
             socket.UnBind();
+            Status = PeerStatus.NotRunning;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(false);
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!(Disposed | Disposing))
-            {
-                Disposing = true;
-                ShutDown("Wrongfully disposed");
-                socket.Dispose();
-                networkThread.StopWait();
-                networkThread.Dispose();
-                Disposed = true;
-                Disposing = false;
-            }
-        }
-
-        private void Init()
-        {
-            Status = PeerStatus.Starting;
-            socket.Bind(false);
-            ID = new NetID(NetUtils.GetID(socket.BoundEP));
-            Status = PeerStatus.Running;
-            Log.Info(nameof(Peer), $"Peer {ID} starting");
-        }
-
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[{Config.AppID} ({ID}): {Status}]";
         }
 
+        /// <summary>
+        /// Adds a specified channel to this <see cref="Peer"/> (max 15 channels).
+        /// </summary>
+        /// <param name="id"> The unique indentifier for the channel. </param>
+        /// <param name="type"> The type of channel to create. </param>
+        /// <param name="orderBehavior"> The behaviour of the channel if it is <see cref="DeliveryMethod.Ordered"/> or <see cref="DeliveryMethod.ReliableOrdered"/>. </param>
         public void AddChannel(int id, DeliveryMethod type, OrderChannelBehaviour orderBehavior = OrderChannelBehaviour.None)
         {
             LoggedException.RaiseIf(type == DeliveryMethod.Unknown, nameof(Peer), $"Cannot add channel of type {type}");
@@ -121,6 +131,10 @@
             }
         }
 
+        /// <summary>
+        /// Broadcasts a specified message to all connected peers.
+        /// </summary>
+        /// <param name="msg"> The message to broadcast. </param>
         public void Send(OutgoingMsg msg)
         {
             for (int i = 0; i < Connections.Count; i++)
@@ -129,16 +143,51 @@
             }
         }
 
+        /// <summary>
+        /// Polls all incomming messages and events for this <see cref="Peer"/>.
+        /// </summary>
+        public abstract void PollMessages();
+
         internal OutgoingMsg CreateMessage(MsgType type, Connection conn = null)
         {
             conn = conn ?? Connections[0];
             return conn.Sender.LibSender.CreateMessage(type);
         }
 
-        public abstract void PollMessages();
+        /// <summary>
+        /// Disposes the <see cref="Peer"/>.
+        /// </summary>
+        /// <param name="disposing"> Not used. </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!(Disposed | Disposing))
+            {
+                Disposing = true;
+                ShutDown("Wrongfully disposed");
+                socket.Dispose();
+                networkThread.StopWait();
+                networkThread.Dispose();
+                Disposed = true;
+                Disposing = false;
+            }
+        }
+
+        /// <summary>
+        /// Defines how an incomming discovery message should be handled.
+        /// </summary>
+        /// <param name="sender"> The remote host that send the discovery request. </param>
+        /// <param name="msg"> The message data. </param>
         protected abstract void HandleDiscovery(IPEndPoint sender, IncommingMsg msg);
+        /// <summary>
+        /// Defines how an incomming discovery response message should be handled.
+        /// </summary>
+        /// <param name="sender"> The remote host that send the discovery request. </param>
+        /// <param name="msg"> The message data. </param>
         protected abstract void HandleDiscoveryResponse(IPEndPoint sender, IncommingMsg msg);
 
+        /// <summary>
+        /// Updates the <see cref="Peer"/> and its underlying components.
+        /// </summary>
         protected virtual void Heartbeat()
         {
             socket.ReceivePacket();
@@ -148,6 +197,11 @@
             }
         }
 
+        /// <summary>
+        /// Adds a <see cref="Connection"/> to the <see cref="Peer"/>.
+        /// </summary>
+        /// <param name="remote"> The remote host to create a connection for. </param>
+        /// <param name="sendDiscovery"> Whether a discovery message should be send to the remote host. </param>
         protected void AddConnection(IPEndPoint remote, bool sendDiscovery)
         {
             Connection conn = new Connection(socket, remote, Config);
@@ -156,12 +210,26 @@
             if (sendDiscovery) conn.SendTo(CreateMessage(MsgType.Discovery));
         }
 
+        /// <summary>
+        /// Adds a <see cref="Connection"/> to the <see cref="Peer"/>.
+        /// </summary>
+        /// <param name="remote"> The remote host to create a connection for. </param>
+        /// <param name="secMsg"> The security message to send to the remote host. </param>
         protected void AddConnection(IPEndPoint remote, OutgoingMsg secMsg)
         {
             Connection conn = new Connection(socket, remote, Config);
             AddChannelsToConnection(conn);
             Connections.Add(conn);
             conn.SendTo(MessageHelper.DiscoveryResponse(CreateMessage(MsgType.DiscoveryResponse), secMsg));
+        }
+
+        private void Init()
+        {
+            Status = PeerStatus.Starting;
+            socket.Bind(false);
+            ID = new NetID(NetUtils.GetID(socket.BoundEP));
+            Status = PeerStatus.Running;
+            Log.Info(nameof(Peer), $"Peer {ID} starting");
         }
 
         private void AddChannelsToConnection(Connection conn)

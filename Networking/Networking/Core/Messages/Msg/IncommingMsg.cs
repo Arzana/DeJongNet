@@ -1,11 +1,11 @@
 ﻿namespace DeJong.Networking.Core.Messages
 {
-    using System.Diagnostics;
-
+    /// <summary>
+    /// Defines an incomming networking message.
+    /// </summary>
 #if !DEBUG
-    [DebuggerStepThrough]
+    [System.Diagnostics.DebuggerStepThrough]
 #endif
-    [DebuggerDisplay("[{ToString()}]")]
     public sealed class IncommingMsg : ReadableBuffer
     {
         internal LibHeader Header { get; set; }
@@ -14,6 +14,7 @@
             : base(data)
         { }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"{nameof(IncommingMsg)} {(Header.PacketSize + 7) >> 3} bytes";
