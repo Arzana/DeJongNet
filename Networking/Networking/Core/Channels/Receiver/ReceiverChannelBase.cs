@@ -11,7 +11,7 @@
 #endif
     internal abstract class ReceiverChannelBase : ChannelBase<IncommingMsg>
     {
-        public IPEndPoint Sender { get; set; }
+        public IPEndPoint Sender { get; private set; }
         public virtual bool HasMessages { get { return received.Count > 0; } }
 
         protected ThreadSafeQueue<IncommingMsg> received;
@@ -32,7 +32,7 @@
         {
             int byteSize = (header.PacketSize + 7) >> 3;
             byte[] buffer = cache.Get(byteSize);
-            Array.Copy(socket.ReceiveBuffer, Constants.HEADER_BYTE_SIZE, buffer, 0, byteSize);
+            Array.Copy(socket.ReceiveBuffer, LibHeader.SIZE_BYTES, buffer, 0, byteSize);
             return new IncommingMsg(buffer) { Header = header };
         }
 

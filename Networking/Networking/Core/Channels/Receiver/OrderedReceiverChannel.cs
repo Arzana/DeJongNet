@@ -1,9 +1,11 @@
 ﻿namespace DeJong.Networking.Core.Channels.Receiver
 {
+    using Utilities.Logging;
     using Messages;
     using System;
     using System.Net;
     using Utilities.Threading;
+    using Peers;
 
 #if !DEBUG
     [System.Diagnostics.DebuggerStepThrough]
@@ -53,18 +55,28 @@
             return released.Dequeue();
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (!(Disposed | Disposing)) released.Dispose();
+            base.Dispose(disposing);
+        }
+
         protected override void ReceiveMsg(IncommingMsg msg)
         {
-            if (msg.Header.SequenceNumber > sequenceCount)
+            if (msg.Header.Type == MsgType.Ordered)
             {
-                sequenceCount = msg.Header.SequenceNumber;
-                base.ReceiveMsg(msg);
+                if (msg.Header.SequenceNumber > sequenceCount)
+                {
+                    sequenceCount = msg.Header.SequenceNumber;
+                    base.ReceiveMsg(msg);
+                }
+                else if (msg.Header.SequenceNumber == 0 && sequenceCount == short.MaxValue)
+                {
+                    sequenceCount = 0;
+                    base.ReceiveMsg(msg);
+                }
             }
-            else if (msg.Header.SequenceNumber == 0 && sequenceCount == short.MaxValue)
-            {
-                sequenceCount = 0;
-                base.ReceiveMsg(msg);
-            }
+            else Log.Warning(nameof(Peer), $"Received {msg.Header.Type} message on ordered receiver channel, message dropped");
         }
     }
 }

@@ -23,6 +23,10 @@
         /// </summary>
         public IPAddress LocalAddress { get { return localAddress; } set { CheckLock(); localAddress = value; } }
         /// <summary>
+        /// Gets or sets a value indicating the maximum amount of connections the peer may have at one time.
+        /// </summary>
+        public int MaximumConnections { get { return maxConnections; } set { CheckLock(); maxConnections = value; } }
+        /// <summary>
         /// Gets or sets how big the buffer for the message cache can be.
         /// </summary>
         public int MessageCacheSize { get { return maxBufferSize; } set { CheckLock(); maxBufferSize = value; } }
@@ -37,7 +41,7 @@
         /// <summary>
         /// Gets or sets a value indicating the time (in seconds) between latency calculations.
         /// </summary>
-        public int PingInterval { get; set; }
+        public float PingInterval { get { return pingInterval; } set { CheckLock(); pingInterval = value; } }
         /// <summary>
         /// Gets or sets the port that the socket should use (may differ from actual port).
         /// </summary>
@@ -54,6 +58,19 @@
         /// Gets or sets the size of the send buffer.
         /// </summary>
         public int SendBufferSize { get { return sendBufferSize; } set { CheckLock(); sendBufferSize = value; } }
+        /// <summary>
+        /// Gets or sets a value indicating the delay (in seconds) before the connection gets timed out when no messages are received.
+        /// </summary>
+        public float ConnectionTimeout
+        {
+            get { return timeout; }
+            set
+            {
+                CheckLock();
+                LoggedException.RaiseIf(value <= PingInterval, nameof(PeerConfig), "Value cannot be smaller or equal to the ping interval");
+                timeout = value;
+            }
+        }
 
         private static int peersCreated;
 
@@ -63,7 +80,10 @@
         private int sendBufferSize;
         private int resendDelay;
         private string networkThreadName;
+        private float pingInterval;
         private int maxBufferSize;
+        private int maxConnections;
+        private float timeout;
         private bool locked;
 
         /// <summary>
@@ -76,14 +96,27 @@
             AppID = id;
 
             LocalAddress = IPAddress.Any;
-            MTU = Constants.MTU_ETHERNET;
-            ReceiveBufferSize = Constants.DEFAULT_BUFFER_SIZE;
-            SendBufferSize = Constants.DEFAULT_BUFFER_SIZE;
-            ResendDelay = Constants.DEFAULT_RESEND_DELAY;
-            PingInterval = Constants.DEFAULT_PING_INTERVAL;
+            MTU = Constants.MTU_ETHERNET_WITH_HEADERS;
+            ReceiveBufferSize = 131071;
+            SendBufferSize = 131071;
+            ResendDelay = 2;
+            PingInterval = 4;
             NetworkThreadName = "DeJong Networking";
-            MessageCacheSize = Constants.DEFAULT_CACHE_SIZE;
+            MessageCacheSize = 10;
+            maxConnections = 25;
+            ConnectionTimeout = 25;
             if (++peersCreated > 1) NetworkThreadName += $" {peersCreated}";
+        }
+
+        /// <summary>
+        /// Creates a clone of this configuration that isn't locked.
+        /// </summary>
+        /// <returns></returns>
+        public PeerConfig Clone()
+        {
+            PeerConfig result = MemberwiseClone() as PeerConfig;
+            result.locked = false;
+            return result;
         }
 
         internal void Lock()

@@ -5,6 +5,9 @@
     using System;
     using Utilities.Core;
 
+#if !DEBUG
+    [System.Diagnostics.DebuggerStepThrough]
+#endif
     internal sealed class LibSenderChannel : UnreliableSenderChannel
     {
         public LibSenderChannel(RawSocket socket, IPEndPoint remote, PeerConfig config)

@@ -74,7 +74,7 @@
             connection.Status = ConnectionStatus.Disconnecting;
             OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect, connection), reason);
             connection.SendTo(msg);
-            connection.Disconnect(reason);
+            connection.Disconnected(reason);
         }
 
         /// <inheritdoc/>
@@ -89,7 +89,10 @@
             {
                 KeyValuePair<Connection, IncommingMsg> cur = queuedConnects.Dequeue();
                 cur.Key.Status = ConnectionStatus.RespondedAwaitingApproval;
-                EventInvoker.InvokeSafe(OnConnect, cur.Key, new SimpleMessageEventArgs(cur.Value));
+
+                if (Connections.Count < Config.MaximumConnections) EventInvoker.InvokeSafe(OnConnect, cur.Key, new SimpleMessageEventArgs(cur.Value));
+                else DenyConnection(cur.Key, "Server is full");
+
                 cur.Key.Sender.LibSender.Recycle(cur.Value);
             }
 
@@ -183,7 +186,7 @@
                     break;
                 case MsgType.Disconnect:
                     string reason = msg.ReadString();
-                    sender.Disconnect(reason);
+                    sender.Disconnected(reason);
                     queuedStatusChanges.Enqueue(new KeyValuePair<Connection, StatusChangedEventArgs>(sender, new StatusChangedEventArgs(reason)));
                     break;
                 case MsgType.Acknowledge:

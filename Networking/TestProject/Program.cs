@@ -25,8 +25,8 @@
             client.OnStatusChanged += ClientStatusChanged;
             server.OnDataMessage += OnDataMessage;
 
-            client.AddChannel(1, DeliveryMethod.Ordered, OrderChannelBehaviour.Drop);
-            server.AddChannel(1, DeliveryMethod.Ordered, OrderChannelBehaviour.Drop);
+            client.AddChannel(1, DeliveryMethod.Unreliable);
+            server.AddChannel(1, DeliveryMethod.Unreliable);
 
             client.DiscoverLocal(25565);
 
@@ -47,7 +47,7 @@
 
                     client.PollMessages();
                     server.PollMessages();
-                } while (Console.ReadKey().Key != ConsoleKey.Escape);
+                } while (Console.ReadKey(false).Key != ConsoleKey.Escape);
 
                 client.Disconnect("Testing");
                 Thread.Sleep(100);

@@ -2,6 +2,7 @@
 {
     using Channels;
     using Messages;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -41,10 +42,11 @@
         internal SenderController Sender { get; private set; }
 
         private double lastPingSend;
-        private int pingInterval;
+        private double lastPongReceived;
         private int lastPingCount;
         private Queue<double> rttBuffer;
         private int pingCount;
+        private PeerConfig config;
 
         internal Connection(RawSocket socket, IPEndPoint remoteEP, PeerConfig config)
         {
@@ -52,10 +54,11 @@
             RemoteEndPoint = remoteEP;
             rttBuffer = new Queue<double>();
 
+            this.config = config;
             Sender = new SenderController(socket, remoteEP, config);
             Receiver = new ReceiverController(socket, remoteEP, config, Sender);
-            pingInterval = config.PingInterval;
             lastPingSend = NetTime.Now;
+            lastPongReceived = NetTime.Now;
         }
 
         /// <inheritdoc/>
@@ -64,7 +67,14 @@
             return $"{RemoteID} ({Status})";
         }
 
-        internal void Disconnect(string reason)
+        public void Disconnect(string reason)
+        {
+            OutgoingMsg msg = MessageHelper.Disconnect(Sender.LibSender.CreateMessage(MsgType.Disconnect), reason);
+            SendTo(msg);
+            Disconnected(reason);
+        }
+
+        internal void Disconnected(string reason)
         {
             Status = ConnectionStatus.Disconnected;
             Log.Verbose(nameof(Connection), $"Disconnected from remote host {RemoteID}, {reason}");
@@ -86,6 +96,7 @@
             }
             else
             {
+                lastPongReceived = NetTime.Now;
                 SetPing(msg.ReadSingle());
                 AddRTT();
             }
@@ -93,7 +104,11 @@
 
         internal void Heartbeat()
         {
-            if ((NetTime.Now - lastPingSend) >= pingInterval) PingConnection();
+            if (Status == ConnectionStatus.Connected)
+            {
+                if ((NetTime.Now - lastPongReceived) >= config.ConnectionTimeout) Disconnect("Connection timed out");
+                else if ((NetTime.Now - lastPingSend) >= config.PingInterval) PingConnection();
+            }
 
             Receiver.Heartbeat();
             Sender.HeartBeat();

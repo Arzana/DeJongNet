@@ -45,6 +45,7 @@
     <Compile Include="Core\Channels\ChannelBase.cs" />
     <Compile Include="Core\Channels\ChannelConfig.cs" />
     <Compile Include="Core\Channels\OrderChannelBehaviour.cs" />
+    <Compile Include="Core\Channels\Receiver\LibReceiverChannel.cs" />
     <Compile Include="Core\Channels\Receiver\OrderedReceiverChannel.cs" />
     <Compile Include="Core\Channels\Receiver\ReceiverChannelBase.cs" />
     <Compile Include="Core\Channels\ReceiverController.cs" />
@@ -60,8 +61,8 @@
     <Compile Include="Core\Channels\Sender\UnreliableSenderChannel.cs" />
     <Compile Include="Core\DataHandlers\BitReader.cs" />
     <Compile Include="Core\DataHandlers\BitWriter.cs" />
-    <Compile Include="Core\DataMessageEventArgs.cs" />
-    <Compile Include="Core\DiscoveryResponseEventArgs.cs" />
+    <Compile Include="Core\Events\DataMessageEventArgs.cs" />
+    <Compile Include="Core\Events\DiscoveryResponseEventArgs.cs" />
     <Compile Include="Core\Messages\DeliveryMethod.cs" />
     <Compile Include="Core\Messages\FragmentHeader.cs" />
     <Compile Include="Core\Messages\MessageCache.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="Core\Messages\NetFlags.cs" />
     <Compile Include="Core\Messages\Msg\OutgoingMsg.cs" />
     <Compile Include="Core\NetUtils.cs" />
-    <Compile Include="Core\PacketReceiveEventArgs.cs" />
+    <Compile Include="Core\Events\PacketReceiveEventArgs.cs" />
     <Compile Include="Core\PeerConfig.cs" />
     <Compile Include="Core\Peers\Connection.cs" />
     <Compile Include="Core\Peers\ConnectionStatus.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Core\Peers\Peer.cs" />
     <Compile Include="Core\Peers\PeerStatus.cs" />
     <Compile Include="Core\RawSocket.cs" />
-    <Compile Include="Core\StatusChangedEventArgs.cs" />
+    <Compile Include="Core\Events\StatusChangedEventArgs.cs" />
     <Compile Include="Documentation.cs" />
     <Compile Include="Platform\Win32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

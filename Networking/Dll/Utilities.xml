@@ -1327,7 +1327,7 @@
             <typeparam name="Tsender"> The type of sender. </typeparam>
             <typeparam name="TArgs"> The type of arguments. </typeparam>
             <param name="sender"> The object that is attempting to invoke the handler. </param>
-            <param name="args"> The argument for this call. </param>
+            <param name="e"> The argument for this call. </param>
         </member>
         <member name="T:DeJong.Utilities.Logging.ConsoleLogger">
             <summary>

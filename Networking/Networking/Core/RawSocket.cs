@@ -6,6 +6,7 @@
     using System;
     using Utilities.Core;
     using System.Diagnostics;
+    using Messages;
 
 #if !DEBUG
     [DebuggerStepThrough]
@@ -154,7 +155,7 @@
                 int bytesReceived = 0;
                 if (!TryReceivePacket(ref from, out bytesReceived)) return;
 
-                if (bytesReceived < Constants.HEADER_BYTE_SIZE) return;
+                if (bytesReceived < LibHeader.SIZE_BYTES) return;
                 EventInvoker.Invoke(PacketReceived, (IPEndPoint)from, new PacketReceiveEventArgs(bytesReceived));
             } while (socket.Available > 0);
         }

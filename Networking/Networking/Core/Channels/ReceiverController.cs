@@ -41,7 +41,7 @@
             sendController = sender;
             readHelper = new ReadableBuffer(socket.ReceiveBuffer);
 
-            channels[Size++] = new UnreliableReceiverChannel(socket, ep, config) { ID = 0 };
+            channels[Size++] = new LibReceiverChannel(socket, ep, config) { ID = 0 };
         }
 
         public void AddUnreliable(int id)

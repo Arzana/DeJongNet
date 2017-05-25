@@ -83,8 +83,6 @@
         public void Disconnect(string reason)
         {
             CheckConnection();
-            OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect), reason);
-            Connections[0].SendTo(msg);
             Connections[0].Disconnect(reason);
         }
 
@@ -210,7 +208,7 @@
                     }
                     break;
                 case MsgType.Disconnect:
-                    sender.Disconnect(msg.ReadString());
+                    sender.Disconnected(msg.ReadString());
                     break;
                 case MsgType.Acknowledge:
                     msg.SkipPadBits(4);

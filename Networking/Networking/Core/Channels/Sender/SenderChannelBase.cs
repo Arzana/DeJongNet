@@ -16,11 +16,13 @@
         private readonly IPEndPoint target;
         private WriteableBuffer packetWriteHelper;
         private int groupCount;
+        private PeerConfig config;
 
         protected SenderChannelBase(RawSocket socket, IPEndPoint target, PeerConfig config)
             : base(socket, config)
         {
             this.target = target;
+            this.config = config;
             packetWriteHelper = new WriteableBuffer(socket.SendBuffer);
             sendPackets = new ThreadSafeList<Ack>();
         }
@@ -51,10 +53,10 @@
             LoggedException.RaiseIf(msg.IsSend, nameof(SenderChannelBase), "Message already send");
             bool send = true;
 
-            LibHeader libHeader = msg.GenerateHeader(Constants.MTU_ETHERNET_WITH_HEADERS);
+            LibHeader libHeader = msg.GenerateHeader(config.MTU);
             if (libHeader.Fragment)
             {
-                int size = FragmentHeader.GetChunkSize(GetClampedGroupID(), msg.LengthBytes, Constants.MTU_ETHERNET_WITH_HEADERS);
+                int size = FragmentHeader.GetChunkSize(GetClampedGroupID(), msg.LengthBytes, config.MTU);
 
                 for (int i = 0, bytesLeft = msg.LengthBytes; bytesLeft > 0; i++, bytesLeft -= size)
                 {

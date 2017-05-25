@@ -167,6 +167,7 @@
                 socket.Dispose();
                 networkThread.StopWait();
                 networkThread.Dispose();
+                channels.Dispose();
                 Disposed = true;
                 Disposing = false;
             }
