@@ -29,6 +29,13 @@
 
         public abstract OutgoingMsg CreateMessage();
         public abstract OutgoingMsg CreateMessage(int initialSize);
+        public OutgoingMsg CreateMessage(OutgoingMsg src)
+        {
+            OutgoingMsg result = CreateMessage(src.LengthBytes);
+            src.CopyData(result);
+            result.LengthBytes = src.LengthBytes;
+            return result;
+        }
 
         public override void Heartbeat()
         {
@@ -60,8 +67,9 @@
 
                 for (int i = 0, bytesLeft = msg.LengthBytes; bytesLeft > 0; i++, bytesLeft -= size)
                 {
-                    FragmentHeader fragHeader = new FragmentHeader(groupCount, msg.LengthBytes, size, i);
-                    OutgoingMsg packet = CreateMessage();
+                    if (bytesLeft < size) size = bytesLeft;
+                    FragmentHeader fragHeader = new FragmentHeader(groupCount, msg.LengthBits, size, i);
+                    OutgoingMsg packet = OutgoingMsg.CreateFragment(cache, size);
                     msg.CopyData(packet, msg.LengthBytes - bytesLeft, size);
 
                     send = send && SendPacket(libHeader, fragHeader, packet);

@@ -68,11 +68,11 @@
         public void ShutDown(string reason)
         {
             Status = PeerStatus.ShutdownRequested;
-            OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect), reason);
             networkThread.StopWait();
 
             for (int i = 0; i < Connections.Count; i++)
             {
+                OutgoingMsg msg = MessageHelper.Disconnect(CreateMessage(MsgType.Disconnect, Connections[i]), reason);
                 Connections[i].SendTo(msg);
             }
 
@@ -137,9 +137,16 @@
         /// <param name="msg"> The message to broadcast. </param>
         public void Send(OutgoingMsg msg)
         {
+            LoggedException.RaiseIf(!msg.IsBroadcast, nameof(Peer), "Cannot send connected message as broadcast message");
+
             for (int i = 0; i < Connections.Count; i++)
             {
-                if (Connections[i].Status == ConnectionStatus.Connected) Connections[i].SendTo(msg);
+                Connection cur = Connections[i];
+
+                if (cur.Status == ConnectionStatus.Connected)
+                {
+                    cur.SendTo(cur.Sender[msg.channel].CreateMessage(msg));
+                }
             }
         }
 
@@ -219,6 +226,7 @@
         protected void AddConnection(IPEndPoint remote, OutgoingMsg secMsg)
         {
             Connection conn = new Connection(socket, remote, Config);
+            conn.Status = ConnectionStatus.ReceivedInitiation;
             AddChannelsToConnection(conn);
             Connections.Add(conn);
             conn.SendTo(MessageHelper.DiscoveryResponse(CreateMessage(MsgType.DiscoveryResponse), secMsg));

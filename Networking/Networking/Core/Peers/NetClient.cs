@@ -105,7 +105,9 @@
         public OutgoingMsg CreateMessage(int channel)
         {
             CheckConnection();
-            return Connections[0].Sender[channel].CreateMessage();
+            OutgoingMsg result = Connections[0].Sender[channel].CreateMessage();
+            result.IsBroadcast = true;
+            return result;
         }
 
         /// <summary>
@@ -117,7 +119,9 @@
         public OutgoingMsg CreateMessage(int channel, int initialSize)
         {
             CheckConnection();
-            return Connections[0].Sender[channel].CreateMessage(initialSize);
+            OutgoingMsg result = Connections[0].Sender[channel].CreateMessage(initialSize);
+            result.IsBroadcast = true;
+            return result;
         }
 
         /// <inheritdoc/>
@@ -223,7 +227,7 @@
 
         private void CheckConnection()
         {
-            LoggedException.RaiseIf(Connections.Count < 1, nameof(Peer), "Server must be connected in order to send messages");
+            LoggedException.RaiseIf(Connections.Count < 1, nameof(Peer), "Must be connected to server to send messages");
             LoggedException.RaiseIf(Connections[0].Status != ConnectionStatus.Connected, nameof(Peer), "Connecting needs to be connected before messsages can be send");
         }
     }

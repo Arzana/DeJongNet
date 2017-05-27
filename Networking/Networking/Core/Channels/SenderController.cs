@@ -1,5 +1,6 @@
 ﻿namespace DeJong.Networking.Core.Channels
 {
+    using Messages;
     using Sender;
     using System.Net;
     using Utilities.Core;

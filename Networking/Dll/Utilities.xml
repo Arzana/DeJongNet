@@ -1459,8 +1459,8 @@
             <summary>
             Logs a message with debug priority.
             </summary>
-            <param name="tag"> The tag of the caller. </param>
             <param name="message"> The specified message to be logged. </param>
+            <param name="tag"> The tag of the called (default: caller member name). </param>
         </member>
         <member name="M:DeJong.Utilities.Logging.Log.Error(System.String,System.String)">
             <summary>
@@ -1644,6 +1644,59 @@
             </summary>
             <param name="disposing"> Whether the global log should be disposed. </param>
         </member>
+        <member name="T:DeJong.Utilities.Threading.LockableObject">
+            <summary>
+            Defines a base class for object that need to be locked and unlocked often.
+            </summary>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.LockableObject.LockTimeout">
+            <summary>
+            Gets or sets the maximum time the <see cref="T:DeJong.Utilities.Threading.LockableObject"/> can wait before entering lock mode.
+            </summary>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.LockableObject.Disposed">
+            <inheritdoc/>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.LockableObject.Disposing">
+            <inheritdoc/>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.LockableObject.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.LockableObject"/> class.
+            </summary>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.LockableObject.Finalize">
+            <summary>
+            Disposes and finalizes this <see cref="T:DeJong.Utilities.Threading.LockableObject"/>.
+            </summary>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.LockableObject.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.LockableObject.Dispose(System.Boolean)">
+            <summary>
+            Diposes the object.
+            </summary>
+            <param name="disposing"> Not used. </param>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.LockableObject.EnterReadLock">
+            <summary>
+            Attempts to enter a read lock.
+            </summary>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> Method timed out. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.LockableObject.EnterWriteLock">
+            <summary>
+            Attemps to enter a write lock.
+            </summary>
+            <exception cref="T:DeJong.Utilities.Core.LoggedException"> Method timed out. </exception>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.LockableObject.ExitReadLock">
+            <inheritdoc cref="M:System.Threading.ReaderWriterLockSlim.ExitReadLock"/>
+        </member>
+        <member name="M:DeJong.Utilities.Threading.LockableObject.ExitWriteLock">
+            <inheritdoc cref="M:System.Threading.ReaderWriterLockSlim.ExitWriteLock"/>
+        </member>
         <member name="T:DeJong.Utilities.Threading.StopableThread">
             <summary>
             Contains a continually ticking STA background thread.
@@ -1754,12 +1807,6 @@
         <member name="P:DeJong.Utilities.Threading.ThreadSafeList`1.IsReadOnly">
             <inheritdoc/>
         </member>
-        <member name="P:DeJong.Utilities.Threading.ThreadSafeList`1.Disposed">
-            <inheritdoc/>
-        </member>
-        <member name="P:DeJong.Utilities.Threading.ThreadSafeList`1.Disposing">
-            <inheritdoc/>
-        </member>
         <member name="P:DeJong.Utilities.Threading.ThreadSafeList`1.Item(System.Int32)">
             <summary>
             Gets or sets a value at the specified index.
@@ -1783,15 +1830,6 @@
             <summary>
             Terminates this instance of <see cref="T:DeJong.Utilities.Threading.ThreadSafeList`1"/>.
             </summary>
-        </member>
-        <member name="M:DeJong.Utilities.Threading.ThreadSafeList`1.Dispose">
-            <inheritdoc/>
-        </member>
-        <member name="M:DeJong.Utilities.Threading.ThreadSafeList`1.Dispose(System.Boolean)">
-            <summary>
-            Disposes the managed and unmanaged data of the <see cref="T:DeJong.Utilities.Threading.ThreadSafeList`1"/>.
-            </summary>
-            <param name="disposing"> Whether to dispose unmanaged types. </param>
         </member>
         <member name="M:DeJong.Utilities.Threading.ThreadSafeList`1.IndexOf(`0)">
             <summary>
@@ -1870,12 +1908,6 @@
         <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.IsSynchronized">
             <inheritdoc/>
         </member>
-        <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.Disposed">
-            <inheritdoc/>
-        </member>
-        <member name="P:DeJong.Utilities.Threading.ThreadSafeQueue`1.Disposing">
-            <inheritdoc/>
-        </member>
         <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/> class with default parameters.
@@ -1891,15 +1923,6 @@
             <summary>
             Terminates this instance of <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/>.
             </summary>
-        </member>
-        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Dispose">
-            <inheritdoc/>
-        </member>
-        <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Dispose(System.Boolean)">
-            <summary>
-            Disposes the managed and unmanaged data of the <see cref="T:DeJong.Utilities.Threading.ThreadSafeQueue`1"/>.
-            </summary>
-            <param name="disposing"> Whether to dispose unmanaged types. </param>
         </member>
         <member name="M:DeJong.Utilities.Threading.ThreadSafeQueue`1.Enqueue(`0)">
             <summary>

@@ -77,6 +77,65 @@
             connection.Disconnected(reason);
         }
 
+        /// <summary>
+        /// Creates a new broadcast message on a specified channel.
+        /// </summary>
+        /// <param name="channel"> The indentifier for the channel. </param>
+        /// <returns> A new message. </returns>
+        public OutgoingMsg CreateMessage(int channel)
+        {
+            OutgoingMsg result = CreateMessage(GetBroadcastConnection(), channel);
+            result.IsBroadcast = true;
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a new broadcast message on a specified channel.
+        /// </summary>
+        /// <param name="channel"> The indentifier for the channel. </param>
+        /// <param name="initialSize"> The minimum size of the message. </param>
+        /// <returns> A new message. </returns>
+        public OutgoingMsg CreateMessage(int channel, int initialSize)
+        {
+            OutgoingMsg result = CreateMessage(GetBroadcastConnection(), channel, initialSize);
+            result.IsBroadcast = true;
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a new message for a specified connection on a specified channel.
+        /// </summary>
+        /// <param name="conn"> The connection to create the message for. </param>
+        /// <param name="channel"> The indentifier for the channel. </param>
+        /// <returns> A new message. </returns>
+        public OutgoingMsg CreateMessage(Connection conn, int channel)
+        {
+            return conn.Sender[channel].CreateMessage();
+        }
+
+        /// <summary>
+        /// Creates a new message for a specified connection on a specified channel.
+        /// </summary>
+        /// <param name="conn"> The connection to create the message for. </param>
+        /// <param name="channel"> The indentifier for the channel. </param>
+        /// <param name="initialSize"> The minimum size of the message. </param>
+        /// <returns> A new message. </returns>
+        public OutgoingMsg CreateMessage(Connection conn, int channel, int initialSize)
+        {
+            return conn.Sender[channel].CreateMessage(initialSize);
+        }
+
+        /// <summary>
+        /// Sends a specified message to a specified connected peer.
+        /// </summary>
+        /// <param name="msg"> The message to send. </param>
+        /// <param name="recipient"> The connected peer. </param>
+        public void Send(OutgoingMsg msg, Connection recipient)
+        {
+            LoggedException.RaiseIf(recipient.Status != ConnectionStatus.Connected, nameof(Peer), $"Cannot send message to {recipient.Status} client");
+            recipient.SendTo(msg);
+        }
+
         /// <inheritdoc/>
         public override void PollMessages()
         {
@@ -154,6 +213,24 @@
         /// <inheritdoc/>
         protected override void HandleDiscoveryResponse(IPEndPoint sender, IncommingMsg msg) { }
 
+        private Connection GetBroadcastConnection()
+        {
+            LoggedException.RaiseIf(Connections.Count < 1, nameof(Peer), "Cannot create broadcast message when the server is empty");
+
+            Connection genConn = null;
+            for (int i = 0; i < Connections.Count; i++)
+            {
+                if (Connections[i].Status == ConnectionStatus.Connected)
+                {
+                    genConn = Connections[i];
+                    break;
+                }
+            }
+
+            LoggedException.RaiseIf(genConn == null, nameof(Peer), "Cannot create broadcast message when no connection is connected");
+            return genConn;
+        }
+
         private void HandleLibMsgs(Connection sender, IncommingMsg msg)
         {
             switch (msg.Header.Type)
@@ -166,6 +243,12 @@
                     sender.ReceivePong(msg);
                     break;
                 case MsgType.Connect:
+                    if (sender.Status != ConnectionStatus.ReceivedInitiation)
+                    {
+                        if (sender.Status != ConnectionStatus.RespondedAwaitingApproval) Log.Warning(nameof(Peer), $"Received unauthorized connect message from {sender.RemoteEndPoint}");
+                        break;
+                    }
+
                     string remoteAppID = msg.ReadString();
                     long remoteID = msg.ReadInt64();
                     sender.RemoteID = new NetID(remoteID);

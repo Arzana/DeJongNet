@@ -104,10 +104,14 @@
 
         internal void Heartbeat()
         {
-            if (Status == ConnectionStatus.Connected)
+            if (Status != ConnectionStatus.Disconnected)
             {
                 if ((NetTime.Now - lastPongReceived) >= config.ConnectionTimeout) Disconnect("Connection timed out");
-                else if ((NetTime.Now - lastPingSend) >= config.PingInterval) PingConnection();
+            }
+
+            if (Status == ConnectionStatus.Connected)
+            {
+                if ((NetTime.Now - lastPingSend) >= config.PingInterval) PingConnection();
             }
 
             Receiver.Heartbeat();

@@ -10,6 +10,8 @@
     [DebuggerDisplay("[{ToString()}]")]
     internal struct FragmentHeader : IEquatable<FragmentHeader>
     {
+        public const int SIZE_BYTES = 8;
+
         public int Group { get; private set; }          // Wich group of fragments this belongs to.
         public int TotalBits { get; private set; }      // Total number of bits in this group.
         public int FragmentSize { get; private set; }   // Size (in  bytes) of every chunk but the last one (probably).
@@ -19,10 +21,10 @@
 
         public FragmentHeader(ReadableBuffer buffer)
         {
-            Group = GetValue(buffer);
-            TotalBits = GetValue(buffer);
-            FragmentSize = GetValue(buffer);
-            FragmentNum = GetValue(buffer);
+            Group = buffer.ReadInt16();
+            TotalBits = buffer.ReadInt16();
+            FragmentSize = buffer.ReadInt16();
+            FragmentNum = buffer.ReadInt16();
         }
 
         public FragmentHeader(int group, int totalSize, int chunkSize, int chunkNum)
@@ -33,9 +35,8 @@
             FragmentNum = chunkNum;
         }
 
-        // Get maximum chunk size including the library header(5 bytes) and fragmentation header(minimum 4 bytes).
+        // Get maximum chunk size including the library header(5 bytes) and fragmentation header(8 bytes).
         // Create temporary header.
-        // Get estimated fragmentation header size.
         // Update result.
         // Keep reducing fragment size until it fits within MTU.
         // Update number of fragments.
@@ -43,8 +44,7 @@
         {
             int result = mtu - LibHeader.SIZE_BYTES - 4;
             FragmentHeader tempHeader = new FragmentHeader(group, totalBytes, result, totalBytes / result);
-            int headerSize = tempHeader.GetSizeBytes();
-            result = mtu - LibHeader.SIZE_BYTES - headerSize;
+            result = mtu - LibHeader.SIZE_BYTES - SIZE_BYTES;
 
             do
             {
@@ -55,31 +55,18 @@
 
                 tempHeader.FragmentSize = result;
                 tempHeader.FragmentNum = numChunks;
-                headerSize = tempHeader.GetSizeBytes();
-            } while (result + headerSize + LibHeader.SIZE_BYTES + 1 >= mtu);
-
-            return result;
-        }
-
-        public int GetSizeBytes()
-        {
-            int result = 4;
-
-            IncrementSize((uint)Group, ref result);
-            IncrementSize((uint)TotalBits, ref result);
-            IncrementSize((uint)FragmentSize, ref result);
-            IncrementSize((uint)FragmentNum, ref result);
+            } while (result + SIZE_BYTES + LibHeader.SIZE_BYTES + 1 >= mtu);
 
             return result;
         }
 
         public void WriteToBuffer(WriteableBuffer buffer)
         {
-            buffer.EnsureBufferSize(buffer.LengthBits + (GetSizeBytes() << 3));
-            WriteVariableSize(buffer, (uint)Group);
-            WriteVariableSize(buffer, (uint)TotalBits);
-            WriteVariableSize(buffer, (uint)FragmentSize);
-            WriteVariableSize(buffer, (uint)FragmentNum);
+            buffer.EnsureBufferSize(buffer.LengthBits + (SIZE_BYTES << 3));
+            buffer.Write((short)Group);
+            buffer.Write((short)TotalBits);
+            buffer.Write((short)FragmentSize);
+            buffer.Write((short)FragmentNum);
         }
 
         public override bool Equals(object obj)
@@ -106,51 +93,6 @@
         public override string ToString()
         {
             return $"{Group}#{FragmentNum} ({FragmentSize}/{TotalBits >> 3} bytes)";
-        }
-
-        private static void WriteVariableSize(WriteableBuffer buffer, uint value)
-        {
-            while (value >= 0x80)
-            {
-                buffer.Write((byte)(value | 0x80));
-                value >>= 7;
-            }
-        }
-
-        private static void IncrementSize(uint value, ref int result)
-        {
-            while (value >= 0x80)
-            {
-                ++result;
-                value >>= 7;
-            }
-        }
-
-        // Loop untill a value is assigned.
-        // Read byte from the buffer
-        // Mask byte into result
-        // Check if single byte flag is set, if so; finalize result
-        // 
-        // | 1000 0010 | 0010 0100 |
-        // 1 bit second byte flag (set if more bytes are needed for the value)
-        // 2-8 bits first (or only) byte of the value
-        // 9 bit third byte flag (set if more bytes are needed for the value)
-        // 10-16 bits second (if flag is set) byte of the value
-        // etc
-        private static int GetValue(ReadableBuffer buffer)
-        {
-            int temp = 0, byteIndex = 0, result = -1;
-
-            while (result == -1)
-            {
-                byte raw = buffer.ReadByte();
-                temp |= (raw & 0x7F) << (byteIndex & 0x1F);
-                byteIndex += 7;
-
-                if ((raw & 0x80) == 0) result = temp;
-            }
-
-            return result;
         }
     }
 }

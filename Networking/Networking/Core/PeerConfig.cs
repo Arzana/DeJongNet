@@ -4,6 +4,7 @@
     using System.Runtime.CompilerServices;
     using System.Net;
     using System.Diagnostics;
+    using Messages;
 
     /// <summary>
     /// Defines how the library whould work.
@@ -33,7 +34,18 @@
         /// <summary>
         /// Gets or sets the maximum transmision unit.
         /// </summary>
-        public int MTU { get; set; }
+        public int MTU
+        {
+            get { return mtu; }
+            set
+            {
+                CheckLock();
+                const int MIN = LibHeader.SIZE_BYTES + FragmentHeader.SIZE_BYTES;
+                const int MAX = (ushort.MaxValue + 1) / 8;
+                LoggedException.RaiseIf(value < MIN || value > MAX, nameof(PeerConfig), $"Value must be between {MIN} and {MAX}");
+                mtu = value;
+            }
+        }
         /// <summary>
         /// Gets or sets a value indicating the name of the underlying networking thread.
         /// </summary>
@@ -41,7 +53,16 @@
         /// <summary>
         /// Gets or sets a value indicating the time (in seconds) between latency calculations.
         /// </summary>
-        public float PingInterval { get { return pingInterval; } set { CheckLock(); pingInterval = value; } }
+        public float PingInterval
+        {
+            get { return pingInterval; }
+            set
+            {
+                CheckLock();
+                LoggedException.RaiseIf(value >= ConnectionTimeout, nameof(PeerConfig), "Value cannot be greater or equal to the connection timeout");
+                pingInterval = value;
+            }
+        }
         /// <summary>
         /// Gets or sets the port that the socket should use (may differ from actual port).
         /// </summary>
@@ -49,7 +70,16 @@
         /// <summary>
         /// Gets or sets the size of the receive buffer.
         /// </summary>
-        public int ReceiveBufferSize { get { return receiveBufferSize; } set { CheckLock(); receiveBufferSize = value; } }
+        public int ReceiveBufferSize
+        {
+            get { return receiveBufferSize; }
+            set
+            {
+                CheckLock();
+                LoggedException.RaiseIf(value < 1, nameof(PeerConfig), "Value cannot be smaller than one byte");
+                receiveBufferSize = value;
+            }
+        }
         /// <summary>
         /// Gets or sets a value indicating the delay (in seconds) before resending a reliable message.
         /// </summary>
@@ -57,7 +87,16 @@
         /// <summary>
         /// Gets or sets the size of the send buffer.
         /// </summary>
-        public int SendBufferSize { get { return sendBufferSize; } set { CheckLock(); sendBufferSize = value; } }
+        public int SendBufferSize
+        {
+            get { return sendBufferSize; }
+            set
+            {
+                CheckLock();
+                LoggedException.RaiseIf(value < 1, nameof(PeerConfig), "Value cannot be smaller than one byte");
+                sendBufferSize = value;
+            }
+        }
         /// <summary>
         /// Gets or sets a value indicating the delay (in seconds) before the connection gets timed out when no messages are received.
         /// </summary>
@@ -84,6 +123,7 @@
         private int maxBufferSize;
         private int maxConnections;
         private float timeout;
+        private int mtu;
         private bool locked;
 
         /// <summary>
@@ -100,11 +140,11 @@
             ReceiveBufferSize = 131071;
             SendBufferSize = 131071;
             ResendDelay = 2;
+            ConnectionTimeout = 25;
             PingInterval = 4;
             NetworkThreadName = "DeJong Networking";
             MessageCacheSize = 10;
             maxConnections = 25;
-            ConnectionTimeout = 25;
             if (++peersCreated > 1) NetworkThreadName += $" {peersCreated}";
         }
 

@@ -1,7 +1,6 @@
-﻿namespace TestProject
+﻿namespace UnitTests
 {
     using DeJong.Networking.Core;
-    using DeJong.Networking.Core.Channels;
     using DeJong.Networking.Core.Messages;
     using DeJong.Networking.Core.Peers;
     using DeJong.Utilities.Logging;
@@ -42,7 +41,7 @@
                 do
                 {
                     OutgoingMsg msg = client.CreateMessage(1);
-                    msg.Write("A test sting");
+                    msg.Write("A very large test sting to test the maximum transmision unit");
                     client.Send(msg);
 
                     client.PollMessages();
@@ -56,19 +55,19 @@
 
         private static void Discovered(IPEndPoint remote, EventArgs e)
         {
-            Log.Debug(nameof(Program), "Server received discovery");
+            Log.Debug("Server received discovery");
             server.SendDiscoveryResponse(null, remote);
         }
 
         private static void DiscoverResponse(Connection conn, SimpleMessageEventArgs e)
         {
-            Log.Debug(nameof(Program), "Client attempting to connect");
+            Log.Debug("Client attempting to connect");
             client.Connect(conn, null);
         }
 
         private static void Connected(Connection sender, SimpleMessageEventArgs e)
         {
-            Log.Debug(nameof(Program), "Server accepting connect");
+            Log.Debug("Server accepting connect");
             server.AcceptConnection(sender, null);
         }
 
@@ -84,7 +83,7 @@
 
         private static void OnDataMessage(Connection sender, DataMessageEventArgs e)
         {
-            Log.Debug(nameof(Program), e.Message.ReadString());
+            Log.Debug(e.Message.ReadString());
         }
     }
 }

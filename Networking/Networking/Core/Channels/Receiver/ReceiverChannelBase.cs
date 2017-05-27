@@ -73,11 +73,13 @@
         private void ProcessFragment(IncommingMsg fragment)
         {
             FragmentHeader header = new FragmentHeader(fragment);
+            fragment.LengthBytes = header.FragmentSize;
 
             if (receivedFragments.ContainsKey(header.Group))
             {
+                receivedFragments[header.Group].Add(new KeyValuePair<FragmentHeader, IncommingMsg>(header, fragment));
                 List<KeyValuePair<FragmentHeader, IncommingMsg>> group = receivedFragments[header.Group];
-                int totalBytes = header.FragmentSize;
+                int totalBytes = 0;
 
                 for (int i = 0; i < group.Count; i++)
                 {
@@ -87,6 +89,7 @@
                 if (totalBytes >= (header.TotalBits + 7) >> 3)
                 {
                     IncommingMsg msg = CreateMessage(LibHeader.Empty);
+
                     group.Sort((f, s) => 
                     {
                         if (f.Key.FragmentNum < s.Key.FragmentNum) return -1;
@@ -96,13 +99,14 @@
 
                     for (int i = 0; i < group.Count; i++)
                     {
-                        group[i].Value.CopyData(msg);
+                        group[i].Value.CopyData(msg, FragmentHeader.SIZE_BYTES, group[i].Key.FragmentSize);
                     }
 
                     receivedFragments.Remove(header.Group);
+                    msg.Header = fragment.Header;
+                    msg.LengthBits = header.TotalBits;
                     ReceiveMsg(msg);
                 }
-                else receivedFragments[header.Group].Add(new KeyValuePair<FragmentHeader, IncommingMsg>(header, fragment));
             }
             else receivedFragments.Add(header.Group, new List<KeyValuePair<FragmentHeader, IncommingMsg>> { new KeyValuePair<FragmentHeader, IncommingMsg>(header, fragment) });
         }

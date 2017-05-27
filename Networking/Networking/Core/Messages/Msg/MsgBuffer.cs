@@ -44,13 +44,14 @@ namespace DeJong.Networking.Core.Messages
 
         internal void CopyData(MsgBuffer destination)
         {
-            if (data != null) CopyData(destination, 0, data.Length);
+            if (data != null) CopyData(destination, 0, LengthBytes);
         }
 
         internal void CopyData(MsgBuffer destination, int srcOffset, int length)
         {
-            destination.EnsureBufferSize(destination.LengthBits + (LengthBits - srcOffset));
+            destination.EnsureBufferSize(destination.LengthBits + (length << 3));
             Array.Copy(data, srcOffset, destination.data, destination.LengthBytes, length);
+            destination.LengthBytes += length;
         }
 
         protected internal void EnsureBufferSize(int numBits)
