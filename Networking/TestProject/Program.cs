@@ -15,7 +15,7 @@
 
         public static void Main(string[] args)
         {
-            server = new NetServer(new PeerConfig("TEST") { Port = 25565, });
+            server = new NetServer(new PeerConfig("TEST") { Port = 25565 });
             client = new NetClient(new PeerConfig("TEST"));
             server.OnDiscovery += Discovered;
             client.OnDiscoveryResponse += DiscoverResponse;
@@ -36,7 +36,7 @@
                 {
                     server.PollMessages();
                     client.PollMessages();
-                } while (client.Connections.Count < 1 || client.Connections[0].Status != ConnectionStatus.Connected);
+                } while (!client.IsConnected);
 
                 do
                 {

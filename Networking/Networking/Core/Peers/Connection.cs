@@ -41,12 +41,11 @@
         internal ReceiverController Receiver { get; private set; }
         internal SenderController Sender { get; private set; }
 
-        private double lastPingSend;
-        private double lastPongReceived;
-        private int lastPingCount;
+        private double lastPingSend, lastPongReceived, lastMTUSend;
+        private int lastPingCount, pingCount, remoteMTU;
         private Queue<double> rttBuffer;
-        private int pingCount;
         private PeerConfig config;
+        private bool mtuFinalized;
 
         internal Connection(RawSocket socket, IPEndPoint remoteEP, PeerConfig config)
         {
@@ -57,8 +56,10 @@
             this.config = config;
             Sender = new SenderController(socket, remoteEP, config);
             Receiver = new ReceiverController(socket, remoteEP, config, Sender);
+            remoteMTU = config.MTU;
             lastPingSend = NetTime.Now;
             lastPongReceived = NetTime.Now;
+            lastMTUSend = NetTime.Now;
         }
 
         /// <inheritdoc/>
@@ -102,6 +103,23 @@
             }
         }
 
+        internal bool ReceiveMTUSet(IncommingMsg msg)
+        {
+            int newValue = msg.ReadInt16();
+            if (newValue < Constants.MTU_MIN || newValue > Constants.MTU_MAX)
+            {
+                Log.Warning(nameof(Connection), $"Received invalid remote MTU ({newValue}) from {RemoteEndPoint}");
+                return false;
+            }
+            if (newValue < remoteMTU) Sender.SetMTU(remoteMTU = newValue);
+            return true;
+        }
+
+        internal void ReceiveMTUFinalized(IncommingMsg msg)
+        {
+            mtuFinalized = msg.ReadBool();
+        }
+
         internal void Heartbeat()
         {
             if (Status != ConnectionStatus.Disconnected)
@@ -112,6 +130,14 @@
             if (Status == ConnectionStatus.Connected)
             {
                 if ((NetTime.Now - lastPingSend) >= config.PingInterval) PingConnection();
+                if (config.MTU != Constants.MTU_ETHERNET_WITH_HEADERS && !mtuFinalized)
+                {
+                    if ((NetTime.Now - lastMTUSend) >= config.ResendDelay)
+                    {
+                        lastMTUSend = NetTime.Now;
+                        SendTo(MessageHelper.MTUSet(Sender.LibSender.CreateMessage(MsgType.MTUSet), config.MTU));
+                    }
+                }
             }
 
             Receiver.Heartbeat();

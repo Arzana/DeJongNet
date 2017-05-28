@@ -274,6 +274,43 @@ Additional information:
 
 
 
+{ Structure-diagram, MTUSet }
+This is an internal message that is used to notify the remote host of the local mtu.
+
+ 0               1               3               4
+ 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                             Value                             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+Value:          New value                   (32 bits)
+The remote mtu of the sender.
+
+Additional information:
+- Unreliable
+- Expects MTUFinalized result
+- Send after connection is established
+
+
+
+{ Structure-diagram, MTUFinalized }
+This is an internal message that is used to respond to a MTUSet message.
+
+ 0               1               3               4
+ 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|S|                                                             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+S:              Succeeded                   (1 bit)
+Whether the value received was a valid value.
+
+Additional information:
+- Unreliable
+- Send after received and processed MTUSet message
+
+
+
 { Structure-diagram, Connection }
 This structure-diagram shows the handshake used to connect to the server.
 

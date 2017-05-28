@@ -11,6 +11,8 @@
 #endif
     internal abstract class SenderChannelBase : ChannelBase<OutgoingMsg>
     {
+        public int MTU { get; set; }
+
         protected ThreadSafeList<Ack> sendPackets;
 
         private readonly IPEndPoint target;
@@ -60,7 +62,7 @@
             LoggedException.RaiseIf(msg.IsSend, nameof(SenderChannelBase), "Message already send");
             bool send = true;
 
-            LibHeader libHeader = msg.GenerateHeader(config.MTU);
+            LibHeader libHeader = msg.GenerateHeader(MTU);
             if (libHeader.Fragment)
             {
                 int size = FragmentHeader.GetChunkSize(GetClampedGroupID(), msg.LengthBytes, config.MTU);

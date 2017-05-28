@@ -1,9 +1,9 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
-    using Channels.Sender;
     using Messages;
     using System.Collections.Generic;
     using System.Net;
+    using System.Threading;
     using Utilities.Core;
     using Utilities.Logging;
     using Utilities.Threading;
@@ -16,6 +16,18 @@
 #endif
     public sealed class NetClient : Peer
     {
+        /// <summary>
+        /// Gets a value indicating whether this client is connected to a server.
+        /// </summary>
+        public bool IsConnected
+        {
+            get
+            {
+                try { return Connections.Count > 0 && Connections[0].Status == ConnectionStatus.Connected; }
+                catch (LockRecursionException) { return false; }
+            }
+        }
+
         /// <summary>
         /// Occurs when a remote host responded to our discovery request.
         /// </summary>
@@ -168,7 +180,7 @@
             for (int i = 0; i < Connections.Count; i++)
             {
                 Connection cur = Connections[i];
-                while (cur.Receiver[0].HasMessages) HandleLibMsgs(cur, cur.Receiver[0].DequeueMessage());
+                while (cur.Receiver[0].HasMessages) HandleLibMsg(cur, cur.Receiver[0].DequeueMessage());
                 if (cur.Status == ConnectionStatus.Disconnected)
                 {
                     Connections.Remove(cur);
@@ -187,17 +199,10 @@
             queuedDiscoveries.Enqueue(new KeyValuePair<Connection, SimpleMessageEventArgs>(Connections[0], new SimpleMessageEventArgs(msg)));
         }
 
-        private void HandleLibMsgs(Connection sender, IncommingMsg msg)
+        protected override void HandleLibMsg(Connection sender, IncommingMsg msg)
         {
             switch (msg.Header.Type)
             {
-                case MsgType.Ping:
-                    sender.SendTo(MessageHelper.Pong(CreateMessage(MsgType.Pong, sender), msg.ReadInt32()));
-                    sender.SetPing(msg.ReadSingle());
-                    break;
-                case MsgType.Pong:
-                    sender.ReceivePong(msg);
-                    break;
                 case MsgType.ConnectResponse:
                     string remoteAppID = msg.ReadString();
                     sender.RemoteID = new NetID(msg.ReadInt64());
@@ -214,13 +219,8 @@
                 case MsgType.Disconnect:
                     sender.Disconnected(msg.ReadString());
                     break;
-                case MsgType.Acknowledge:
-                    msg.SkipPadBits(4);
-                    int channel = msg.ReadPadBits(4);
-                    ((ReliableSenderChannel)sender.Sender[channel]).ReceiveAck(msg.ReadInt16());
-                    break;
                 default:
-                    Log.Warning(nameof(Peer), $"{msg.Header.Type} message of size {msg.Header.PacketSize} send over library channel by {sender}, message dropped");
+                    base.HandleLibMsg(sender, msg);
                     break;
             }
         }

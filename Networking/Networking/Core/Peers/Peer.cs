@@ -1,6 +1,7 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
     using Channels;
+    using Channels.Sender;
     using Messages;
     using System;
     using System.Net;
@@ -192,6 +193,39 @@
         /// <param name="sender"> The remote host that send the discovery request. </param>
         /// <param name="msg"> The message data. </param>
         protected abstract void HandleDiscoveryResponse(IPEndPoint sender, IncommingMsg msg);
+        /// <summary>
+        /// Defines how an incomming library message should be handled.
+        /// </summary>
+        /// <param name="sender"> The connection that send the message. </param>
+        /// <param name="msg"> The message. </param>
+        protected virtual void HandleLibMsg(Connection sender, IncommingMsg msg)
+        {
+            switch (msg.Header.Type)
+            {
+                case MsgType.Ping:
+                    sender.SendTo(MessageHelper.Pong(CreateMessage(MsgType.Pong, sender), msg.ReadInt32()));
+                    sender.SetPing(msg.ReadSingle());
+                    break;
+                case MsgType.Pong:
+                    sender.ReceivePong(msg);
+                    break;
+                case MsgType.Acknowledge:
+                    msg.SkipPadBits(4);
+                    int channel = msg.ReadPadBits(4);
+                    ((ReliableSenderChannel)sender.Sender[channel]).ReceiveAck(msg.ReadInt16());
+                    break;
+                case MsgType.MTUSet:
+                    sender.SendTo(MessageHelper.MTUFinalize(CreateMessage(MsgType.MTUFinalize, sender), sender.ReceiveMTUSet(msg)));
+                    break;
+                case MsgType.MTUFinalize:
+                    Log.Verbose(nameof(Peer), $"MTU of remote host {sender.RemoteEndPoint} {(msg.PeekBool() ? "finalized" : "failed, retying")}");
+                    sender.ReceiveMTUFinalized(msg);
+                    break;
+                default:
+                    Log.Warning(nameof(Peer), $"{msg.Header.Type} message of size {msg.Header.PacketSize} send over library channel by {sender}, message dropped");
+                    break;
+            }
+        }
 
         /// <summary>
         /// Updates the <see cref="Peer"/> and its underlying components.

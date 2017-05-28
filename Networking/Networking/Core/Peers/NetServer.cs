@@ -1,6 +1,5 @@
 ﻿namespace DeJong.Networking.Core.Peers
 {
-    using Channels.Sender;
     using Messages;
     using System;
     using System.Collections.Generic;
@@ -199,7 +198,7 @@
             for (int i = 0; i < Connections.Count; i++)
             {
                 Connection cur = Connections[i];
-                while (cur.Receiver[0].HasMessages) HandleLibMsgs(cur, cur.Receiver[0].DequeueMessage());
+                while (cur.Receiver[0].HasMessages) HandleLibMsg(cur, cur.Receiver[0].DequeueMessage());
             }
         }
 
@@ -231,17 +230,10 @@
             return genConn;
         }
 
-        private void HandleLibMsgs(Connection sender, IncommingMsg msg)
+        protected override void HandleLibMsg(Connection sender, IncommingMsg msg)
         {
             switch (msg.Header.Type)
             {
-                case MsgType.Ping:
-                    sender.SendTo(MessageHelper.Pong(CreateMessage(MsgType.Pong, sender), msg.ReadInt32()));
-                    sender.SetPing(msg.ReadSingle());
-                    break;
-                case MsgType.Pong:
-                    sender.ReceivePong(msg);
-                    break;
                 case MsgType.Connect:
                     if (sender.Status != ConnectionStatus.ReceivedInitiation)
                     {
@@ -272,13 +264,8 @@
                     sender.Disconnected(reason);
                     queuedStatusChanges.Enqueue(new KeyValuePair<Connection, StatusChangedEventArgs>(sender, new StatusChangedEventArgs(reason)));
                     break;
-                case MsgType.Acknowledge:
-                    msg.SkipPadBits(4);
-                    int channel = msg.ReadPadBits(4);
-                    ((ReliableSenderChannel)sender.Sender[channel]).ReceiveAck(msg.ReadInt16());
-                    break;
                 default:
-                    Log.Warning(nameof(Peer), $"{msg.Header.Type} message of size {msg.Header.PacketSize} send over library channel by {sender}, message dropped");
+                    base.HandleLibMsg(sender, msg);
                     break;
             }
         }

@@ -61,5 +61,17 @@
             sec?.CopyData(msg);
             return msg;
         }
+
+        public static OutgoingMsg MTUSet(OutgoingMsg msg, int mtu)
+        {
+            msg.Write(mtu);
+            return msg;
+        }
+
+        public static OutgoingMsg MTUFinalize(OutgoingMsg msg, bool succeeded)
+        {
+            msg.Write(succeeded);
+            return msg;
+        }
     }
 }

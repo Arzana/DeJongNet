@@ -1702,11 +1702,21 @@
             Contains a continually ticking STA background thread.
             </summary>
         </member>
+        <member name="P:DeJong.Utilities.Threading.StopableThread.TickCooldown">
+            <summary>
+            Gets or sets a value indicating the time in milliseconds the thread has to sleep after a tick.
+            </summary>
+        </member>
         <member name="P:DeJong.Utilities.Threading.StopableThread.Disposed">
             <inheritdoc/>
         </member>
         <member name="P:DeJong.Utilities.Threading.StopableThread.Disposing">
             <inheritdoc/>
+        </member>
+        <member name="P:DeJong.Utilities.Threading.StopableThread.Name">
+            <summary>
+            Gets the name of this <see cref="T:DeJong.Utilities.Threading.StopableThread"/>.
+            </summary>
         </member>
         <member name="M:DeJong.Utilities.Threading.StopableThread.#ctor(System.Threading.ThreadStart,System.Threading.ThreadStart,System.Threading.ThreadStart,System.String)">
             <summary>
@@ -1772,11 +1782,12 @@
             </summary>
             <param name="function"> The function for the thread to process. </param>
         </member>
-        <member name="M:DeJong.Utilities.Threading.ThreadBuilder.CreateSTA(System.Threading.ThreadStart)">
+        <member name="M:DeJong.Utilities.Threading.ThreadBuilder.CreateSTA(System.Threading.ThreadStart,System.String)">
             <summary>
             Creates a background thread with its appartment set to <see cref="F:System.Threading.ApartmentState.STA"/>.
             </summary>
             <param name="function"> The function for the thread to process. </param>
+            <param name="name"> The name of the thread (Optional). </param>
         </member>
         <member name="M:DeJong.Utilities.Threading.ThreadBuilder.RunInBackground(System.Threading.ThreadStart)">
             <summary>
@@ -1784,11 +1795,12 @@
             </summary>
             <param name="function"> The function for the thread to process. </param>
         </member>
-        <member name="M:DeJong.Utilities.Threading.ThreadBuilder.CreateBackground(System.Threading.ThreadStart)">
+        <member name="M:DeJong.Utilities.Threading.ThreadBuilder.CreateBackground(System.Threading.ThreadStart,System.String)">
             <summary>
             Creates a thread with <see cref="P:System.Threading.Thread.IsBackground"/> set to <see langword="true"/>.
             </summary>
             <param name="func"> The function for the thread to process. </param>
+            <param name="name"> The name of the thread (Optional). </param>
         </member>
         <member name="T:DeJong.Utilities.Threading.ThreadSafeList`1">
             <summary>

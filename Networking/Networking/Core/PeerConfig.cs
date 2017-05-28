@@ -40,9 +40,7 @@
             set
             {
                 CheckLock();
-                const int MIN = LibHeader.SIZE_BYTES + FragmentHeader.SIZE_BYTES;
-                const int MAX = (ushort.MaxValue + 1) / 8;
-                LoggedException.RaiseIf(value < MIN || value > MAX, nameof(PeerConfig), $"Value must be between {MIN} and {MAX}");
+                LoggedException.RaiseIf(value < Constants.MTU_MIN || value > Constants.MTU_MAX, nameof(PeerConfig), $"Value must be between {Constants.MTU_MIN} and {Constants.MTU_MAX}");
                 mtu = value;
             }
         }

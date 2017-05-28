@@ -1,6 +1,5 @@
 ﻿namespace DeJong.Networking.Core.Channels
 {
-    using Messages;
     using Sender;
     using System.Net;
     using Utilities.Core;
@@ -39,31 +38,39 @@
             channels = new SenderChannelBase[15];
             this.config = config;
 
-            channels[size++] = new LibSenderChannel(socket, ep, config) { ID = 0 };
+            channels[size++] = new LibSenderChannel(socket, ep, config) { ID = 0, MTU = config.MTU };
         }
 
         public void AddUnreliable(int id)
         {
             CheckNewChannel(id);
-            channels[size++] = new UnreliableSenderChannel(socket, remote, config) { ID = id };
+            channels[size++] = new UnreliableSenderChannel(socket, remote, config) { ID = id, MTU = config.MTU };
         }
 
         public void AddOrdered(int id)
         {
             CheckNewChannel(id);
-            channels[size++] = new OrderedSenderChannel(socket, remote, config) { ID = id };
+            channels[size++] = new OrderedSenderChannel(socket, remote, config) { ID = id, MTU = config.MTU };
         }
 
         public void AddReliable(int id)
         {
             CheckNewChannel(id);
-            channels[size++] = new ReliableSenderChannel(socket, remote, config) { ID = id };
+            channels[size++] = new ReliableSenderChannel(socket, remote, config) { ID = id, MTU = config.MTU };
         }
 
         public void AddReliableOrdered(int id)
         {
             CheckNewChannel(id);
-            channels[size++] = new ReliableOrderedSenderChannel(socket, remote, config) { ID = id };
+            channels[size++] = new ReliableOrderedSenderChannel(socket, remote, config) { ID = id, MTU = config.MTU };
+        }
+
+        public void SetMTU(int mtu)
+        {
+            for (int i = 0; i < size; i++)
+            {
+                channels[i].MTU = mtu;
+            }
         }
 
         public void HeartBeat()
