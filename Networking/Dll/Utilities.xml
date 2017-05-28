@@ -1209,6 +1209,11 @@
             Represents the value of pi.
             </summary>
         </member>
+        <member name="F:DeJong.Utilities.Core.ExtraMath.INV_PI">
+            <summary>
+            Represents the inverse value of pi.
+            </summary>
+        </member>
         <member name="F:DeJong.Utilities.Core.ExtraMath.TAU">
             <summary>
             Represents the value of pi times two.
